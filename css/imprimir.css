@@ -1,0 +1,89 @@
+body{
+    padding: 20%;
+    background-color: white;
+    color: black;
+}
+
+header{
+    display: flex;
+    align-items: center;
+}
+
+header .titulo{
+    font-size: x-large;
+    width: 80%;
+    text-align: center;
+}
+
+header .logo{
+    width: 10%;
+}
+
+.logo img{
+    width: 100%;
+}
+
+nav{
+    display: none;
+}
+
+nav a{
+    display: none;
+}
+
+aside{
+    display: none;
+}
+
+.informacion_evento{
+    font-size: larger;
+}
+
+.imagen_en_evento{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size:small;
+    font-weight: bold;
+    float: right;
+    padding: 0.5em;
+}
+
+.botones{
+    display: none;
+}
+
+#comentarios{
+    display: none;
+}
+
+.menuOff{
+    display: none;
+}
+
+.menuOn{
+    display: none;
+}
+
+#menu_comentarios{
+    display: none;
+    background-color: black;
+}
+
+footer{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+footer .boton_social{
+    display: none;
+}
+
+footer img{
+	width: 2em;
+}
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}

@@ -1,0 +1,142 @@
+:root{
+    --color1: rgb(242,236,235);
+    --color2: rgb(205,82,20);
+    --color3: rgb(255, 161, 38); 
+    --color4: rgb(56,56,56);
+    --color5: rgb(0,0,0);
+    --color6: rgb(239, 230, 110);
+
+}
+
+body{
+    background-color: var(--color1);
+}
+
+.informacion_evento{
+    font-size: larger;
+    padding: 2em;
+    width: 79%;
+}
+  
+.imagen_en_evento{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size:small;
+    font-weight: bold;
+    float: right;
+    height: 100%;
+    padding: 0.5em;
+    shape-outside: inset(calc(50%-50px) 0);
+}
+
+.section{
+    display:flex;
+    resize:horizontal;
+    margin-bottom:100px;
+}
+
+.box {
+    text-align:justify;
+    font-size:20px;
+}
+
+.boton_imprimir a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: medium;
+    font-weight: bold;
+    float: left;
+    width: 20%;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    background-color: var(--color6) ;
+    height: 2.5em;  
+    text-decoration: none;
+    color: black;
+}
+
+.botones{
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+}
+  
+.boton_imprimir  a img{
+    width: 2.4em;
+    padding-right: 10%;
+}
+  
+.boton_imprimir a:hover{
+    background-color: var(--color3);
+}
+
+.botones_sociales{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0.5em;
+}
+
+.boton_social a{
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	color: black;
+	font-size: small;
+}
+
+#boton_comentarios{
+    margin-top: 1em;
+    width: 20%;
+    background-color: var(--color6);
+    font-weight: bold;
+}
+
+#boton_comentarios:hover{
+    background-color: var(--color3);
+}
+
+.menuOff{
+    display: none;
+}
+
+.menuOn{
+    display: block;
+    width: 25%;
+}
+
+.comentario{
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    background-color: rgb(212, 212, 211);
+    padding: 0.5em;
+    margin-bottom: 0.5em;
+    margin-top: 0.5em;
+    border-radius: 5%;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+
+}
+
+form input{
+    width: 100%;
+    margin-bottom: 0.5em;
+}
+
+#boton_enviar{
+    width: 25%;
+    
+}
+
+#mensajes_error{
+    padding-top: 0.5em;
+    color: red;
+}

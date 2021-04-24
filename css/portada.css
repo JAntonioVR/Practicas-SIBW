@@ -1,0 +1,50 @@
+:root{
+    --color1: rgb(242,236,235);
+    --color2: rgb(205,82,20);
+    --color3: rgb(255, 161, 38); 
+    --color4: rgb(56,56,56);
+    --color5: rgb(0,0,0);
+    --color6: rgb(239, 230, 110);
+
+}
+
+body{
+    background-color: var(--color4);
+}
+
+article{
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    width: 80%;
+}
+
+.foto_y_nombre_de_festival{
+    align-items: center;
+    font-size:x-large;
+    font-weight: bold;
+    width: 31%;
+    text-align: center;
+    padding: 1%;
+}
+  
+.foto_y_nombre_de_festival a{
+    text-decoration: none;
+    color: white;
+}
+
+.foto_y_nombre_de_festival:hover{
+    background-color: var(--color3);
+}
+
+.foto_festival{
+    width: 98%;
+}
+
+.boton_social a{
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	color: white;
+	font-size: small;
+}

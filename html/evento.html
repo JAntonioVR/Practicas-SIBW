@@ -1,0 +1,131 @@
+{% extends "plantilla.html" %}
+
+{% block cabecera %}
+    <title>Evento</title>
+    <link rel="stylesheet" href="../css/mystyle.css">
+    <link rel="stylesheet" href="../css/evento.css">
+    <script type="text/javascript"  src="../java/javascript.js" defer></script>
+{% endblock %}
+
+{% block contenido %}
+
+    <!--Contenido de la página-->
+    <div class = "informacion_evento">
+            
+        <div class = "imagen_en_evento">
+            <img src   = {{ logo }} width = "150">
+        </div>
+
+        <h2>{{ nombre }}</h2>
+        <h3>{{ organizador }}</h3>
+        <h4>{{ fecha }}</h4>
+
+        <!--Informacion sobre el evento-->
+        <section>
+            
+            <div class="box">
+
+                <div class="imagen_en_evento">
+                    <img src={{ imagen }} width="400">
+                    Imagen: Escenario principal de medusa 2018
+                </div>
+                    
+                {{ texto }}
+
+            </div>
+            
+
+        </section>
+            
+        <div class="botones">
+
+            <!--Boton para imprimir la página-->
+            <div class="boton_imprimir">
+                <a href="../evento.php?imp=1">
+                <img src="../img/printer.png" alt="Imprimir artículo">
+                <h4>Imprimir artículo</h4>
+                </a>
+            </div>
+
+            <!--Botones con enlaces a redes sociales-->
+            <div class="botones_sociales">
+                <div class="boton_social">
+                    <a href={{ web }}>
+                        <img src="../img/web.png" alt="Web">
+                        Web del evento
+                    </a>
+                </div>
+
+                <div class="boton_social">
+                    <a href={{ twitter }}>
+                        <img src="../img/twitter.png" alt="twitter">
+                        Twitter
+                    </a>
+                </div>
+
+                <div class="boton_social">
+                    <a href={{ instagram }}>
+                        <img src="../img/instagram.png" alt="instagram">
+                        Instagram
+                    </a>
+                </div>
+
+                <div class="boton_social">
+                    <a href={{ facebook }}>
+                        <img src="../img/facebook.png" alt="facebook">
+                        Facebook
+                    </a>
+                </div>
+            </div>
+
+            <!--Botón al menú de comentarios-->
+            <button id="boton_comentarios">Comentarios</button>
+        </div>
+    </div>
+
+    <!--Zona de comentarios-->
+    <div id="menu_comentarios" class="menuOff">
+            
+        <div id="comentarios">
+            <h3>Comentarios</h3>
+
+            <div class="comentario">
+                <h4>Autor</h4>
+                <h5>DD/MM/AAAA a las HH:MM</h5>
+                Ut accumsan tortor sed nunc maximus feugiat. Nunc eleifend 
+                cursus elementum. Aliquam nec turpis augue. Fusce a lorem 
+                purus. Suspendisse potenti. Quisque nec justo non nisl 
+                convallis sagittis. Integer tempus quis mauris pretium 
+                convallis. Nunc nec tortor justo. Donec hendrerit ex.
+            </div>
+
+            <div class="comentario">
+                <h4>Autor</h4>
+                <h5>DD/MM/AAAA a las HH:MM</h5>
+                Morbi quis ligula lacus. Aliquam ut ligula sed ante 
+                fringilla hendrerit. Pellentesque at lorem vel ex elementum 
+                elementum. Integer egestas sit amet neque vulputate maximus. 
+                Integer sed dui vel dui pellentesque bibendum. Etiam sit 
+                amet iaculis neque, vitae lacinia metus. Duis sit.
+
+            </div>
+
+        </div>
+
+        <!--Formulario-->
+        <form>
+            <div>Nombre: <input type="text" id="input_nombre"></div>
+            <div>E-mail: <input type="text" id="input_email"></div>
+            <div>
+            Escribe aquí tu comentario:
+            <input type="text" id="input_comentario">
+            </div>
+            <button type="button" id="boton_enviar">Enviar</button>
+            <div id="mensajes_error"></div>
+        </form>
+
+    </div>
+
+{% endblock %}
+
+

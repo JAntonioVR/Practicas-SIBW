@@ -1,0 +1,98 @@
+:root{
+    --color1: rgb(242,236,235);
+    --color2: rgb(205,82,20);
+    --color3: rgb(255, 161, 38); 
+    --color4: rgb(56,56,56);
+    --color5: rgb(0,0,0);
+    --color6: rgb(239, 230, 110);
+
+}
+
+header {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start ;
+	background-color: var(--color2);
+}
+
+header .titulo{
+	font-size: xx-large;
+	color: white;
+	width: 80%;
+	text-align: center;
+}
+
+header .logo{
+	width: 20%;
+	padding: 2.5%;
+}
+
+.logo img{
+ 	width: 100%;
+}
+
+.cuerpo{
+	display: flex;
+}
+
+aside{
+	padding-top: 1em;
+	padding-left: 1em;
+	padding-right: 1em;
+	align-self: stretch;
+	background-color: var(--color2);
+	font-weight: bold;
+	font-size: x-large;
+	width: 20%;
+}
+
+nav{
+	display: flex;
+	justify-content: space-around;
+	background-color: var(--color2);
+	color: white;
+	font-weight: bold;
+	font-size: x-large;
+}
+
+.opcion_menu a{
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 0.5em;
+	text-decoration: none;
+}
+
+.opcion_menu:hover {
+  	background-color: var(--color4);
+}
+
+footer{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	color: white;
+    background-color: var(--color4);
+}
+
+footer img{
+	width: 2em;
+
+}
+
+.boton_social img{
+	width: 1.5em;
+	padding-right: 0.1em;
+}
+
+.boton_social a:hover{
+  	color: blue;
+}
+
+footer .boton_social a {
+	color:white;
+}
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
