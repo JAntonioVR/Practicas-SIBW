@@ -19,22 +19,16 @@
         <h2>{{ nombre }}</h2>
         <h3>{{ organizador }}</h3>
         <h4>{{ fecha }}</h4>
+        <h4>{{ lugar }}</h4>
 
         <!--Informacion sobre el evento-->
         <section>
-            
-            <div class="box">
-
-                <div class="imagen_en_evento">
-                    <img src={{ imagen }} width="400">
-                    Imagen: Escenario principal de medusa 2018
-                </div>
-                    
-                {{ texto }}
-
+            <div class="imagen_en_evento">
+                <img src={{ imagen }} width="400">
+                Imagen: Escenario principal de {{ nombre }}
             </div>
-            
-
+                
+            {{ texto }}
         </section>
             
         <div class="botones">

@@ -4,10 +4,10 @@
     $loader = new \Twig\Loader\FilesystemLoader('html');
     $twig   = new \Twig\Environment($loader);
 
-
     $nombreEvento = "Nombre por defecto";
     $organizador  = "Organizador por defecto";
     $fechaEvento  = "Fecha por defecto";
+    $lugarEvento  = "Lugar por defecto";
     $texto        = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam malesuada nunc ut justo aliquet, a hendrerit lacus posuere. Pellentesque faucibus quam a nunc ullamcorper rutrum. Nunc accumsan vulputate libero quis fermentum. Aliquam nec ex sed diam rutrum pretium sed in diam. In interdum ullamcorper orci, cursus lobortis nibh. Praesent tristique lorem in augue pellentesque, sit amet finibus est egestas. Proin aliquam pharetra mauris. Vivamus tincidunt arcu dolor, non mollis odio gravida a. Etiam suscipit, nisl ac dignissim euismod, orci enim posuere nisl, eget hendrerit risus mauris sit amet augue. Aliquam porttitor ex arcu, hendrerit rutrum velit condimentum eu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Quisque quis turpis eros. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla venenatis enim vel tortor pellentesque, eu dapibus elit pellentesque. Duis eleifend non nisi sed luctus. Proin rhoncus justo sit amet suscipit convallis.
 
     Ut porta dignissim bibendum. Sed augue purus, suscipit ac massa at, aliquet sagittis purus. Fusce vulputate viverra accumsan. Aenean consequat est lorem, sed fringilla metus rhoncus vel. Integer tristique justo sit amet quam blandit feugiat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed egestas est urna, semper pretium lectus volutpat eget. Cras dignissim, justo at dictum lacinia, mi dolor mollis diam, sed ullamcorper sem sem ac quam. Suspendisse vel pharetra orci. Maecenas consectetur eleifend tempor. Donec porttitor mattis sem, sit amet bibendum mi fringilla quis.
@@ -22,27 +22,51 @@
     $linkInsta    = "https://www.instagram.com/medusa_festival/";
     $linkFaceBook = "https://es-es.facebook.com/medusasunbeach";
 
-
-
-    // TODO Aquí solicitar variables a la BD
-    if ($_GET['ev'] == 1){
-        $nombreEvento = "Medusa Sunbeach Festival";
-        $fechaEvento  = "Del 9 al 15 de Agosto";
+    if(isset($_GET['ev'])){
+        $idEv = $_GET['ev'];
     }
-    else if ($_GET['ev'] == 2){
-        $nombreEvento = "Dreambeach";
-        $fechaEvento  = "Del 10 al 16 de Agosto";
+    else{
+        $idEv = -1;
     }
 
-    if($_GET['imp'] == 1)
-        $file = 'evento_imprimir.html';
-    else 
+    if(isset($_GET['imp'])){
+        $imp = $_GET['imp'];
+        if($imp == 0)
+            $file = 'evento_imprimir.html';
+        else
+            $file = 'evento.html';
+    }
+    else{
         $file = 'evento.html';
+    }
 
+    $mysqli = new mysqli("mysql", "JuanAntonio", "sibw", "SIBW");
+    if( $mysqli->connect_errno ){
+        echo ("Fallo al conectar: " . $mysqli->connect_error);
+    }
+
+
+    $res = $mysqli->query("SELECT nombre, organizador, fecha, lugar, texto, logo, imagenPrincipal, web, twitter, instagram, facebook FROM eventos WHERE id=" . $idEv);
+    
+    if( $res->num_rows > 0 ){
+        $row = $res->fetch_assoc();
+        $nombreEvento = $row['nombre'];
+        $organizador  = $row['organizador'];
+        $fechaEvento  = $row['fecha'];
+        $lugarEvento  = $row['lugar'];
+        $texto        = $row['texto'];
+        $logoEvento   = $row['logo'];
+        $imagenEvento = $row['imagenPrincipal'];
+        $linkWeb      = $row['web'];
+        $linkTwitter  = $row['twitter'];
+        $linkInsta    = $row['instagram'];
+        $linkFaceBook = $row['facebook'];
+    }
 
     echo $twig->render($file,[  'nombre'      => $nombreEvento, 
                                         'organizador' => $organizador,
                                         'fecha'       => $fechaEvento,
+                                        'lugar'       => $lugarEvento,
                                         'texto'       => $texto,
                                         'logo'        => $logoEvento,
                                         'imagen'      => $imagenEvento,
@@ -50,5 +74,5 @@
                                         'twitter'     => $linkTwitter,
                                         'instagram'   => $linkInsta,
                                         'facebook'    => $linkFaceBook
-                                    ]);
+                            ]);
 ?>

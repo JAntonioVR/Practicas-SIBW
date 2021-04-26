@@ -21,25 +21,11 @@ body{
 .imagen_en_evento{
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     font-size:small;
     font-weight: bold;
     float: right;
-    height: 100%;
     padding: 0.5em;
-    shape-outside: inset(calc(50%-50px) 0);
-}
-
-.section{
-    display:flex;
-    resize:horizontal;
-    margin-bottom:100px;
-}
-
-.box {
-    text-align:justify;
-    font-size:20px;
 }
 
 .boton_imprimir a{
