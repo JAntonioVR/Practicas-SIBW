@@ -13,22 +13,22 @@
     <div class = "informacion_evento">
             
         <div class = "imagen_en_evento">
-            <img src   = {{ logo }} width = "150">
+            <img src   = {{ evento['logo'] }} width = "150">
         </div>
 
-        <h2>{{ nombre }}</h2>
-        <h3>{{ organizador }}</h3>
-        <h4>{{ fecha }}</h4>
-        <h4>{{ lugar }}</h4>
+        <h2>{{ evento['nombre'] }}</h2>
+        <h3>{{ evento['organizador'] }}</h3>
+        <h4>{{ evento['fecha'] }}</h4>
+        <h4>{{ evento['lugar'] }}</h4>
 
         <!--Informacion sobre el evento-->
         <section>
             <div class="imagen_en_evento">
-                <img src={{ imagen }} width="400">
-                Imagen: Escenario principal de {{ nombre }}
+                <img src={{ evento['imagen'] }} width="400">
+                Imagen: Escenario principal de {{ evento['nombre'] }}
             </div>
                 
-            {{ texto }}
+            {{ evento['texto'] }}
         </section>
             
         <div class="botones">
@@ -44,28 +44,28 @@
             <!--Botones con enlaces a redes sociales-->
             <div class="botones_sociales">
                 <div class="boton_social">
-                    <a href={{ web }}>
+                    <a href={{ evento['web'] }}>
                         <img src="../img/web.png" alt="Web">
                         Web del evento
                     </a>
                 </div>
 
                 <div class="boton_social">
-                    <a href={{ twitter }}>
+                    <a href={{ evento['twitter'] }}>
                         <img src="../img/twitter.png" alt="twitter">
                         Twitter
                     </a>
                 </div>
 
                 <div class="boton_social">
-                    <a href={{ instagram }}>
+                    <a href={{ evento['instagram'] }}>
                         <img src="../img/instagram.png" alt="instagram">
                         Instagram
                     </a>
                 </div>
 
                 <div class="boton_social">
-                    <a href={{ facebook }}>
+                    <a href={{ evento['facebook'] }}>
                         <img src="../img/facebook.png" alt="facebook">
                         Facebook
                     </a>
