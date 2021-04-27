@@ -83,26 +83,13 @@
         <div id="comentarios">
             <h3>Comentarios</h3>
 
+            {% for comentario in comentarios %}
             <div class="comentario">
-                <h4>Autor</h4>
-                <h5>DD/MM/AAAA a las HH:MM</h5>
-                Ut accumsan tortor sed nunc maximus feugiat. Nunc eleifend 
-                cursus elementum. Aliquam nec turpis augue. Fusce a lorem 
-                purus. Suspendisse potenti. Quisque nec justo non nisl 
-                convallis sagittis. Integer tempus quis mauris pretium 
-                convallis. Nunc nec tortor justo. Donec hendrerit ex.
+                <h4>{{ comentario['autor'] }}</h4>
+                <h5>{{ comentario['fecha_hora'] }}</h5>
+                {{ comentario['texto'] }}
             </div>
-
-            <div class="comentario">
-                <h4>Autor</h4>
-                <h5>DD/MM/AAAA a las HH:MM</h5>
-                Morbi quis ligula lacus. Aliquam ut ligula sed ante 
-                fringilla hendrerit. Pellentesque at lorem vel ex elementum 
-                elementum. Integer egestas sit amet neque vulputate maximus. 
-                Integer sed dui vel dui pellentesque bibendum. Etiam sit 
-                amet iaculis neque, vitae lacinia metus. Duis sit.
-
-            </div>
+            {% endfor %}
 
         </div>
 

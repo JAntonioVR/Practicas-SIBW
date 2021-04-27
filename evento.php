@@ -25,6 +25,9 @@
 
     $evento = getEvento($idEv);
 
+    $comentarios = getComentarios($idEv);
 
-    echo $twig->render($file,['evento' => $evento]);
+
+    echo $twig->render($file,['evento' => $evento,
+                              'comentarios' => $comentarios]);
 ?>

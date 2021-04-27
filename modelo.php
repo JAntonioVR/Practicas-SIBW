@@ -1,12 +1,17 @@
 <?php
 
-function getEvento($idEv){
-
+function connect(){
     $mysqli = new mysqli("mysql", "JuanAntonio", "sibw", "SIBW");
     if( $mysqli->connect_errno ){
         echo ("Fallo al conectar: " . $mysqli->connect_error);
     }
+    return $mysqli;
+}
 
+function getEvento($idEv){
+
+    
+    $mysqli = connect();
 
     $res = $mysqli->query("SELECT nombre, organizador, fecha, lugar, texto, logo, imagenPrincipal, web, twitter, instagram, facebook FROM eventos WHERE id=" . $idEv);
     
@@ -51,6 +56,62 @@ function getEvento($idEv){
 
     return $evento;
 
+}
+
+function getComentarios($idEv){
+    $mysqli = connect();
+
+    $res = $mysqli->query("SELECT autor, fecha_hora, texto FROM comentarios WHERE idEvento=" . $idEv);
+
+    $comentario = array(
+        'autor'      => 'nadie',
+        'fecha_hora' => 'nunca',
+        'texto'      => 'nada'
+    );
+    $num_rows = $res->num_rows;
+    
+    $comentarios = array();
+
+    for($i = 0; $i < $num_rows; $i++){
+        $row = $res->fetch_assoc();
+        $date = date_create($row['fecha_hora']);
+        $fecha = date_format($date, 'd/m/y   H:i:s');
+
+        $comentario = array(
+            'autor' => $row['autor'],
+            'fecha_hora' => $fecha,
+            'texto' => $row['texto']
+        );
+
+        $comentarios[] = $comentario;
+    }
+
+    return $comentarios;
+}
+
+function getEventosPortada(){
+    $mysqli = connect();
+
+    $res = $mysqli->query("SELECT id, nombre, imagenPrincipal from eventos");
+
+    // Asumo que al menos habrá un evento
+    $num_rows = $res->num_rows;
+    $eventos = array();
+
+    for($i = 0; $i < $num_rows; $i++){
+        $row = $res->fetch_assoc();
+        $id = $row['id'];
+        $link = "../evento.php?ev=" . $id;
+        $evento = array(
+            'nombre' => $row['nombre'],
+            'imagen' => $row['imagenPrincipal'],
+            'link'   => $link
+        );
+
+        $eventos[] = $evento;
+    }
+
+    return $eventos;
 }
 
 // TODO Funcion conectar base de datos, y hacer que solo se haga una conexion
