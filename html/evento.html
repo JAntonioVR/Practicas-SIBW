@@ -74,7 +74,16 @@
 
             <!--Botón al menú de comentarios-->
             <button id="boton_comentarios">Comentarios</button>
+
         </div>
+        {% if galeria %}
+            <div class="galeria">
+                <h4>Observa la galeria de fotos de {{ evento['nombre'] }}</h4>
+                {% for imagen in galeria %}
+                    <img src={{ imagen }} alt={{ imagen }}>
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
 
     <!--Zona de comentarios-->

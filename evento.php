@@ -23,11 +23,16 @@
         $file = 'evento.html';
     }
 
-    $evento = getEvento($idEv);
+    $database = new Database();
 
-    $comentarios = getComentarios($idEv);
+    $evento = $database->getEvento($idEv);
+
+    $comentarios =     $database->getComentarios($idEv);
+
+    $galeria     = $database->getGaleria($idEv);
 
 
     echo $twig->render($file,['evento' => $evento,
-                              'comentarios' => $comentarios]);
+                              'comentarios' => $comentarios,
+                              'galeria'     => $galeria]);
 ?>

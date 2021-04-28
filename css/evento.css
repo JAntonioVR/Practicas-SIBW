@@ -52,7 +52,7 @@ body{
 }
   
 .boton_imprimir  a img{
-    width: 2.4em;
+    width: 20%;
     padding-right: 10%;
 }
   
@@ -72,6 +72,11 @@ body{
 	text-decoration: none;
 	color: black;
 	font-size: small;
+}
+
+.galeria img{
+    width: 30%;
+    padding: 1%;
 }
 
 #boton_comentarios{

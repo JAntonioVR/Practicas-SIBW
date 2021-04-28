@@ -78,7 +78,12 @@ document.getElementById("boton_enviar").onclick = procesar_formulario;
 var palabras_prohibidas =  ["la isla de las tentaciones", 
                             "salvame", 
                             "supervivientes", 
-                            "operacion triunfo"
+                            "operacion triunfo",
+                            "nieve",
+                            "tiro",
+                            "coca",
+                            "cristal",
+                            "gran hermano"
                         ];
 
 function corregir_palabras(){
