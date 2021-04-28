@@ -35,7 +35,7 @@
 
             <!--Boton para imprimir la página-->
             <div class="boton_imprimir">
-                <a href="../evento.php?imp=1">
+                <a href={{ evento['print'] }}>
                 <img src="../img/printer.png" alt="Imprimir artículo">
                 <h4>Imprimir artículo</h4>
                 </a>
@@ -112,6 +112,11 @@
             </div>
             <button type="button" id="boton_enviar">Enviar</button>
             <div id="mensajes_error"></div>
+            <div id="palabras_prohibidas">
+                {% for palabra in palabras_prohibidas %}
+                    <p>{{ palabra }}</p>
+                {% endfor %}
+            </div>
         </form>
 
     </div>

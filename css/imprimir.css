@@ -70,8 +70,9 @@ aside{
     background-color: black;
 }
 
-.galeria{
-    display: none;
+.galeria img{
+    width: 30%;
+    padding: 1%;
 }
 
 footer{
