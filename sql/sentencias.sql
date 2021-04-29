@@ -59,7 +59,7 @@ INSERT INTO eventos (nombre, organizador, fecha, lugar, texto, logo, imagenPrinc
      'El Medusa Sunbeach Festival es un festival de música electrónica dirigido principalmente hacia un público joven. Se celebra desde 2014 cada año en la playa de Cullera, municipio de Valencia, Comunidad Valenciana. Encontramos diferentes estilos con sus respectivos escenarios: desde el EDM en el escenario principal hasta Techno, Indie, Remember, Hardstyle, Dubstep y Trap (estos 3 últimos fueron incluidos en la última edición). El Festival tematiza anualmente cada edición basándose en una experiencia temática como "invaders"1​, "Secret of Wonderland"2​, que son el hilo conductor que inspira la temática del escenario principal cada edición.
      Medusa es un concepto que durante estos años ha combinado a los mejores DJs y artistas del mundo con una puesta en escena totalmente original llena de grandes emociones y fantasía impulsado con lo más sofisticado a nivel producción donde destaca un impresionante escenario de 100 por 30 metros totalmente decorado y diseñado por falleros experimentados de la cultura valenciana.
      Más de 300.000 asistentes disfrutaron del último Medusa Sunbeach Festival, que además dispone de una ciudad de zona de acampada con todas las comodidades para 12.000 personas. El mejor clima y la mejor temporada para vivir una de las experiencias más impresionantes al aire libre. ¡Tan grande, tan cerca, tan tuyo! Medusa Festival dejará a todos sin aliento.',
-     '../img/medusa/medusa-festival-logo.jpg', '../img/medusa/medusa.jpg',
+     './img/medusa/medusa-festival-logo.jpg', './img/medusa/medusa.jpg',
      'https://www.medusasunbeach.com/','https://twitter.com/MedusaFestival/',
      'https://www.instagram.com/medusa_festival/', 'https://es-es.facebook.com/medusasunbeach');
 
@@ -71,7 +71,7 @@ INSERT INTO eventos (nombre, organizador, fecha, lugar, texto, logo, imagenPrinc
         Se trata del principal centro turístico del municipio cuevano, rodeado de parajes naturales como la Sierra Almagrera o las islas de Terreros y Negra. En el mes de agosto se celebra el festival de música electrónica Dreambeach Villaricos.1​2​ Cuenta con dos pequeños puertos: el de Villaricos y el puerto deportivo de la Esperanza.
 
         Lo que hoy se conoce como Villaricos fue colonizado a lo largo de la historia por diversas civilizaciones, entre las que destacan los fenicios, cartagineses, romanos y visigodos. Se tiene constancia gracias a los vestigios encontrados en varias excavaciones, desde las emprendidas por el arqueólogo belga Luis Siret a partir de 1890 hasta las que se llevaron a cabo durante todo el siglo xx.3​ La actual localidad se asienta sobre la antigua ciudad fenicia de Baria, fundada por navegantes tirios a finales del siglo viii a. C.',
-     '../img/dreambeach/logo-dreambeach.png', '../img/dreambeach/dreambeach.jpg',
+     './img/dreambeach/logo-dreambeach.png', './img/dreambeach/dreambeach.jpg',
      'https://www.dreambeach.es/', 'https://twitter.com/DreambeachFest',
      'https://www.instagram.com/dreambeachfest/?hl=es', 'https://www.facebook.com/DreambeachFest/'
     );
@@ -105,43 +105,43 @@ INSERT INTO comentarios (autor, email_autor, fecha_hora, texto, idEvento) VALUES
 -- imagenes:
 
 INSERT INTO imagenes(ruta, idEvento) VALUES(
-    '../img/medusa/medusa.jpg',
+    './img/medusa/medusa.jpg',
     1
 );
 INSERT INTO imagenes(ruta, idEvento) VALUES(
-    '../img/medusa/medusa1.jpg',
+    './img/medusa/medusa1.jpg',
     1
 );
 INSERT INTO imagenes(ruta, idEvento) VALUES(
-    '../img/medusa/medusa2.jpg',
+    './img/medusa/medusa2.jpg',
     1
 );
 INSERT INTO imagenes(ruta, idEvento) VALUES(
-    '../img/medusa/medusa3.jpg',
+    './img/medusa/medusa3.jpg',
     1
 );
 INSERT INTO imagenes(ruta, idEvento) VALUES(
-    '../img/medusa/medusa4.jpg',
+    './img/medusa/medusa4.jpg',
     1
 );
 INSERT INTO imagenes(ruta, idEvento) VALUES(
-    '../img/dreambeach/dreambeach.jpg',
+    './img/dreambeach/dreambeach.jpg',
     2
 );
 INSERT INTO imagenes(ruta, idEvento) VALUES(
-    '../img/dreambeach/dreambeach1.jpg',
+    './img/dreambeach/dreambeach1.jpg',
     2
 );
 INSERT INTO imagenes(ruta, idEvento) VALUES(
-    '../img/dreambeach/dreambeach2.jpeg',
+    './img/dreambeach/dreambeach2.jpeg',
     2
 );
 INSERT INTO imagenes(ruta, idEvento) VALUES(
-    '../img/dreambeach/dreambeach3.jpeg',
+    './img/dreambeach/dreambeach3.jpeg',
     2
 );
 INSERT INTO imagenes(ruta, idEvento) VALUES(
-    '../img/dreambeach/dreambeach4.jpg',
+    './img/dreambeach/dreambeach4.jpg',
     2
 );
 
@@ -158,6 +158,7 @@ INSERT INTO palabras_prohibidas VALUES( 'gran hermano' );
 INSERT INTO palabras_prohibidas VALUES( 'operacion triunfo' );
 
 -- enlaces de interés
+
 INSERT INTO enlaces(nombre, link) VALUES (
     "Generalitat Valenciana",
     "https://www.gva.es/va/inicio/presentacion"

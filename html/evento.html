@@ -2,10 +2,11 @@
 
 {% block cabecera %}
     <title>Evento</title>
-    <link rel="stylesheet" href="../css/mystyle.css">
-    <link rel="stylesheet" href="../css/evento.css">
-    <script type="text/javascript"  src="../java/javascript.js" defer></script>
-
+    <link rel="stylesheet" href="./css/mystyle.css">
+    <link rel="stylesheet" href="./css/evento.css">
+    <script type="text/javascript"  src="./java/javascript.js" defer></script>
+    
+    <!-- Obtención de palabras prohididas -->
     <script>
         var palabras_prohibidas = [];
         {% for palabra in palabras_prohibidas %}
@@ -44,7 +45,7 @@
             <!--Boton para imprimir la página-->
             <div class="boton_imprimir">
                 <a href={{ evento['print'] }}>
-                <img src="../img/printer.png" alt="Imprimir artículo">
+                <img src="./img/printer.png" alt="Imprimir artículo">
                 <h4>Imprimir artículo</h4>
                 </a>
             </div>
@@ -53,28 +54,28 @@
             <div class="botones_sociales">
                 <div class="boton_social">
                     <a href={{ evento['web'] }}>
-                        <img src="../img/web.png" alt="Web">
+                        <img src="./img/web.png" alt="Web">
                         Web del evento
                     </a>
                 </div>
 
                 <div class="boton_social">
                     <a href={{ evento['twitter'] }}>
-                        <img src="../img/twitter.png" alt="twitter">
+                        <img src="./img/twitter.png" alt="twitter">
                         Twitter
                     </a>
                 </div>
 
                 <div class="boton_social">
                     <a href={{ evento['instagram'] }}>
-                        <img src="../img/instagram.png" alt="instagram">
+                        <img src="./img/instagram.png" alt="instagram">
                         Instagram
                     </a>
                 </div>
 
                 <div class="boton_social">
                     <a href={{ evento['facebook'] }}>
-                        <img src="../img/facebook.png" alt="facebook">
+                        <img src="./img/facebook.png" alt="facebook">
                         Facebook
                     </a>
                 </div>
@@ -84,6 +85,7 @@
             <button id="boton_comentarios">Comentarios</button>
 
         </div>
+        <!-- Galería de imágenes (en caso de existir) -->
         {% if galeria %}
             <div class="galeria">
                 <h4>Observa la galeria de fotos de {{ evento['nombre'] }}</h4>
@@ -92,6 +94,8 @@
                 {% endfor %}
             </div>
         {% endif %}
+
+        <!-- Enlaces de interés (en caso de existir) -->
         {% if enlaces %}
             <div class="enlaces_de_interes">
                 <h4>Algunos enlaces de interés: </h4>

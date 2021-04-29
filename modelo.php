@@ -21,7 +21,6 @@ class Database{
 
         if( $this->mysqli->connect_errno ){
             echo ("Fallo al conectar: " . $this->mysqli->connect_error);
-
         }
     }
 
@@ -34,9 +33,9 @@ class Database{
 
         // Protección contra inyección SQL y consulta
         $stmt = $this->mysqli->prepare("SELECT * FROM eventos WHERE id=?");
-        $stmt->bind_param("i", $idEv);
-        $stmt->execute();
-        $res = $stmt->get_result();
+        $stmt-> bind_param("i", $idEv);
+        $stmt-> execute();
+        $res  = $stmt->get_result();
         
         // Evento por defecto
         $evento = array(
@@ -91,22 +90,22 @@ class Database{
 
          // Protección contra inyección SQL y consulta       
         $stmt = $this->mysqli->prepare("SELECT autor, fecha_hora, texto FROM comentarios WHERE idEvento=?");
-        $stmt->bind_param("i", $idEv);
-        $stmt->execute();
-        $res = $stmt->get_result();
+        $stmt-> bind_param("i", $idEv);
+        $stmt-> execute();
+        $res  = $stmt->get_result();
         
         // Array inicialmente vacío de comentarios
         $comentarios = array();
 
         // Añadimos cada comentario al array
         while($row = $res->fetch_assoc()){
-            $date = date_create($row['fecha_hora']);
-            $fecha = date_format($date, 'd/m/y   H:i:s');
 
+            $date       = date_create($row['fecha_hora']);
+            $fecha      = date_format($date, 'd/m/y   H:i:s');
             $comentario = array(
-                'autor' => $row['autor'],
+                'autor'      => $row['autor'],
                 'fecha_hora' => $fecha,
-                'texto' => $row['texto']
+                'texto'      => $row['texto']
             );
 
             $comentarios[] = $comentario;
@@ -125,16 +124,16 @@ class Database{
 
         // Protección contra inyección SQL y consulta    
         $stmt = $this->mysqli->prepare("SELECT id, nombre, imagenPrincipal from eventos");
-        $stmt->execute();
-        $res = $stmt->get_result();
+        $stmt-> execute();
+        $res  = $stmt->get_result();
 
         // Array inicialmente vacío de eventos
         $eventos = array();
 
         // Añadimos cada evento al array
         while($row = $res->fetch_assoc()){
-            $id = $row['id'];
-            $link = "../evento.php?ev=" . $id;
+            $id     = $row['id'];
+            $link   = "../evento.php?ev=" . $id;
             $evento = array(
                 'nombre' => $row['nombre'],
                 'imagen' => $row['imagenPrincipal'],
@@ -156,9 +155,9 @@ class Database{
 
         // Protección contra inyección SQL y consulta    
         $stmt = $this->mysqli->prepare("SELECT * from imagenes where idEvento=?");
-        $stmt->bind_param("i", $idEv);
-        $stmt->execute();
-        $res = $stmt->get_result();
+        $stmt-> bind_param("i", $idEv);
+        $stmt-> execute();
+        $res  = $stmt->get_result();
 
         // Array inicialmente vacío de imágenes
         $imagenes = array();
@@ -179,8 +178,8 @@ class Database{
 
         // Protección contra inyección SQL y consulta    
         $stmt = $this->mysqli->prepare("SELECT * from palabras_prohibidas");
-        $stmt->execute();
-        $res = $stmt->get_result();
+        $stmt-> execute();
+        $res  = $stmt->get_result();
 
         // Array inicialmente vacío de palabras
         $palabras = array();
@@ -195,13 +194,18 @@ class Database{
 
     }
 
+    //
+    // ─── CONSULTA DE ENLACES DE INTERES ─────────────────────────────────────────────
+    // Busca y devuelve los nombres y links a los enlaces de interés de un evento 
+    // concreto
+
     public function getEnlacesDeInteres($idEv){
 
         // Protección contra inyección SQL y consulta    
         $stmt = $this->mysqli->prepare("select link, nombre from enlaces INNER JOIN eventos_enlaces ON enlaces.id = eventos_enlaces.idEnlace where idEvento=?");
-        $stmt->bind_param("i", $idEv);
-        $stmt->execute();
-        $res = $stmt->get_result();
+        $stmt-> bind_param("i", $idEv);
+        $stmt-> execute();
+        $res  = $stmt->get_result();
 
         // Array inicialmente vacío de enlaces
         $enlaces = array();
@@ -214,10 +218,14 @@ class Database{
             ) ;
             $enlaces[] = $enlace;
         }
+
         $stmt->close();
         return $enlaces;
-
     }
+
+    //
+    // ──────────────────────────────────────────────────────────────────────────────
+    //
 
 }
 

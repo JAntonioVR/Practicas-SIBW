@@ -77,8 +77,6 @@ document.getElementById("boton_enviar").onclick = procesar_formulario;
 
 function corregir_palabras(){
 
-    console.log(palabras_prohibidas);
-
     var comentario = document.getElementById("input_comentario").value,
         encontrada = -1,
         palabra    = "";
