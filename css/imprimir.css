@@ -49,6 +49,10 @@ aside{
     padding: 0.5em;
 }
 
+#logo_evento{
+    width: 10em;
+}
+
 .botones{
     display: none;
 }
