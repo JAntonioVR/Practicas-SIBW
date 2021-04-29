@@ -35,10 +35,11 @@
     // Conexión con la base de datos y obtención de datos
     $database = new Database();
 
-    $evento         = $database->getEvento($idEv);
-    $comentarios    = $database->getComentarios($idEv);
-    $galeria        = $database->getGaleria($idEv);
-    $enlacesInteres = $database->getEnlacesDeInteres($idEv);
+    $evento              = $database->getEvento($idEv);
+    $comentarios         = $database->getComentarios($idEv);
+    $galeria             = $database->getGaleria($idEv);
+    $enlacesInteres      = $database->getEnlacesDeInteres($idEv);
+    $palabras_prohibidas = $database->getPalabrasProhibidas();
     
     // Renderiza el archivo
     echo $twig->render($file,['evento'              => $evento,
