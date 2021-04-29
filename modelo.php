@@ -41,8 +41,9 @@ class Database{
         $evento = array(
             'nombre'      => 'No se ha seleccionado ningún evento', 
             'organizador' => 'Esta es la pantalla',
-            'fecha'       => 'por defecto',
-            'lugar'       => 'Elija un evento',
+            'fechaInicio' => 'por defecto.',
+            'fechaFinal'  => 'Elija un evento',
+            'lugar'       => ' ',
             'texto'       => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam malesuada nunc ut justo aliquet, a hendrerit lacus posuere. Pellentesque faucibus quam a nunc ullamcorper rutrum. Nunc accumsan vulputate libero quis fermentum. Aliquam nec ex sed diam rutrum pretium sed in diam. In interdum ullamcorper orci, cursus lobortis nibh. Praesent tristique lorem in augue pellentesque, sit amet finibus est egestas. Proin aliquam pharetra mauris. Vivamus tincidunt arcu dolor, non mollis odio gravida a. Etiam suscipit, nisl ac dignissim euismod, orci enim posuere nisl, eget hendrerit risus mauris sit amet augue. Aliquam porttitor ex arcu, hendrerit rutrum velit condimentum eu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Quisque quis turpis eros. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla venenatis enim vel tortor pellentesque, eu dapibus elit pellentesque. Duis eleifend non nisi sed luctus. Proin rhoncus justo sit amet suscipit convallis.
 
             Ut porta dignissim bibendum. Sed augue purus, suscipit ac massa at, aliquet sagittis purus. Fusce vulputate viverra accumsan. Aenean consequat est lorem, sed fringilla metus rhoncus vel. Integer tristique justo sit amet quam blandit feugiat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Sed egestas est urna, semper pretium lectus volutpat eget. Cras dignissim, justo at dictum lacinia, mi dolor mollis diam, sed ullamcorper sem sem ac quam. Suspendisse vel pharetra orci. Maecenas consectetur eleifend tempor. Donec porttitor mattis sem, sit amet bibendum mi fringilla quis.
@@ -56,15 +57,25 @@ class Database{
             'instagram'   => ' ',
             'facebook'    => ' '
         );
+
+        $date       = date_create($row['fecha_hora']);
+        $fecha      = date_format($date, 'd/m/y   H:i:s');
         
         // Pasamos los datos al controlador
         if( $res->num_rows > 0 ){
             $row = $res->fetch_assoc();
 
+            $dateInicio = date_create($row['fechaInicio']);
+            $fechaInicio = date_format($dateInicio, 'd/m/y');
+
+            $dateFinal = date_create($row['fechaFinal']);
+            $fechaFinal = date_format($dateFinal, 'd/m/y');
+
             $evento = array(
                 'nombre'      => $row['nombre'], 
                 'organizador' => $row['organizador'],
-                'fecha'       => $row['fecha'],
+                'fechaInicio' => $fechaInicio,
+                'fechaFinal'  => $fechaFinal,
                 'lugar'       => $row['lugar'],
                 'texto'       => $row['texto'],
                 'logo'        => $row['logo'],

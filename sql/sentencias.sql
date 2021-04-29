@@ -5,7 +5,8 @@ CREATE TABLE eventos(
     id               INT AUTO_INCREMENT PRIMARY KEY,
     nombre           VARCHAR(100),
     organizador      VARCHAR(100),
-    fecha            VARCHAR(50),
+    fechaInicio      DATE,
+    fechaFinal       DATE,
     lugar            VARCHAR(50),
     texto            VARCHAR(3000),
     logo             VARCHAR(100),
@@ -54,8 +55,8 @@ CREATE TABLE eventos_enlaces(
 
 -- eventos:
 
-INSERT INTO eventos (nombre, organizador, fecha, lugar, texto, logo, imagenPrincipal, web, twitter, instagram, facebook) VALUES 
-    ('Medusa Sunbeach Festival', 'Miguel Serna', '9-14 Agosto 2021', 'Cullera, Valencia',
+INSERT INTO eventos (nombre, organizador, fechaInicio, fechaFinal, lugar, texto, logo, imagenPrincipal, web, twitter, instagram, facebook) VALUES 
+    ('Medusa Sunbeach Festival', 'Miguel Serna', STR_TO_DATE('9-08-2021', '%d-%m-%Y'), STR_TO_DATE('14-08-2021', '%d-%m-%Y'), 'Cullera, Valencia',
      'El Medusa Sunbeach Festival es un festival de música electrónica dirigido principalmente hacia un público joven. Se celebra desde 2014 cada año en la playa de Cullera, municipio de Valencia, Comunidad Valenciana. Encontramos diferentes estilos con sus respectivos escenarios: desde el EDM en el escenario principal hasta Techno, Indie, Remember, Hardstyle, Dubstep y Trap (estos 3 últimos fueron incluidos en la última edición). El Festival tematiza anualmente cada edición basándose en una experiencia temática como "invaders"1​, "Secret of Wonderland"2​, que son el hilo conductor que inspira la temática del escenario principal cada edición.
      Medusa es un concepto que durante estos años ha combinado a los mejores DJs y artistas del mundo con una puesta en escena totalmente original llena de grandes emociones y fantasía impulsado con lo más sofisticado a nivel producción donde destaca un impresionante escenario de 100 por 30 metros totalmente decorado y diseñado por falleros experimentados de la cultura valenciana.
      Más de 300.000 asistentes disfrutaron del último Medusa Sunbeach Festival, que además dispone de una ciudad de zona de acampada con todas las comodidades para 12.000 personas. El mejor clima y la mejor temporada para vivir una de las experiencias más impresionantes al aire libre. ¡Tan grande, tan cerca, tan tuyo! Medusa Festival dejará a todos sin aliento.',
@@ -63,8 +64,8 @@ INSERT INTO eventos (nombre, organizador, fecha, lugar, texto, logo, imagenPrinc
      'https://www.medusasunbeach.com/','https://twitter.com/MedusaFestival/',
      'https://www.instagram.com/medusa_festival/', 'https://es-es.facebook.com/medusasunbeach');
 
-INSERT INTO eventos (nombre, organizador, fecha, lugar, texto, logo, imagenPrincipal, web, twitter, instagram, facebook) VALUES 
-    ('Dreambeach Festival', 'Gonçalo', '4-8 Agosto 2021', 'Villaricos, Almería',
+INSERT INTO eventos (nombre, organizador, fechaInicio, fechaFinal, lugar, texto, logo, imagenPrincipal, web, twitter, instagram, facebook) VALUES 
+    ('Dreambeach Festival', 'Gonçalo', STR_TO_DATE('4-08-2021', '%d-%m-%Y'), STR_TO_DATE('8-08-2021', '%d-%m-%Y'), 'Villaricos, Almería',
      'Dreambeach Villaricos es un festival de música electrónica que se celebra anualmente desde 2012 en la playa de Palomares, dentro del municipio español de Cuevas del Almanzora (Almería). El festival recibe su nombre de su antigua ubicación, en la población de Villaricos. Dreambeach es el heredero del famoso Creamfields Andalucía, el cual dejó de celebrarse en 2012.1​ En la venta de la 5.ª edición se llegaron a superar los 12 000 abonos vendidos a las pocas horas sin haber confirmado ningún artista. Desde 2019 el festival celebra también una edición en Chile.
         Villaricos es una localidad y pedanía española perteneciente al municipio de Cuevas del Almanzora, en la provincia de Almería. Está situada en la parte oriental de la comarca del Levante Almeriense. En plena costa mediterránea, cerca de esta localidad se encuentran los núcleos de Palomares, Vera-Playa, Las Rozas, Las Herrerías y El Arteal. En Villaricos desemboca el río Almanzora.
 

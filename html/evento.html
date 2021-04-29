@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="./css/mystyle.css">
     <link rel="stylesheet" href="./css/evento.css">
     <script type="text/javascript"  src="./java/javascript.js" defer></script>
-    
+
     <!-- Obtención de palabras prohididas -->
     <script>
         var palabras_prohibidas = [];
@@ -27,7 +27,7 @@
 
         <h2>{{ evento['nombre'] }}</h2>
         <h3>{{ evento['organizador'] }}</h3>
-        <h4>{{ evento['fecha'] }}</h4>
+        <h4>Del {{ evento['fechaInicio'] }} al {{ evento['fechaFinal'] }}</h4>
         <h4>{{ evento['lugar'] }}</h4>
 
         <!--Informacion sobre el evento-->
