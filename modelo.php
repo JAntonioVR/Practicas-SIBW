@@ -195,6 +195,30 @@ class Database{
 
     }
 
+    public function getEnlacesDeInteres($idEv){
+
+        // Protección contra inyección SQL y consulta    
+        $stmt = $this->mysqli->prepare("select link, nombre from enlaces INNER JOIN eventos_enlaces ON enlaces.id = eventos_enlaces.idEnlace where idEvento=?");
+        $stmt->bind_param("i", $idEv);
+        $stmt->execute();
+        $res = $stmt->get_result();
+
+        // Array inicialmente vacío de enlaces
+        $enlaces = array();
+
+        // Añadimos cada enlace al array
+        while($row = $res->fetch_assoc()){
+            $enlace = array(
+                'nombre' => $row['nombre'],
+                'link'   => $row['link']
+            ) ;
+            $enlaces[] = $enlace;
+        }
+        $stmt->close();
+        return $enlaces;
+
+    }
+
 }
 
 ?>

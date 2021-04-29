@@ -38,11 +38,13 @@
     $evento = $database->getEvento($idEv);
     $comentarios =     $database->getComentarios($idEv);
     $galeria     = $database->getGaleria($idEv);
+    $enlacesInteres = $database->getEnlacesDeInteres($idEv);
     $palabras_prohibidas = $database->getPalabrasProhibidas();
 
     // Renderiza el archivo
     echo $twig->render($file,['evento' => $evento,
                               'comentarios' => $comentarios,
                               'galeria'     => $galeria,
+                              'enlaces'     => $enlacesInteres,
                               'palabras_prohibidas' => $palabras_prohibidas]);
 ?>

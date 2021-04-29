@@ -75,32 +75,9 @@ document.getElementById("boton_enviar").onclick = procesar_formulario;
 // ─── CENSURA DE PALABRAS PROHIBIDAS ─────────────────────────────────────────────
 //
 
-/*var palabras_prohibidas =  ["la isla de las tentaciones", 
-                            "salvame", 
-                            "supervivientes", 
-                            "operacion triunfo",
-                            "nieve",
-                            "tiro",
-                            "coca",
-                            "cristal",
-                            "gran hermano"
-                        ];*/
-
-
-function get_palabras(){
-    var palabras = document.getElementById("palabras_prohibidas").children;
-    /*console.log(palabras[1]);
-    //palabras.forEach(palabra => console.log(palabra));*/
-    for (let i = 0; i < palabras.length; i++) {
-        console.log(palabras[i].getElementsByTagName('p')[0].innerHTML);
-        
-    }
-
-}
-
 function corregir_palabras(){
 
-    get_palabras();
+    console.log(palabras_prohibidas);
 
     var comentario = document.getElementById("input_comentario").value,
         encontrada = -1,

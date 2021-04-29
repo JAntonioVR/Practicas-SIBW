@@ -75,6 +75,10 @@ aside{
     padding: 1%;
 }
 
+.enlaces_de_interes{
+    display: none;
+}
+
 footer{
     display: flex;
     justify-content: space-between;

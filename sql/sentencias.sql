@@ -1,5 +1,5 @@
 
------- Creación de tablas ------
+-- Creación de tablas --
 
 CREATE TABLE eventos(
     id               INT AUTO_INCREMENT PRIMARY KEY,
@@ -36,9 +36,23 @@ CREATE TABLE comentarios(
     FOREIGN KEY(idEvento) REFERENCES eventos(id)
 );
 
------- Insercion de tuplas ------
+CREATE TABLE enlaces(
+    id     INT AUTO_INCREMENT PRIMARY KEY,
+    link   VARCHAR(200),
+    nombre VARCHAR(100)
+);
 
----- eventos:
+CREATE TABLE eventos_enlaces(
+    idEvento INT,
+    idEnlace INT,
+    FOREIGN KEY (idEvento) REFERENCES eventos(id),
+    FOREIGN KEY (idEnlace) REFERENCES enlaces(id),
+    PRIMARY KEY (idEvento, idEnlace)
+);
+
+-- Insercion de tuplas --
+
+-- eventos:
 
 INSERT INTO eventos (nombre, organizador, fecha, lugar, texto, logo, imagenPrincipal, web, twitter, instagram, facebook) VALUES 
     ('Medusa Sunbeach Festival', 'Miguel Serna', '9-14 Agosto 2021', 'Cullera, Valencia',
@@ -62,7 +76,7 @@ INSERT INTO eventos (nombre, organizador, fecha, lugar, texto, logo, imagenPrinc
      'https://www.instagram.com/dreambeachfest/?hl=es', 'https://www.facebook.com/DreambeachFest/'
     );
 
----- comentarios:
+-- comentarios:
 
 INSERT INTO comentarios (autor, email_autor, fecha_hora, texto, idEvento) VALUES(
     'Yo',
@@ -88,7 +102,7 @@ INSERT INTO comentarios (autor, email_autor, fecha_hora, texto, idEvento) VALUES
     1
 );
 
----- imagenes:
+-- imagenes:
 
 INSERT INTO imagenes(ruta, idEvento) VALUES(
     '../img/medusa/medusa.jpg',
@@ -131,7 +145,7 @@ INSERT INTO imagenes(ruta, idEvento) VALUES(
     2
 );
 
----- palabras_prohibidas
+-- palabras_prohibidas
 
 INSERT INTO palabras_prohibidas VALUES( 'salvame' );
 INSERT INTO palabras_prohibidas VALUES( 'supervivientes' );
@@ -142,3 +156,35 @@ INSERT INTO palabras_prohibidas VALUES( 'coca' );
 INSERT INTO palabras_prohibidas VALUES( 'cristal' );
 INSERT INTO palabras_prohibidas VALUES( 'gran hermano' );
 INSERT INTO palabras_prohibidas VALUES( 'operacion triunfo' );
+
+-- enlaces de interés
+INSERT INTO enlaces(nombre, link) VALUES (
+    "Generalitat Valenciana",
+    "https://www.gva.es/va/inicio/presentacion"
+);
+
+INSERT INTO enlaces(nombre, link) VALUES (
+    "Visit Valencia",
+    "https://www.visitvalencia.com/"
+);
+INSERT INTO enlaces(nombre, link) VALUES (
+    "Junta de Andalucía",
+    "https://www.juntadeandalucia.es/"
+);
+INSERT INTO enlaces(nombre, link) VALUES (
+    "Turismo de Almería",
+    "https://www.turismodealmeria.org/"
+);
+INSERT INTO enlaces(nombre, link) VALUES (
+    "Ministerio de cultura y deporte",
+    "http://www.culturaydeporte.gob.es/cultura.html"
+);
+
+-- relacion evento-enlace
+
+INSERT INTO eventos_enlaces VALUES (1,1);
+INSERT INTO eventos_enlaces VALUES (1,2);
+INSERT INTO eventos_enlaces VALUES (2,3);
+INSERT INTO eventos_enlaces VALUES (2,4);
+INSERT INTO eventos_enlaces VALUES (1,5);
+INSERT INTO eventos_enlaces VALUES (2,5);

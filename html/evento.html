@@ -5,6 +5,14 @@
     <link rel="stylesheet" href="../css/mystyle.css">
     <link rel="stylesheet" href="../css/evento.css">
     <script type="text/javascript"  src="../java/javascript.js" defer></script>
+
+    <script>
+        var palabras_prohibidas = [];
+        {% for palabra in palabras_prohibidas %}
+            palabras_prohibidas.push({{ palabra | json_encode | raw }});
+        {% endfor %}
+    </script>
+
 {% endblock %}
 
 {% block contenido %}
@@ -84,6 +92,17 @@
                 {% endfor %}
             </div>
         {% endif %}
+        {% if enlaces %}
+            <div class="enlaces_de_interes">
+                <h4>Algunos enlaces de interés: </h4>
+                <item>
+                    {% for enlace in enlaces %}
+                        <li><a href={{ enlace['link'] }}> {{ enlace['nombre'] }}</a></li>
+                    {% endfor %}
+                </item>
+            </div>
+        {% endif %}
+
     </div>
 
     <!--Zona de comentarios-->
