@@ -22,7 +22,7 @@
     <div class = "informacion_evento">
             
         <div class = "imagen_en_evento">
-            <img src   = {{ evento['logo'] }} width = "150">
+            <img id='logo_evento' src   = {{ evento['logo'] }}>
         </div>
 
         <h2>{{ evento['nombre'] }}</h2>
@@ -135,11 +135,6 @@
             </div>
             <button type="button" id="boton_enviar">Enviar</button>
             <div id="mensajes_error"></div>
-            <div id="palabras_prohibidas">
-                {% for palabra in palabras_prohibidas %}
-                    <p>{{ palabra }}</p>
-                {% endfor %}
-            </div>
         </form>
 
     </div>
