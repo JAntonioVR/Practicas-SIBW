@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <title>Una página de mi sitio que sabe si el usuario está logueado o no.</title>
+  </head>
+  
+  <body>
+    {% if not usuario %}
+      <p>NO estás logueado. <a href="login.php">Logueate</a></p>
+    {% else %}
+      <p>SÍ esas logueado. Tu nick es <strong>{{ usuario['nickname'] }}</strong>.</p>
+      
+
+        <p>Tu rol es {{ usuario['tipo'] }}</p>
+
+    {% endif %}
+      
+     <!-- <p><a href="logout.php">Salir</a></p>-->
+
+  </body>
+</html>

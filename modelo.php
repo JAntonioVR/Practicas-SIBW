@@ -258,18 +258,45 @@ class Database{
     }
 
     public function checkLogin($nickname, $clave){
-        $stmt = $this->mysqli->prepare("SELECT * from usuario");
-        $stmt-> execute();
+
+        $stmt = $this->mysqli->prepare("SELECT clave FROM usuario WHERE nickname=?");
+        $stmt->bind_param("s", $nickname);
+        $stmt->execute();
         $res  = $stmt->get_result();
+        $stmt->close();
 
         $found = FALSE;
 
-        while($row = $res->fetch_assoc() and !$found){
-            if($row['nickname'] === $nickname and password_verify($clave, $row['clave']))
+        if( $res->num_rows === 1 ){
+            $row = $res->fetch_assoc();
+            if( password_verify($clave, $row['clave'] ))
                 $found = TRUE;
         }
-
+        
         return $found;
+    }
+
+    public function getUsuario($nickname){
+        $consulta = "SELECT * FROM usuario WHERE nickname=?";
+        $stmt = $this->mysqli->prepare($consulta);
+        $stmt->bind_param("s",$nickname);
+        $stmt->execute();
+        $res = $stmt->get_result();
+
+        $user = -1;
+
+        if( $res->num_rows === 1 ){
+            $row = $res->fetch_assoc();
+            $user = [
+                'nickname' => $row['nickname'],
+                'nombre'   => $row['nombre'],
+                'email'    => $row['email'],
+                'clave'    => $row['clave'],
+                'tipo'     => $row['tipo']
+            ];
+        }
+        $stmt->close();
+        return $user;
         
     }
 
