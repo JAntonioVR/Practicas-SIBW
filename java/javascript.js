@@ -62,7 +62,7 @@ function procesar_formulario(){
         document.getElementById("comentarios").insertAdjacentHTML("beforeend", 
             "<div class=\"comentario\">" + 
             "<h4>" + nombre.value + "</h4>" +
-            "<h5>" + dia + "/" + mes + "/" + anio + " a las " + hora + ":" + minutos + "</h5>" +
+            "<h5>" + dia + "/" + mes + "/" + anio + " " + hora + ":" + minutos + "</h5>" +
             comentario.value +
             "</div>"
         );

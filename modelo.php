@@ -234,6 +234,45 @@ class Database{
         return $enlaces;
     }
 
+    public function insertarUsuario($nickname, $nombre, $email, $clave, $tipo){
+        $consulta_insercion = "INSERT INTO usuario VALUES ('" .
+                            $nickname . "', '" . $nombre . "', '" . $email . 
+                            "', '" . password_hash($clave, PASSWORD_DEFAULT) . 
+                            "', '" . $tipo ."')";
+
+        // FIXME Protección contra inyección SQL??
+        $res = $this->mysqli->query($consulta_insercion);
+
+        /*
+        NOTE Bueno para depurar:
+        if($res === TRUE){
+            echo "Se ha insertado una nueva fila";
+        }
+        else{
+            echo "Error al insertar la fila: " . $this.mysqli->error;
+            echo $consulta_insercion;
+        }
+        */
+        return $res;
+
+    }
+
+    public function checkLogin($nickname, $clave){
+        $stmt = $this->mysqli->prepare("SELECT * from usuario");
+        $stmt-> execute();
+        $res  = $stmt->get_result();
+
+        $found = FALSE;
+
+        while($row = $res->fetch_assoc() and !$found){
+            if($row['nickname'] === $nickname and password_verify($clave, $row['clave']))
+                $found = TRUE;
+        }
+
+        return $found;
+        
+    }
+
     //
     // ──────────────────────────────────────────────────────────────────────────────
     //
