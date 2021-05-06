@@ -34,6 +34,7 @@ CREATE TABLE comentarios(
     fecha_hora  DATETIME,
     texto       VARCHAR(280),
     idEvento    INT NOT NULL,
+    modificado  INT,
     FOREIGN KEY(idEvento) REFERENCES eventos(id)
 );
 
@@ -84,7 +85,7 @@ INSERT INTO comentarios (autor, email_autor, fecha_hora, texto, idEvento) VALUES
     'yo@gmail.com',
     now(),
     'me lo pase genial',
-    1
+    1, 0
 );
 
 INSERT INTO comentarios (autor, email_autor, fecha_hora, texto, idEvento) VALUES(
@@ -92,7 +93,7 @@ INSERT INTO comentarios (autor, email_autor, fecha_hora, texto, idEvento) VALUES
     'tu@gmail.com',
     now(),
     'me lo pase fatal',
-    1
+    1, 0
 );
 
 INSERT INTO comentarios (autor, email_autor, fecha_hora, texto, idEvento) VALUES(
@@ -100,7 +101,7 @@ INSERT INTO comentarios (autor, email_autor, fecha_hora, texto, idEvento) VALUES
     'el@gmail.com',
     now(),
     'me lo pase regular',
-    1
+    1, 0
 );
 
 -- imagenes:

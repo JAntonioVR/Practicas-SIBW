@@ -41,10 +41,17 @@
     $enlacesInteres      = $database->getEnlacesDeInteres($idEv);
     $palabras_prohibidas = $database->getPalabrasProhibidas();
     
+    session_start();
+    
+    if (isset($_SESSION['nicknameUsuario'])) {
+        $usuario = $database->getUsuario($_SESSION['nicknameUsuario']);
+    }
+
     // Renderiza el archivo
     echo $twig->render($file,['evento'              => $evento,
                               'comentarios'         => $comentarios,
                               'galeria'             => $galeria,
                               'enlaces'             => $enlacesInteres,
-                              'palabras_prohibidas' => $palabras_prohibidas]);
+                              'palabras_prohibidas' => $palabras_prohibidas,
+                              'usuario'             => $usuario]);
 ?>

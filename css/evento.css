@@ -114,6 +114,16 @@ body{
     border-radius: 5%;
 }
 
+.moderacion{
+    display: flex;
+    width: 20%;
+    padding: 5%;
+}
+
+.moderacion a img{
+    width: 100%;
+}
+
 form{
     display: flex;
     flex-direction: column;

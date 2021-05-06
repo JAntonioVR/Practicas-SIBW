@@ -6,7 +6,7 @@ $database = new Database();
 
 //$res = $database->checkLogin("JAntonio","peasoclave");
 
-$database->insertarUsuario("JAntonioVR", "Juan", "juan@gmail.com", "sibw", "super");
+$database->insertarUsuario("Moderador", "JAModerador", "juan@gmail.com", "sibw", "moderador");
 
 /*if($res === TRUE){
     echo "Se encontró";

@@ -119,13 +119,29 @@
             <div class="comentario">
                 <h4>{{ comentario['autor'] }}</h4>
                 <h5>{{ comentario['fecha_hora'] }}</h5>
-                {{ comentario['texto'] }}
+                {% if comentario['modificado'] == 1 %}
+                    <strong>Comentario modificado:<br></strong>
+                {% endif %}
+                {{ comentario['texto'] }}<br>
+                {% if usuario %}
+                    {% if usuario['tipo'] == 'super' or usuario['tipo'] == 'moderador' %}
+                        <div class="moderacion">
+                            <a href={{ comentario['linkEdicion'] }}>
+                                <img src="./img/edit.png">
+                            </a>
+                            <a href='#'>
+                                <img src="./img/delete.png">
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endif %}
             </div>
             {% endfor %}
 
         </div>
 
         <!--Formulario-->
+        {% if usuario %}
         <form>
             <div>Nombre: <input type="text" id="input_nombre"></div>
             <div>E-mail: <input type="text" id="input_email"></div>
@@ -136,6 +152,7 @@
             <button type="button" id="boton_enviar">Enviar</button>
             <div id="mensajes_error"></div>
         </form>
+        {% endif %}
 
     </div>
 

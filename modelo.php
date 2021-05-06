@@ -100,7 +100,7 @@ class Database{
     public function getComentarios($idEv){
 
          // Protección contra inyección SQL y consulta       
-        $stmt = $this->mysqli->prepare("SELECT autor, fecha_hora, texto FROM comentarios WHERE idEvento=?");
+        $stmt = $this->mysqli->prepare("SELECT id, autor, fecha_hora, texto, modificado FROM comentarios WHERE idEvento=?");
         $stmt-> bind_param("i", $idEv);
         $stmt-> execute();
         $res  = $stmt->get_result();
@@ -111,12 +111,15 @@ class Database{
         // Añadimos cada comentario al array
         while($row = $res->fetch_assoc()){
 
-            $date       = date_create($row['fecha_hora']);
-            $fecha      = date_format($date, 'd/m/y   H:i:s');
+            $date        = date_create($row['fecha_hora']);
+            $fecha       = date_format($date, 'd/m/y   H:i:s');
+            $linkEdicion = "./modifyComment.php?cm=" . $row['id'];
             $comentario = array(
-                'autor'      => $row['autor'],
-                'fecha_hora' => $fecha,
-                'texto'      => $row['texto']
+                'autor'       => $row['autor'],
+                'fecha_hora'  => $fecha,
+                'texto'       => $row['texto'],
+                'linkEdicion' => $linkEdicion,
+                'modificado'  => $row['modificado']
             );
 
             $comentarios[] = $comentario;
@@ -300,30 +303,44 @@ class Database{
         
     }
 
-    public function actualizaInformacion($nicknameViejo, $nickname, $nombre, $email, $clave){
+    public function actualizaInformacion($nickname, $nombre, $email, $clave){
 
-        //echo "MIRAAAAA" . $nicknameViejo . $nickname . $nombre . $email . $clave;
-
-        /*$consulta = "UPDATE usuario SET nickname=?, nombre=?, email=?, clave=? WHERE nickname=?";
+        $consulta = "UPDATE usuario SET nombre=?, email=?, clave=? WHERE nickname=?";
         $stmt = $this->mysqli->prepare($consulta);
-        $stmt->bind_param('sssss', $nickname, $nombre, $email, password_hash($clave, PASSWORD_DEFAULT), $nicknameViejo);
+        $stmt->bind_param("ssss", $nombre, $email, password_hash($clave, PASSWORD_DEFAULT), $nickname);
         $stmt->execute();
-        $res = $stmt->get_result();*/
-
-        $consulta = "UPDATE usuario SET nickname='" . $nickname . "' , nombre='" . $nombre . "' , email='" . $email . 
-                    "', clave='" . password_hash($clave, PASSWORD_DEFAULT) . "' WHERE nickname='" . $nicknameViejo. "'";
-        //echo $consulta;
-        $res = $this->mysqli->query($consulta);
+        $res = $stmt->get_result();
+        $stmt->close();
 
         return $res;
+    }
 
-        /*if($res === TRUE){
-            echo "Se ha modificado una fila";
-        }
-        else{
-            echo "Error al modificar la fila: ";
-            echo $consulta;
-        }*/
+    public function getComentario($id){
+
+        $consulta = "SELECT id, autor, texto, idEvento FROM comentarios WHERE id=?";
+        $stmt = $this->mysqli->prepare($consulta);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+
+        $comentario = -1;
+        
+        if( $res->num_rows === 1 )
+            $comentario = $res->fetch_assoc();
+
+        $stmt->close();
+        return $comentario;
+    }
+
+    public function modificaComentario($id, $texto){
+        $consulta = "UPDATE comentarios SET texto=?, modificado=1 WHERE id=?";
+        $stmt = $this->mysqli->prepare($consulta);
+        $stmt->bind_param("si", $texto, $id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close();
+
+        return $res;
     }
 
     //
