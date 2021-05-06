@@ -6,8 +6,6 @@
     $loader = new \Twig\Loader\FilesystemLoader('html');
     $twig   = new \Twig\Environment($loader);
 
-    require_once 'modelo.php';
-
     $database = new Database();
 
     session_start();

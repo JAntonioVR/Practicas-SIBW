@@ -114,11 +114,13 @@ class Database{
             $date        = date_create($row['fecha_hora']);
             $fecha       = date_format($date, 'd/m/y   H:i:s');
             $linkEdicion = "./modifyComment.php?cm=" . $row['id'];
+            $linkBorrado = "./deleteComment.php?cm=" . $row['id'];
             $comentario = array(
                 'autor'       => $row['autor'],
                 'fecha_hora'  => $fecha,
                 'texto'       => $row['texto'],
                 'linkEdicion' => $linkEdicion,
+                'linkBorrado' => $linkBorrado,
                 'modificado'  => $row['modificado']
             );
 
@@ -336,6 +338,17 @@ class Database{
         $consulta = "UPDATE comentarios SET texto=?, modificado=1 WHERE id=?";
         $stmt = $this->mysqli->prepare($consulta);
         $stmt->bind_param("si", $texto, $id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close();
+
+        return $res;
+    }
+
+    public function borraComentario($id){
+        $consulta = "DELETE FROM comentarios WHERE id=?";
+        $stmt = $this->mysqli->prepare($consulta);
+        $stmt->bind_param("i", $id);
         $stmt->execute();
         $res = $stmt->get_result();
         $stmt->close();
