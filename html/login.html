@@ -1,17 +1,13 @@
-<html>
-  <head>
-    <title> Log In </title>
-    <link rel="stylesheet" href="./css/login.css">
-  </head>
-  
-  <body>
-  
+{% extends "formularios.html" %}
+
+{% block cabecera %}
+    <title>Inicia Sesión</title>
+{% endblock %}
+
+{% block formulario %}
     <form action="login.php" method="post">
       Nickname: <input type="text" name="nickname" /><br>
       Contraseña: <input type="password" name="clave" /><br>
       <input type="submit" value="Log In" />
     </form>
-
-  </body>
-
-</html>
+{% endblock %}

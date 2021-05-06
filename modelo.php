@@ -300,6 +300,32 @@ class Database{
         
     }
 
+    public function actualizaInformacion($nicknameViejo, $nickname, $nombre, $email, $clave){
+
+        //echo "MIRAAAAA" . $nicknameViejo . $nickname . $nombre . $email . $clave;
+
+        /*$consulta = "UPDATE usuario SET nickname=?, nombre=?, email=?, clave=? WHERE nickname=?";
+        $stmt = $this->mysqli->prepare($consulta);
+        $stmt->bind_param('sssss', $nickname, $nombre, $email, password_hash($clave, PASSWORD_DEFAULT), $nicknameViejo);
+        $stmt->execute();
+        $res = $stmt->get_result();*/
+
+        $consulta = "UPDATE usuario SET nickname='" . $nickname . "' , nombre='" . $nombre . "' , email='" . $email . 
+                    "', clave='" . password_hash($clave, PASSWORD_DEFAULT) . "' WHERE nickname='" . $nicknameViejo. "'";
+        //echo $consulta;
+        $res = $this->mysqli->query($consulta);
+
+        return $res;
+
+        /*if($res === TRUE){
+            echo "Se ha modificado una fila";
+        }
+        else{
+            echo "Error al modificar la fila: ";
+            echo $consulta;
+        }*/
+    }
+
     //
     // ──────────────────────────────────────────────────────────────────────────────
     //

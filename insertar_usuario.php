@@ -4,15 +4,15 @@ include("modelo.php");
 
 $database = new Database();
 
-$res = $database->checkLogin("JAntonio","peasoclave");
+//$res = $database->checkLogin("JAntonio","peasoclave");
 
-//insertarUsuario("JAntonio", "Juan", "juan@gmail.com", "peasoclave", "super");
+$database->insertarUsuario("JAntonioVR", "Juan", "juan@gmail.com", "sibw", "super");
 
-if($res === TRUE){
+/*if($res === TRUE){
     echo "Se encontró";
 }
 else{
     echo "ERROR";
-}
+}*/
 
 ?>

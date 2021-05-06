@@ -1,0 +1,19 @@
+{% extends "formularios.html" %}
+
+{% block cabecera %}
+    <title>Editar Información</title>
+{% endblock %}
+
+{% block formulario %}
+    {% if usuario %}
+    <form action="modify.php" method="post">
+      Nickname: <input type="text" name="nicknameNuevo" value={{ usuario['nickname'] }} /><br>
+      Nombre: <input type="text" name="nombreNuevo" value={{ usuario['nombre'] }} /><br>
+      Email: <input type="text" name="emailNuevo" value={{ usuario['email'] }} /><br>
+      Contraseña: <input type="password" name="claveNueva" /><br>
+      <input type="submit" value="Editar" />
+    </form>
+    {% else %}
+        ERROR! NO SE HA ENCONTRADO USUARIO
+    {% endif %}
+{% endblock %}
