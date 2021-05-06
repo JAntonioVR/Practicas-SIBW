@@ -106,6 +106,24 @@
                 </item>
             </div>
         {% endif %}
+        
+        <!-- Tareas del gestor -->
+        {% if usuario %}
+            {% if usuario['tipo'] == 'super' or usuario['tipo'] == 'gestor' %}
+                <div class="edicion">
+                    <a href="./addEvent.php">
+                        <img src="./img/add.png">
+                    </a>
+                    <a href={{ evento['linkEdicion'] }}>
+                        <img src="./img/edit.png">
+                    </a>
+                    <a href={{ evento['linkBorrado'] }}>
+                        <img src="./img/delete.png">
+                    </a>
+                </div>
+            {% endif %}
+        {% endif %}
+
 
     </div>
 
@@ -123,9 +141,11 @@
                     <strong>Comentario modificado:<br></strong>
                 {% endif %}
                 {{ comentario['texto'] }}<br>
+
+                <!-- Tareas del moderador -->
                 {% if usuario %}
                     {% if usuario['tipo'] == 'super' or usuario['tipo'] == 'moderador' %}
-                        <div class="moderacion">
+                        <div class="edicion">
                             <a href={{ comentario['linkEdicion'] }}>
                                 <img src="./img/edit.png">
                             </a>
@@ -141,7 +161,7 @@
             <!-- Listado de todos los comentarios -->
             {% if usuario %}
                 {% if usuario['tipo'] == 'super' or usuario['tipo'] == 'moderador' %}
-                <a href="allComments.php">Lista de todos los comentarios</a>
+                    <a href="allComments.php">Lista de todos los comentarios</a>
                 {% endif %}
             {% endif %}
 

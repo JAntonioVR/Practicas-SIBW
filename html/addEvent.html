@@ -1,0 +1,36 @@
+{% extends "formularios.html" %}
+
+{% block cabecera %}
+    <title>Añadir Evento</title>
+{% endblock %}
+
+
+{% block formulario %}
+
+    {% for e in errores %}
+        <p style="color: black;">{{e}}</p>
+    {% endfor %}
+
+    {% if exito == 1 %}
+        <h4>Se ha insertado un evento con éxito!</h4><br>
+        <a href="./index.php">Volver a home</a>
+
+    {% else %}
+
+    <form action="addEvent.php" method="post" enctype="multipart/form-data">
+        Nombre <input type="text" name="nombre" /> <br>
+        Organizador <input type="text" name="organizador" /><br>
+        Fecha de Inicio <input type="text" name="fechaInicio" /> <br>
+        Fecha de Fin <input type="text" name="fechaFin" /><br>
+        Lugar <input type="text" name="lugar" /> <br>
+        Texto <input type="text" name="texto" /><br>
+        Logo <input type="file" name="logo" /><br>
+        Imagen Principal <input type="file" name="imagenPrincipal" /><br>
+        Web <input type="text" name="web" /> <br>
+        Twitter <input type="text" name="twitter" /><br>
+        Instagram <input type="text" name="instagram" /> <br>
+        Facebook <input type="text" name="facebook" /><br>
+        <input type="submit" value="Añadir" />
+    </form>
+    {% endif %}
+{% endblock %}

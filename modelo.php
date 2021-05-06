@@ -93,6 +93,22 @@ class Database{
 
     }
 
+    public function addEvento($nombre, $organizador, $fechaInicio, $fechaFinal, $lugar, $texto, $logo, $imagenPrincipal,
+                              $web, $twitter, $instagram, $facebook){
+
+        $consulta = "INSERT INTO eventos (nombre, organizador, fechaInicio, fechaFinal, lugar, texto, logo, imagenPrincipal, " . 
+        "web, twitter, instagram, facebook) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $this->mysqli->prepare($consulta);
+        $stmt->bind_param("ssssssssssss", $nombre, $organizador, $fechaInicio, 
+                          $fechaFinal, $lugar, $texto, $logo, $imagenPrincipal,
+                          $web, $twitter, $instagram, $facebook );
+        $stmt->execute();
+        $res = $stmt->get_result();
+
+        $stmt->close();
+        return $res;
+    }
+
     //
     // ─── CONSULTA DE COMENTARIOS ────────────────────────────────────────────────────
     // Busca y devuelve los datos de los comentarios de un evento concreto
