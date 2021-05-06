@@ -17,5 +17,12 @@
 
     $eventosPortada = $database->getEventosPortada();
 
-    echo $twig->render('portada.html',['eventosPortada' => $eventosPortada]);
+    session_start();
+    
+    if (isset($_SESSION['nicknameUsuario'])) {
+        $usuario = $database->getUsuario($_SESSION['nicknameUsuario']);
+    }
+
+    echo $twig->render('portada.html',['eventosPortada' => $eventosPortada,
+                                       'usuario'        => $usuario ]);
 ?>

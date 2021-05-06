@@ -23,6 +23,26 @@
             <div class="titulo">
             <h1>Nombre del sitio</h1>
             </div>
+
+            <!-- Log In -->
+            <div class="login">
+
+                {% if usuario %}
+                    <p>¡Hola <strong>{{ usuario['nickname'] }}!</strong></p>
+                    <p>Tu rol es <strong>{{ usuario['tipo'] }}</strong></p>
+                    <div class="log_out">
+                        <a href="./logout.php">
+                            <img src="./img/log-out.png">
+                            Cerrar Sesión
+                        </a>
+                    </div>
+                {% else %}
+                    <a href="./login.php">
+                        <img src="./img/log-in.png">
+                        Inicia Sesión
+                    </a>
+                {% endif %}
+            </div>
         </header>
         
         <!--Menu de la cabecera-->

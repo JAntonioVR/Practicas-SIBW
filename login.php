@@ -21,7 +21,7 @@
     }
         
     
-    header("Location: unaPaginaCualquiera.php");
+    header("Location: index.php");
     
     exit();
   }

@@ -18,7 +18,7 @@ header {
 header .titulo{
 	font-size: xx-large;
 	color: white;
-	width: 80%;
+	width: 65%;
 	text-align: center;
 }
 
@@ -29,6 +29,44 @@ header .logo{
 
 .logo img{
  	width: 100%;
+}
+
+header .login{
+	width: 15%;
+	align-items: center;
+    justify-content: center;
+	float: right;
+	color: white;
+}
+
+header .login a{
+	display: flex;
+	text-decoration: none;
+	color: white;
+}
+
+.login a:hover{
+	color: blue;
+}
+
+.login img{
+	width: 10%;
+	padding-right: 10%;
+}
+
+.logout a{
+	display: flex;
+	text-decoration: none;
+	color: white;
+}
+
+.logout a:hover{
+	color: blue;
+}
+
+.logout img{
+	width: 10%;
+	padding-right: 10%;
 }
 
 .cuerpo{
