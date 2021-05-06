@@ -80,7 +80,7 @@ INSERT INTO eventos (nombre, organizador, fechaInicio, fechaFinal, lugar, texto,
 
 -- comentarios:
 
-INSERT INTO comentarios (autor, email_autor, fecha_hora, texto, idEvento) VALUES(
+INSERT INTO comentarios (autor, email_autor, fecha_hora, texto, idEvento, modificado) VALUES(
     'Yo',
     'yo@gmail.com',
     now(),
@@ -88,7 +88,7 @@ INSERT INTO comentarios (autor, email_autor, fecha_hora, texto, idEvento) VALUES
     1, 0
 );
 
-INSERT INTO comentarios (autor, email_autor, fecha_hora, texto, idEvento) VALUES(
+INSERT INTO comentarios (autor, email_autor, fecha_hora, texto, idEvento, modificado) VALUES(
     'tu',
     'tu@gmail.com',
     now(),
@@ -96,7 +96,7 @@ INSERT INTO comentarios (autor, email_autor, fecha_hora, texto, idEvento) VALUES
     1, 0
 );
 
-INSERT INTO comentarios (autor, email_autor, fecha_hora, texto, idEvento) VALUES(
+INSERT INTO comentarios (autor, email_autor, fecha_hora, texto, idEvento, modificado) VALUES(
     'el',
     'el@gmail.com',
     now(),

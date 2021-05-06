@@ -138,6 +138,13 @@
             </div>
             {% endfor %}
 
+            <!-- Listado de todos los comentarios -->
+            {% if usuario %}
+                {% if usuario['tipo'] == 'super' or usuario['tipo'] == 'moderador' %}
+                <a href="allComments.php">Lista de todos los comentarios</a>
+                {% endif %}
+            {% endif %}
+
         </div>
 
         <!--Formulario-->

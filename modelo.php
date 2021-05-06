@@ -131,6 +131,37 @@ class Database{
         return $comentarios;
     }
 
+    public function getAllComments(){
+
+        $stmt = $this->mysqli->prepare("SELECT * FROM comentarios");
+        $stmt-> execute();
+        $res  = $stmt->get_result();
+
+        // Array inicialmente vacío de comentarios
+        $comentarios = array();
+
+        // Añadimos cada comentario al array
+        while($row = $res->fetch_assoc()){
+
+            $date        = date_create($row['fecha_hora']);
+            $fecha       = date_format($date, 'd/m/y   H:i:s');
+            $comentario = array(
+                'id'          => $row['id'],
+                'autor'       => $row['autor'],
+                'email_autor' => $row['email_autor'],
+                'fecha_hora'  => $fecha,
+                'texto'       => $row['texto'],
+                'idEvento'    => $row['idEvento'],
+                'modificado'  => $row['modificado']
+            );
+
+            $comentarios[] = $comentario;
+        }
+
+        $stmt->close();
+        return $comentarios;
+    }
+
 
     //
     // ─── CONSULTA DE EVENTOS EN LA PORTADA ──────────────────────────────────────────
