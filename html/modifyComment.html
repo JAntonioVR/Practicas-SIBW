@@ -6,7 +6,7 @@
 
 {% block formulario %}
     <form action="modifyComment.php" method="post">
-        ¿Qué comentario quieres editar? <input type="text" name="idEvento" value={{ comentario['id'] }} /> <br>
+        ¿Qué comentario quieres editar? <input type="text" name="idComentario" value={{ comentario['id'] }} /> <br>
         Comentario: <input type="text" name="nuevoComentario" value="{{ comentario['texto'] }}" /><br>
         <input type="submit" value="Editar" />
     </form>

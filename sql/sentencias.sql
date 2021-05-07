@@ -52,6 +52,13 @@ CREATE TABLE eventos_enlaces(
     PRIMARY KEY (idEvento, idEnlace)
 );
 
+CREATE TABLE etiquetas{
+    etiqueta VARCHAR(20) PRIMARY KEY,
+    idEvento INT,
+    FOREIGN KEY (idEvento) REFERENCES eventos(id),
+}
+-- FIXME ¿HAS CREADO ESTO?
+
 -- Insercion de tuplas --
 
 -- eventos:

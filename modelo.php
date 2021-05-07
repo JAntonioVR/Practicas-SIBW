@@ -39,6 +39,7 @@ class Database{
         
         // Evento por defecto
         $evento = array(
+            'id'          => -1,
             'nombre'      => 'No se ha seleccionado ningún evento', 
             'organizador' => 'Esta es la pantalla',
             'fechaInicio' => 'por defecto.',
@@ -55,7 +56,8 @@ class Database{
             'web'         => ' ',
             'twitter'     => ' ',
             'instagram'   => ' ',
-            'facebook'    => ' '
+            'facebook'    => ' ',
+            'linkEdicion' => ' '
         );
 
         $date       = date_create($row['fecha_hora']);
@@ -71,7 +73,11 @@ class Database{
             $dateFinal = date_create($row['fechaFinal']);
             $fechaFinal = date_format($dateFinal, 'd/m/y');
 
+            $linkEdicion = "./modifyEvent.php?ev=" . $idEv;
+            $linkBorrado = './deleteEvent.php?ev=' . $idEv;
+
             $evento = array(
+                'id'          => $idEv,
                 'nombre'      => $row['nombre'], 
                 'organizador' => $row['organizador'],
                 'fechaInicio' => $fechaInicio,
@@ -84,13 +90,30 @@ class Database{
                 'web'         => $row['web'],
                 'twitter'     => $row['twitter'],
                 'instagram'   => $row['instagram'],
-                'facebook'    => $row['facebook']
+                'facebook'    => $row['facebook'],
+                'linkEdicion' => $linkEdicion,
+                'linkBorrado' => $linkBorrado
             );
         }
 
         $stmt->close();
         return $evento;
 
+    }
+
+    public function getAllEventos(){
+        $consulta = "SELECT id from eventos";
+        $stmt = $this->mysqli->prepare($consulta);
+        $stmt-> execute();
+        $res = $stmt->get_result();
+
+        $eventos = array();
+
+        while($row = $res->fetch_assoc()){
+            $eventos[] = $this->getEvento($row['id']);
+        }
+
+        return $eventos;
     }
 
     public function addEvento($nombre, $organizador, $fechaInicio, $fechaFinal, $lugar, $texto, $logo, $imagenPrincipal,
@@ -107,6 +130,34 @@ class Database{
 
         $stmt->close();
         return $res;
+    }
+
+    public function modificaEvento($idEv, $nombre, $organizador, $fechaInicio, $fechaFinal, $lugar, $texto, $logo, $imagenPrincipal,
+    $web, $twitter, $instagram, $facebook){
+        // FIXME La inyeccion si eres capaz
+        /*$consulta = "UPDATE eventos SET nombre=?, organizador=?, fechaInicio=?, fechaFinal=?, lugar=?, texto=?, logo=?, imagenPrincipal=?, " . 
+        "web=?, twitter=?, instagram=?, facebook=? WHERE id=?";
+        $stmt = $this->mysqli->prepare($consulta);
+        $stmt->bind_param(  "ssssssssssssi", $nombre, $organizador, $fechaInicio, 
+                            $fechaFinal, $lugar, $texto, $logo, $imagenPrincipal,
+                            $web, $twitter, $instagram, $facebook, $idEv );
+        $stmt->execute();
+        $res = $stmt->get_result();*/
+        $consulta = "UPDATE eventos SET nombre='" . $nombre . "', organizador='" . $organizador . "', fechaInicio='" . $fechaInicio . "', fechaFinal='" . $fechaFinal . 
+        "', lugar='" . $lugar . "', texto='" . $texto . "', logo='" . $logo . "', imagenPrincipal='" . $imagenPrincipal . "', " . 
+        "web='" . $web . "', twitter='" . $twitter . "', instagram='" . $instagram . "', facebook='" . $facebook . "' WHERE id=" . $idEv;
+
+        $res = $this->mysqli->query($consulta);
+        
+        return $res;
+    }
+
+    public function borraEvento($idEv){
+        $consulta = "DELETE FROM eventos WHERE id=?";
+        $stmt = $this->mysqli->prepare($consulta);
+        $stmt->bind_param("i", $idEv);
+        $stmt->execute();
+        $stmt->close();
     }
 
     //
@@ -400,6 +451,20 @@ class Database{
         $res = $stmt->get_result();
         $stmt->close();
 
+        return $res;
+    }
+
+    public function addPhoto($ruta, $idEv){
+        $consulta = "INSERT INTO imagenes (ruta, idEvento) VALUES (?,?)";
+        $stmt = $this->mysqli->prepare($consulta);
+        $stmt->bind_param("si", $ruta, $idEv);
+        $stmt->execute();
+        if($stmt->affected_rows != -1)
+            $res = TRUE;
+        else
+            $res = FALSE;
+
+        $stmt->close();
         return $res;
     }
 

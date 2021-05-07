@@ -1,0 +1,35 @@
+{% extends "formularios.html" %}
+
+{% block cabecera %}
+    <title>Editar Evento</title>
+{% endblock %}
+
+{% block formulario %}
+
+    {% for e in errores %}
+        <p style="color: black;">{{e}}</p>
+    {% endfor %}
+
+    {% if exito == 1 %}
+        <h4>Se ha modificado un evento con éxito!</h4><br>
+        <a href="./index.php">Volver a home</a>
+    {% else %}
+        <form action="modifyEvent.php" method="post" enctype="multipart/form-data">
+            ¿Qué evento quieres editar? <input type="text" name="idEvento" value={{ evento['id'] }} /> <br>
+            Nombre <input type="text" name="nombre" value="{{ evento['nombre'] }}" /> <br>
+            Organizador <input type="text" name="organizador" value="{{ evento['organizador'] }}" /><br>
+            Fecha de Inicio <input type="text" name="fechaInicio" value={{ evento['fechaInicio'] }} /> <br>
+            Fecha de Fin <input type="text" name="fechaFin" value={{ evento['fechaFinal'] }} /><br>
+            Lugar <input type="text" name="lugar" value="{{ evento['lugar'] }}" /> <br>
+            Texto <input type="text" name="texto" value="{{ evento['texto'] }}" /><br>
+            Logo <input type="file" name="logo" /><br>
+            Imagen Principal <input type="file" name="imagenPrincipal" /><br>
+            Web <input type="text" name="web" value="{{ evento['web'] }}" /> <br>
+            Twitter <input type="text" name="twitter" value="{{ evento['twitter'] }}" /><br>
+            Instagram <input type="text" name="instagram" value="{{ evento['instagram'] }}" /> <br>
+            Facebook <input type="text" name="facebook" value="{{ evento['facebook'] }}" /><br>
+
+            <input type="submit" value="Editar" />
+        </form>
+    {% endif %}
+{% endblock %}

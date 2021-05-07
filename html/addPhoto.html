@@ -1,0 +1,23 @@
+{% extends "formularios.html" %}
+
+{% block cabecera %}
+    <title>Añadir Foto</title>
+{% endblock %}
+
+{% block formulario %}
+    {% for e in errores %}
+        <p style="color: black;">{{e}}</p>
+    {% endfor %}
+
+    {% if exito == 1 %}
+        <h4>Se ha añadido una foto con éxito!</h4><br>
+        <a href="./index.php"> Volver a home</a>
+    {% else %}
+        <form action="addPhoto.php" method="post" enctype="multipart/form-data">
+            Añade tu foto: <input type="file" name="nuevaFoto" /><br>
+            De qué evento es? <input type="text" name="idEvento" /><br>
+            <input type="submit" value="Editar" />
+        </form>
+
+    {% endif %}
+{% endblock %}

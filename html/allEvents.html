@@ -1,0 +1,28 @@
+{% extends "formularios.html" %}
+
+{% block cabecera %}
+    <title>Todos los eventos</title>
+{% endblock %}
+
+{% block formulario %}
+    <div class = "eventos">
+        {% for evento in eventos %}
+            <div class="evento">
+                <h4>ID del evento: </h4> {{ evento['id'] }}
+                <h4>Nombre: </h4> {{ evento['nombre'] }}
+                <h4>Organizador: </h4> {{ evento['organizador'] }}
+                <h4>Lugar: </h4> {{ evento['lugar'] }}
+                <h4>Fecha Inicio: </h4> {{ evento['fechaInicio'] }}
+                <h4>Fecha Final: </h4> {{ evento['fechaFinal'] }}
+                <h4>Web: </h4> {{ evento['web'] }}
+                <h4>Twitter: </h4> {{ evento['twitter'] }}
+                <h4>Instagram: </h4> {{ evento['instagram'] }}
+                <h4>Facebook: </h4> {{ evento['facebook'] }}<br>
+                <img src={{ evento['logo'] }}>
+            </div>
+            
+        {% endfor %}
+
+
+    </div>
+{% endblock %}

@@ -22,7 +22,7 @@
 
         $nuevoComentario = $_POST['nuevoComentario'];
 
-        $id = $_POST['idEvento'];
+        $id = $_POST['idComentario'];
       
         $database->modificaComentario($id, $nuevoComentario);
             

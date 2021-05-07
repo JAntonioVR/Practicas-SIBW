@@ -10,13 +10,19 @@
 
     session_start();
 
-    $logo = "./img/default.jpg";
-    $imagenPrincipal = "./img/default-image.png";
+    if(isset($_GET['ev']) and is_numeric($_GET['ev']) ){
+        $idEvento = $_GET['ev'];
+    }
 
     $varsParaTwig = [];
-    $varsParaTwig['exito'] = 0;
+    $varsParaTwig['exito'] = 0;    
+
+    $evento = $database->getEvento($idEvento);
+
+    $varsParaTwig['evento'] = $evento;
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
         $errors= array();
         if(isset($_FILES['logo'])){
             $file_name = $_FILES['logo']['name'];
@@ -36,8 +42,6 @@
             }
             
             if (empty($errors)==true) {
-
-
                 move_uploaded_file($file_tmp, "./img/" . $file_name);
               
                 $logo = "./img/" . $file_name;
@@ -71,7 +75,7 @@
             $varsParaTwig['errores'] = $errors;
         }
         else{
-
+            $idEvento = $_POST['idEvento'];
             $nombre = $_POST['nombre'];
             $organizador = $_POST['organizador'];
             $fechaInicio = $_POST['fechaInicio'];
@@ -82,19 +86,17 @@
             $twitter = $_POST['twitter'];
             $instagram = $_POST['instagram'];
             $facebook = $_POST['facebook'];
-            
-            $database->addEvento($nombre,$organizador, $fechaInicio, $fechaFin, $lugar, $texto, $logo,
-                                $imagenPrincipal, $web, $twitter, $instagram, $facebook);
-                                
-            $varsParaTwig['exito'] = 1;
-            
-        }
 
-       
-        
+            $res = $database->modificaEvento($idEvento, $nombre, $organizador, $fechaInicio, $fechaFin, $lugar, $texto, $logo, $imagenPrincipal,
+            $web, $twitter, $instagram, $facebook );
+
+            
+            if($res == TRUE)
+                $varsParaTwig['exito'] = 1;
+        }
+          
     }
 
-    echo $twig->render('addEvent.html',$varsParaTwig);
-
+    echo $twig->render('modifyEvent.html',$varsParaTwig);
 
 ?>
