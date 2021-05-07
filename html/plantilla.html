@@ -40,10 +40,20 @@
                             Editar Información
                         </a>
                     </div>
+                    {% if usuario['tipo'] == 'super' %}
+                        <a href="./cambiarPermisos.php">
+                            Cambiar Permisos
+                        </a>
+                    {% endif %}
+
                 {% else %}
                     <a href="./login.php">
                         <img src="./img/log-in.png">
                         Inicia Sesión
+                    </a>
+                    <a href="./addUser.php">
+                        <img src="./img/add-user.png">
+                        Registrate
                     </a>
                 {% endif %}
             </div>

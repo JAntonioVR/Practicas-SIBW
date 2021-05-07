@@ -1,0 +1,27 @@
+{% extends "formularios.html" %}
+
+{% block cabecera %}
+    <title>Cambiar Permisos</title>
+{% endblock %}
+
+
+{% block formulario %}
+    {% if exito == 1 %}
+        <h4>Se ha cambiado el tipo de usuario con éxito </h4>
+        <p><a href="./index.php"> Volver a home</a></p>
+
+    {% elseif exito == -1 %}
+        <h4>Ha ocurrido algún error </h4><br><br>
+        <p><a href="./cambiarPermisos.php"> Volver a intentarlo</a></p>
+        <p><a href="./index.php"> Volver a home</a></p>
+
+    {% else %}
+        <form action="cambiarPermisos.php" method="post">
+            <h4>Inserta el nick y el nuevo tipo del usuario deseado:</h4>
+        Nombre: <input type="text" name="nickname" /><br>
+        Nuevo tipo: <input type="text" name="nuevoTipo" /><br>
+
+        <input type="submit" value="Cambiar" />
+        </form>
+    {% endif %}
+{% endblock %}

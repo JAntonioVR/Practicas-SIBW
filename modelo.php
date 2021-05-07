@@ -75,6 +75,7 @@ class Database{
 
             $linkEdicion = "./modifyEvent.php?ev=" . $idEv;
             $linkBorrado = './deleteEvent.php?ev=' . $idEv;
+            $linkComentario = './addComment.php?ev=' . $idEv;
 
             $evento = array(
                 'id'          => $idEv,
@@ -92,7 +93,8 @@ class Database{
                 'instagram'   => $row['instagram'],
                 'facebook'    => $row['facebook'],
                 'linkEdicion' => $linkEdicion,
-                'linkBorrado' => $linkBorrado
+                'linkBorrado' => $linkBorrado,
+                'linkComentario'=> $linkComentario
             );
         }
 
@@ -415,6 +417,25 @@ class Database{
         return $res;
     }
 
+    public function modificaTipoUsuario($nickname, $nuevoTipo){
+
+        $consulta = "UPDATE usuario SET tipo=? WHERE nickname=?";
+        $stmt = $this->mysqli->prepare($consulta);
+        $stmt->bind_param("ss", $nuevoTipo, $nickname);
+        $stmt->execute();
+
+        if($stmt->affected_rows == 1)
+            $res = TRUE;
+        else
+            $res = FALSE;
+
+        $stmt->close();
+
+        return $res;
+
+
+    }
+
     public function getComentario($id){
 
         $consulta = "SELECT id, autor, texto, idEvento FROM comentarios WHERE id=?";
@@ -430,6 +451,24 @@ class Database{
 
         $stmt->close();
         return $comentario;
+    }
+
+    public function addComentario($autor, $email_autor, $texto, $idEv){
+
+        $consulta = "INSERT INTO comentarios (autor, email_autor, fecha_hora, texto, idEvento, modificado) VALUES " . 
+                    "(?, ?, now(), ?, ?, 0)";
+
+        $stmt = $this->mysqli->prepare($consulta);
+        $stmt ->bind_param("sssi", $autor, $email_autor, $texto, $idEv);
+        $stmt->execute();
+        if($stmt->affected_rows != -1){
+            $res = TRUE;
+        }
+        else $res = FALSE;
+
+        $stmt->close();
+        return $res;
+
     }
 
     public function modificaComentario($id, $texto){
