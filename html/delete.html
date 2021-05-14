@@ -1,0 +1,17 @@
+{% extends "formularios.html" %}
+
+{% block cabecera %}
+    <title>Elimina {{ whatis }}</title>
+{% endblock %}
+
+{% block formulario %}
+    {% if exito == 1 %}
+        <h4>Se ha eliminado el {{ whatis }} con éxito</h4>
+        <h4><a href="./index.php">Volver a home</a></h4>
+    {% else %}
+        <h4>Ha ocurrido un error en la eliminación </h4>
+        {{ error }}
+        <h4><a href="./index.php">Volver a home</a></h4>
+    {% endif %}
+
+{% endblock %}

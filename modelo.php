@@ -128,7 +128,11 @@ class Database{
                           $fechaFinal, $lugar, $texto, $logo, $imagenPrincipal,
                           $web, $twitter, $instagram, $facebook );
         $stmt->execute();
-        $res = $stmt->get_result();
+
+        if($stmt->affected_rows != -1){
+            $res = TRUE;
+        }
+        else $res = FALSE;
 
         $stmt->close();
         return $res;
@@ -136,22 +140,24 @@ class Database{
 
     public function modificaEvento($idEv, $nombre, $organizador, $fechaInicio, $fechaFinal, $lugar, $texto, $logo, $imagenPrincipal,
     $web, $twitter, $instagram, $facebook){
-        // FIXME La inyeccion si eres capaz
-        /*$consulta = "UPDATE eventos SET nombre=?, organizador=?, fechaInicio=?, fechaFinal=?, lugar=?, texto=?, logo=?, imagenPrincipal=?, " . 
-        "web=?, twitter=?, instagram=?, facebook=? WHERE id=?";
+
+        $consulta = "UPDATE eventos SET nombre=?, organizador=?, fechaInicio=?, fechaFinal=?, lugar=?, texto=?, logo=?, imagenPrincipal=?, " . 
+                    "web=?, twitter=?, instagram=?, facebook=? WHERE id=?";
         $stmt = $this->mysqli->prepare($consulta);
         $stmt->bind_param(  "ssssssssssssi", $nombre, $organizador, $fechaInicio, 
                             $fechaFinal, $lugar, $texto, $logo, $imagenPrincipal,
                             $web, $twitter, $instagram, $facebook, $idEv );
         $stmt->execute();
-        $res = $stmt->get_result();*/
-        $consulta = "UPDATE eventos SET nombre='" . $nombre . "', organizador='" . $organizador . "', fechaInicio='" . $fechaInicio . "', fechaFinal='" . $fechaFinal . 
-        "', lugar='" . $lugar . "', texto='" . $texto . "', logo='" . $logo . "', imagenPrincipal='" . $imagenPrincipal . "', " . 
-        "web='" . $web . "', twitter='" . $twitter . "', instagram='" . $instagram . "', facebook='" . $facebook . "' WHERE id=" . $idEv;
 
-        $res = $this->mysqli->query($consulta);
-        
+                
+        if($stmt->affected_rows == 1)
+            $res = TRUE;
+        else
+            $res = FALSE;
+
+        $stmt->close();
         return $res;
+
     }
 
     public function borraEvento($idEv){
@@ -159,7 +165,14 @@ class Database{
         $stmt = $this->mysqli->prepare($consulta);
         $stmt->bind_param("i", $idEv);
         $stmt->execute();
+
+        if($stmt->affected_rows != -1)
+            $res = TRUE;
+        else
+            $res = FALSE;
+
         $stmt->close();
+        return $res;
     }
 
     //
@@ -362,25 +375,6 @@ class Database{
 
     }
 
-    public function checkLogin($nickname, $clave){
-
-        $stmt = $this->mysqli->prepare("SELECT clave FROM usuario WHERE nickname=?");
-        $stmt->bind_param("s", $nickname);
-        $stmt->execute();
-        $res  = $stmt->get_result();
-        $stmt->close();
-
-        $found = FALSE;
-
-        if( $res->num_rows === 1 ){
-            $row = $res->fetch_assoc();
-            if( password_verify($clave, $row['clave'] ))
-                $found = TRUE;
-        }
-        
-        return $found;
-    }
-
     public function getUsuario($nickname){
         $consulta = "SELECT * FROM usuario WHERE nickname=?";
         $stmt = $this->mysqli->prepare($consulta);
@@ -405,13 +399,30 @@ class Database{
         
     }
 
+    public function checkLogin($nickname, $clave){
+        $found = false;
+        $user = $this->getUsuario($nickname);
+        if($user!=-1){
+            if(password_verify($clave, $user['clave'])){
+                $found = TRUE;
+            }
+        }
+
+        return $found;
+    }
+
     public function actualizaInformacion($nickname, $nombre, $email, $clave){
 
         $consulta = "UPDATE usuario SET nombre=?, email=?, clave=? WHERE nickname=?";
         $stmt = $this->mysqli->prepare($consulta);
         $stmt->bind_param("ssss", $nombre, $email, password_hash($clave, PASSWORD_DEFAULT), $nickname);
         $stmt->execute();
-        $res = $stmt->get_result();
+        
+        if($stmt->affected_rows == 1)
+            $res = TRUE;
+        else
+            $res = FALSE;
+
         $stmt->close();
 
         return $res;
@@ -461,6 +472,7 @@ class Database{
         $stmt = $this->mysqli->prepare($consulta);
         $stmt ->bind_param("sssi", $autor, $email_autor, $texto, $idEv);
         $stmt->execute();
+        
         if($stmt->affected_rows != -1){
             $res = TRUE;
         }
@@ -476,9 +488,13 @@ class Database{
         $stmt = $this->mysqli->prepare($consulta);
         $stmt->bind_param("si", $texto, $id);
         $stmt->execute();
-        $res = $stmt->get_result();
-        $stmt->close();
 
+        if($stmt->affected_rows == 1)
+            $res = TRUE;
+        else
+            $res = FALSE;
+
+        $stmt->close();
         return $res;
     }
 
@@ -487,9 +503,12 @@ class Database{
         $stmt = $this->mysqli->prepare($consulta);
         $stmt->bind_param("i", $id);
         $stmt->execute();
-        $res = $stmt->get_result();
-        $stmt->close();
+        if($stmt->affected_rows != -1)
+            $res = TRUE;
+        else
+            $res = FALSE;
 
+        $stmt->close();
         return $res;
     }
 

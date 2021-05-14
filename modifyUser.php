@@ -11,6 +11,7 @@
     $database = new Database();
 
     session_start();
+    $exito = 0;
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -18,18 +19,20 @@
         $emailNuevo  = $_POST['emailNuevo'];
         $claveNueva = $_POST['claveNueva'];
       
-        $database->actualizaInformacion($_SESSION['nicknameUsuario'], $nombreNuevo, $emailNuevo, $claveNueva);
+        $res = $database->actualizaInformacion($_SESSION['nicknameUsuario'], $nombreNuevo, $emailNuevo, $claveNueva);
+
+        if($res) $exito = 1;
+        else $exito = -1;
             
-        header("Location: index.php");
-        
-        exit();
       }
 
     if (isset($_SESSION['nicknameUsuario'])) {
         $usuario = $database->getUsuario($_SESSION['nicknameUsuario']);
+        assert($usuario!=-1);
     }
 
-    echo $twig->render('modifyUser.html',['usuario' => $usuario ]);
+    echo $twig->render('modifyUser.html',['usuario' => $usuario,
+                                          'exito'   => $exito ]);
 
 
 ?>

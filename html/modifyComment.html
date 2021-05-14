@@ -5,9 +5,18 @@
 {% endblock %}
 
 {% block formulario %}
-    <form action="modifyComment.php" method="post">
-        ¿Qué comentario quieres editar? <input type="text" name="idComentario" value={{ comentario['id'] }} /> <br>
+    {% if exito == 1 %}
+        <h4>Se ha modificado el comentario con éxito</h4>
+        <h4><a href="./index.php">Volver a home</a></h4>
+    {% elseif exito == -1 %}
+        <h4>Ha ocurrido un error en la modificación </h4>
+        {{ error }}
+        <h4><a href="./index.php">Volver a home</a></h4>
+    {% else %}
+    <form action={{ link }} method="post">
+        <!--¿Qué comentario quieres editar? <input type="text" name="idComentario" value={{ comentario['id'] }} /> <br>-->
         Comentario: <input type="text" name="nuevoComentario" value="{{ comentario['texto'] }}" /><br>
         <input type="submit" value="Editar" />
     </form>
+    {% endif %}
 {% endblock %}

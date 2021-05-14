@@ -13,9 +13,9 @@
     {% if exito == 1 %}
         <h4>Se ha modificado un evento con éxito!</h4><br>
         <a href="./index.php">Volver a home</a>
+
     {% else %}
-        <form action="modifyEvent.php" method="post" enctype="multipart/form-data">
-            ¿Qué evento quieres editar? <input type="text" name="idEvento" value={{ evento['id'] }} /> <br>
+        <form action={{ link }} method="post" enctype="multipart/form-data"> <br>
             Nombre <input type="text" name="nombre" value="{{ evento['nombre'] }}" /> <br>
             Organizador <input type="text" name="organizador" value="{{ evento['organizador'] }}" /><br>
             Fecha de Inicio <input type="text" name="fechaInicio" value={{ evento['fechaInicio'] }} /> <br>

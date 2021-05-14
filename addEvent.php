@@ -15,9 +15,10 @@
 
     $varsParaTwig = [];
     $varsParaTwig['exito'] = 0;
-    
+    $errores = array();
+
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $errors= array();
+        $errorsLogo = array();
         if(isset($_FILES['logo'])){
             $file_name = $_FILES['logo']['name'];
             $file_size = $_FILES['logo']['size'];
@@ -28,21 +29,21 @@
             $extensions= array("jpeg","jpg","png");
             
             if (in_array($file_ext, $extensions) === false){
-                $errors[] = "Extensión no permitida, elige una imagen JPEG o PNG.";
+                $errorsLogo[] = "Logo: Extensión no permitida, elige una imagen JPEG o PNG.";
             }
             
             if ($file_size > 2097152){
-                $errors[] = 'Tamaño del fichero demasiado grande';
+                $errorsLogo[] = 'Logo: Tamaño del fichero demasiado grande';
             }
             
-            if (empty($errors)==true) {
+            if (empty($errorsLogo)==true) {
 
-
-                move_uploaded_file($file_tmp, "./img/" . $file_name);
+                move_uploaded_file($file_tmp, "./img/" . "$file_name");
               
-                $logo = "./img/" . $file_name;
+                $logo = "./img/" . "$file_name";
             }
         }
+        $errorsIP = array();
         if(isset($_FILES['imagenPrincipal'])){
             $file_name = $_FILES['imagenPrincipal']['name'];
             $file_size = $_FILES['imagenPrincipal']['size'];
@@ -53,22 +54,23 @@
             $extensions= array("jpeg","jpg","png");
             
             if (in_array($file_ext, $extensions) === false){
-                $errors[] = "Extensión no permitida, elige una imagen JPEG o PNG.";
+                $errorsIP[] = "Imagen Principal: Extensión no permitida, elige una imagen JPEG o PNG.";
             }
             
             if ($file_size > 2097152){
-                $errors[] = 'Tamaño del fichero demasiado grande';
+                $errorsIP[] = 'Imagen Principal: Tamaño del fichero demasiado grande';
             }
             
-            if (empty($errors)==true) {
+            if (empty($errorsIP)==true) {
                 
-                move_uploaded_file($file_tmp, "./img/" . $file_name);
+                move_uploaded_file($file_tmp, "./img/" . "$file_name");
               
-                $imagenPrincipal = "./img/" . $file_name;
+                $imagenPrincipal = "./img/" . "$file_name";
             }
         }
-        if (sizeof($errors) > 0) {
-            $varsParaTwig['errores'] = $errors;
+        if (sizeof($errorsLogo) > 0 or sizeof($errorsIP) > 0 ) {
+            $errores = array_merge($errorsLogo, $errorsIP);
+            $varsParaTwig['exito'] = -1;
         }
         else{
 
@@ -83,12 +85,19 @@
             $instagram = $_POST['instagram'];
             $facebook = $_POST['facebook'];
             
-            $database->addEvento($nombre,$organizador, $fechaInicio, $fechaFin, $lugar, $texto, $logo,
+            $res = $database->addEvento($nombre,$organizador, $fechaInicio, $fechaFin, $lugar, $texto, $logo,
                                 $imagenPrincipal, $web, $twitter, $instagram, $facebook);
                                 
-            $varsParaTwig['exito'] = 1;
+            
+            if($res)    $varsParaTwig['exito'] = 1;
+            else{
+                $errores[] = "Error al insertar el nuevo evento. ";
+                $varsParaTwig['exito'] = -1;
+            } 
             
         }
+
+        $varsParaTwig['errores'] = $errores;
 
        
         

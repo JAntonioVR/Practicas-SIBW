@@ -18,12 +18,11 @@
         $nuevoTipo = $_POST['nuevoTipo'];
       
         $res = $database->modificaTipoUsuario($nickname, $nuevoTipo);
-        if($res == TRUE){
+        
+        if($res)
             $varsParaTwig['exito'] = 1;
-        }
-        else{
+        else
             $varsParaTwig['exito'] = -1;
-        }
             
         
       }

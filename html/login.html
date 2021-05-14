@@ -5,9 +5,17 @@
 {% endblock %}
 
 {% block formulario %}
-    <form action="login.php" method="post">
-      Nickname: <input type="text" name="nickname" /><br>
-      Contraseña: <input type="password" name="clave" /><br>
-      <input type="submit" value="Log In" />
-    </form>
+
+    {% if exito == 1 %}
+        Bienvenido de nuevo! <br> <a href="./index.php">Volver a Home</a>
+    {% elseif exito == -1 %}
+        Ha ocurrido un error <br> <a href="./index.php">Volver a Home</a> 
+    {% else %}
+        <form action="login.php" method="post">
+            Nickname: <input type="text" name="nickname" /><br>
+            Contraseña: <input type="password" name="clave" /><br>
+            <input type="submit" value="Log In" />
+        </form>
+    {% endif %}
+
 {% endblock %}

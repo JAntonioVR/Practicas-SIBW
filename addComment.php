@@ -20,7 +20,7 @@
         $email_autor   = $_POST['email_autor'];
         $texto    = $_POST['texto'];
 
-        $res = $database->addComentario($autor, $email_autor, $texto, $idEvento);
+        $database->addComentario($autor, $email_autor, $texto, $idEvento);
     }
     
     header("Location: evento.php?ev=".$idEvento);
