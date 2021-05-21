@@ -18,6 +18,7 @@ class Database{
     public function __construct(){
 
         $this->mysqli = new mysqli("mysql", "JuanAntonio", "sibw", "SIBW");
+        $this->mysqli->set_charset("utf8");
 
         if( $this->mysqli->connect_errno ){
             echo ("Fallo al conectar: " . $this->mysqli->connect_error);
@@ -57,6 +58,7 @@ class Database{
             'twitter'     => ' ',
             'instagram'   => ' ',
             'facebook'    => ' ',
+            'etiquetas'   => ' ',
             'linkEdicion' => ' '
         );
 
@@ -92,6 +94,7 @@ class Database{
                 'twitter'     => $row['twitter'],
                 'instagram'   => $row['instagram'],
                 'facebook'    => $row['facebook'],
+                'etiquetas'   => $row['etiquetas'],
                 'linkEdicion' => $linkEdicion,
                 'linkBorrado' => $linkBorrado,
                 'linkComentario'=> $linkComentario
@@ -115,6 +118,29 @@ class Database{
             $eventos[] = $this->getEvento($row['id']);
         }
 
+        return $eventos;
+    }
+
+    public function buscaEventos($busqueda){
+        $consulta = "SELECT nombre, id FROM eventos WHERE texto LIKE ? ";
+        $stmt = $this->mysqli->prepare($consulta);
+        $busqueda = "%" . $busqueda . "%";
+        $stmt->bind_param('s', $busqueda);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $eventos = array();
+        if( $stmt->affected_rows != -1 ){
+            while($row = $res->fetch_assoc()){
+                $evento = array(
+                    'nombre' => $row['nombre'],
+                    'link'   => "./evento.php?ev=" . $row['id'] 
+                );
+                $eventos[] = $evento;
+            }
+        }
+        else $eventos = -1;
+
+        $stmt->close();
         return $eventos;
     }
 
@@ -215,7 +241,8 @@ class Database{
 
     public function getAllComments(){
 
-        $stmt = $this->mysqli->prepare("SELECT * FROM comentarios");
+        $stmt = $this->mysqli->prepare("SELECT comentarios.id, autor, email_autor, fecha_hora, comentarios.texto, modificado, nombre " . 
+        " FROM comentarios INNER JOIN eventos where comentarios.idEvento = eventos.id");
         $stmt-> execute();
         $res  = $stmt->get_result();
 
@@ -233,7 +260,7 @@ class Database{
                 'email_autor' => $row['email_autor'],
                 'fecha_hora'  => $fecha,
                 'texto'       => $row['texto'],
-                'idEvento'    => $row['idEvento'],
+                'evento'      => $row['nombre'],
                 'modificado'  => $row['modificado']
             );
 
@@ -352,6 +379,39 @@ class Database{
         return $enlaces;
     }
 
+    public function addEtiquetas($id, $etiquetas){
+        $regexp = "([^,]+)";
+        if(!preg_match($regexp, $etiquetas))
+            return FALSE;
+        
+        $consulta1 = "SELECT etiquetas FROM eventos WHERE id=?";
+        $stmt = $this->mysqli->prepare($consulta1);
+        $stmt->bind_param("i",$id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        if( $res->num_rows != 1 )
+            return FALSE;
+
+        $row = $res->fetch_assoc();
+
+        $stmt->close();
+
+        $etiquetasActuales = $row['etiquetas'];
+        $etiquetasNuevas = $etiquetasActuales . "," . $etiquetas;
+
+        $consulta2 = "UPDATE eventos set etiquetas=? where id=?";
+        $stmt = $this->mysqli->prepare($consulta2);
+        $stmt->bind_param("si",$etiquetasNuevas, $id);
+        $stmt->execute();
+
+        if($stmt->affected_rows == 1)
+            $res = TRUE;
+        else
+            $res = FALSE;
+        $stmt->close();
+        return $res;
+    }
+
     public function insertarUsuario($nickname, $nombre, $email, $clave, $tipo){
         $consulta_insercion = "INSERT INTO usuario VALUES ('" .
                             $nickname . "', '" . $nombre . "', '" . $email . 
@@ -467,7 +527,7 @@ class Database{
     public function addComentario($autor, $email_autor, $texto, $idEv){
 
         $consulta = "INSERT INTO comentarios (autor, email_autor, fecha_hora, texto, idEvento, modificado) VALUES " . 
-                    "(?, ?, now(), ?, ?, 0)";
+                    "(?, ?, now(), ?, ?, false)";
 
         $stmt = $this->mysqli->prepare($consulta);
         $stmt ->bind_param("sssi", $autor, $email_autor, $texto, $idEv);
@@ -484,7 +544,7 @@ class Database{
     }
 
     public function modificaComentario($id, $texto){
-        $consulta = "UPDATE comentarios SET texto=?, modificado=1 WHERE id=?";
+        $consulta = "UPDATE comentarios SET texto=?, modificado=true WHERE id=?";
         $stmt = $this->mysqli->prepare($consulta);
         $stmt->bind_param("si", $texto, $id);
         $stmt->execute();
@@ -510,6 +570,33 @@ class Database{
 
         $stmt->close();
         return $res;
+    }
+
+    public function buscaComentarios($busqueda){
+        $consulta = "SELECT autor, fecha_hora, comentarios.texto, nombre FROM eventos INNER JOIN comentarios WHERE comentarios.texto LIKE ? AND eventos.id=comentarios.idEvento";
+        $stmt = $this->mysqli->prepare($consulta);
+        $busqueda = "%" . $busqueda . "%";
+        $stmt->bind_param('s', $busqueda);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $comentarios = array();
+        if( $stmt->affected_rows != -1 ){
+            while($row = $res->fetch_assoc()){
+                $date        = date_create($row['fecha_hora']);
+                $fecha       = date_format($date, 'd/m/y   H:i:s');
+                $comentario = array(
+                    'autor'      => $row['autor'],
+                    'fecha_hora' => $fecha,
+                    'texto'      => $row['texto'],
+                    'evento'     => $row['nombre'] 
+                );
+                $comentarios[] = $comentario;
+            }
+        }
+        else $comentarios = -1;
+
+        $stmt->close();
+        return $comentarios;  
     }
 
     public function addPhoto($ruta, $idEv){

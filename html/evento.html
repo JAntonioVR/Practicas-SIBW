@@ -107,6 +107,12 @@
                 </item>
             </div>
         {% endif %}
+
+        <!-- Etiquetas -->
+        {% if evento['etiquetas'] %}
+            <h4>Etiquetas: </h4>
+            {{ evento['etiquetas'] }}
+        {% endif %}
         
         <!-- Tareas del gestor -->
         {% if usuario %}
@@ -122,9 +128,22 @@
                         <img src="./img/delete.png">
                     </a>
                 </div>
-                <a href="./allEvents.php">Lista de todos los eventos</a><br>
-                <a href="./addPhoto.php">Añade alguna foto a la galería</a><br> <!-- FIXME Que pille directamente el ID -->
-                <a href="./addTags.php">Modificar etiquetas</a> <!-- FIXME -->
+                <form method="POST" action="./buscarEvento.php">
+                    Busca evento por palabras:
+                    <input type="search" name="busqueda">
+                    <button>Busca</button>
+                </form>
+                <form method="POST" action="./allEvents.php">
+                    <button>Lista de todos los eventos</button>
+                </form>
+                <form method="POST" action="./addPhoto.php">
+                    <input type="text" class="identificador" name="idEvento" value={{ evento['id'] }} >
+                    <button>Añade alguna foto a la galería</button>
+                </form>
+                <form method="POST" action="addEtiqueta.php">
+                    <input type="text" name="idEvento" value={{ evento['id'] }} style="display: none;">
+		            <button>Modificar etiquetas</button>
+                </form>
             {% endif %}
         {% endif %}
 
@@ -141,7 +160,7 @@
             <div class="comentario">
                 <h4>{{ comentario['autor'] }}</h4>
                 <h5>{{ comentario['fecha_hora'] }}</h5>
-                {% if comentario['modificado'] == 1 %}
+                {% if comentario['modificado'] %}
                     <strong>Comentario modificado:<br></strong>
                 {% endif %}
                 {{ comentario['texto'] }}<br>
@@ -164,9 +183,14 @@
             </div>
             {% endfor %}
 
-            <!-- Listado de todos los comentarios -->
+            <!-- Búsqueda y listado de todos los comentarios -->
             {% if usuario %}
                 {% if usuario['tipo'] == 'super' or usuario['tipo'] == 'moderador' %}
+                    <form method="POST" action="./buscarComentarios.php">
+                        Busca comentario por palabras:
+                        <input type="search" name="busqueda">
+                        <button>Busca</button>
+                    </form>
                     <a href="allComments.php">Lista de todos los comentarios</a>
                 {% endif %}
             {% endif %}

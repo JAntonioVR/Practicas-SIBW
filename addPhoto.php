@@ -14,6 +14,9 @@
     $varsParaTwig['exito'] = 0;
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if(isset($_POST['idEvento'])){
+            $varsParaTwig['idEvento'] = $_POST['idEvento'];
+        }
         $errors= array();
         if(isset($_FILES['nuevaFoto'])){
             $file_name = $_FILES['nuevaFoto']['name'];
@@ -39,18 +42,19 @@
               
                 $nuevaFoto = "./img/" . $file_name;
             }
-        }
-        if (sizeof($errors) > 0) {
-            $varsParaTwig['errores'] = $errors;
-        }
-        else{
-            $idEvento = $_POST['idEvento'];
-            $res = $database->addPhoto($nuevaFoto, $idEvento);
-
-            if($res === TRUE){
-                $varsParaTwig['exito'] = 1;
+            if (sizeof($errors) > 0) {
+                $varsParaTwig['errores'] = $errors;
+            }
+            else{
+                $idEvento = $_POST['idEvento'];
+                $res = $database->addPhoto($nuevaFoto, $idEvento);
+    
+                if($res === TRUE){
+                    $varsParaTwig['exito'] = 1;
+                }
             }
         }
+        
     }
 
     echo $twig->render('addPhoto.html',$varsParaTwig);

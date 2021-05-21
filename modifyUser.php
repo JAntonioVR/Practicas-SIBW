@@ -24,7 +24,7 @@
         if($res) $exito = 1;
         else $exito = -1;
             
-      }
+    }
 
     if (isset($_SESSION['nicknameUsuario'])) {
         $usuario = $database->getUsuario($_SESSION['nicknameUsuario']);

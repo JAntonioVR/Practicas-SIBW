@@ -1,0 +1,27 @@
+{% extends "formularios.html" %}
+
+{% block cabecera %}
+    <title>Añadir Etiquetas</title>
+{% endblock %}
+
+{% block formulario %}
+    {% if exito == 1 %}
+    <div class="info">
+        <h4>Etiquetas añadidas con éxito</h4>
+        <h4><a href="./index.php">Volver a home</a></h4>
+    </div>
+    {% elseif exito == -1 %}
+        <h4>Ha ocurrido un error en la modificación </h4>
+        {% for e in errores %}
+            {{ e }}
+        {% endfor %}
+        <h4><a href="./index.php">Volver a home</a></h4>
+    {% else %}
+    <form action="addEtiqueta.php" method="post">
+        <input type="text" class="identificador" name="idEvento" value={{ idEvento }}> <br>
+        Etiquetas (separadas por comas): 
+        <input type="text" name="etiquetasNuevas"/><br>
+        <input type="submit" value="Añadir" />
+    </form>
+    {% endif %}
+{% endblock %}

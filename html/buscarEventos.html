@@ -1,0 +1,36 @@
+{% extends "formularios.html" %}
+
+{% block cabecera %}
+    <title>Buscar Eventos</title>
+{% endblock %}
+
+{% block formulario %}
+
+    {% if exito == 1 %}
+        <div class="info">
+            {% if eventos %}
+            Se han encontrado los siguientes eventos:<br>
+            <ul>
+                {% for evento in eventos %}
+                    <li> 
+                        <a href={{ evento['link'] }}>
+                            <h4>{{ evento['nombre'] }}</h4><br>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <h4>No se han encontrado eventos</h4>
+            {% endif %}
+
+            <h4><a href="./index.php">Volver a home</a></h4>
+        </div>
+    {% else %}
+        <h4>Ha ocurrido algún error</h4>
+        {% for e in errores %}
+            {{ e }}
+        {% endfor %}
+        <h4><a href="./index.php">Volver a home</a></h4>
+    {% endif %}
+
+{% endblock %}

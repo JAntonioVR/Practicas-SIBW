@@ -1,0 +1,42 @@
+{% extends "formularios.html" %}
+
+{% block cabecera %}
+    <title>Buscar Eventos</title>
+{% endblock %}
+
+{% block formulario %}
+
+    {% if exito == 1 %}
+        {% if comentarios %}
+        <div class="info">
+            Se han encontrado los siguientes comentarios:<br>
+            <h4><a href="./index.php">Volver a home</a></h4>
+        </div>
+        <div class="comentarios">
+            {% for comentario in comentarios %}
+                <div class="comentario">
+                    <h4>{{ comentario['autor'] }}</h4>
+                    <h5>{{ comentario['fecha_hora'] }}</h5>
+                    {{ comentario['texto'] }}
+                    <h4>Evento referido: </h4> {{ comentario['evento'] }}
+                </div>
+            {% endfor %}
+        </div>
+            
+        {% else %}
+            <div class="info">
+                <h4>No se han encontrado comentarios</h4>
+                <h4><a href="./index.php">Volver a home</a></h4>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="info">
+            <h4>Ha ocurrido algún error</h4>
+            {% for e in errores %}
+                {{ e }}
+            {% endfor %}
+            <h4><a href="./index.php">Volver a home</a></h4>
+        </div>
+    {% endif %}
+
+{% endblock %}

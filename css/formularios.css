@@ -15,6 +15,17 @@ body{
     align-items: center;
 }
 
+.info{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color1);
+    margin: 2em;
+    padding: 2em;
+    border-radius: 2%;
+
+
+}
+
 form{
     background-color: var(--color1);
     border-radius: 2px;
@@ -72,6 +83,10 @@ form{
 
 .evento img{
     width: 10em;
+}
+
+.identificador{
+    display: none;
 }
 
 * {
