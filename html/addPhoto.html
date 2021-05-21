@@ -5,18 +5,26 @@
 {% endblock %}
 
 {% block formulario %}
-    {% for e in errores %}
-        <p style="color: black;">{{e}}</p>
-    {% endfor %}
+    
 
     {% if exito == 1 %}
-        <h4>Se ha añadido una foto con éxito!</h4><br>
-        <a href="./index.php"> Volver a home</a>
+        <div class="info">
+            <h4>Se ha añadido una foto con éxito!</h4><br>
+            <a href="./index.php"> Volver a home</a>
+        </div>
+    {% elseif exito == -1 %}
+        <div class="info">
+            <h4>Ha ocurrido algún error al añadir la imagen</h4>
+            {% for e in errores %}
+                <p>{{e}}</p>
+            {% endfor %}
+            <a href="./index.php"> Volver a home</a>
+        </div>
     {% else %}
         <form action="addPhoto.php" method="post" enctype="multipart/form-data">
             Añade tu foto: <input type="file" name="nuevaFoto" /><br>
             <input type="text" class="identificador" name="idEvento" value={{ idEvento }}>
-            <input type="submit" value="Editar" />
+            <input type="submit" value="Añadir" />
         </form>
 
     {% endif %}

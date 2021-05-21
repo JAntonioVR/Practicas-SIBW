@@ -1,5 +1,11 @@
 <?php
 
+//
+// ──────────────────────────────────────────────────────────────────────────────────────────────
+//   :::::: A Ñ A D I R   U N   N U E V O   E V E N T O : :  :   :    :     :        :          :
+// ──────────────────────────────────────────────────────────────────────────────────────────────
+//
+
     require_once "/usr/local/lib/php/vendor/autoload.php";
     include("modelo.php");
 
@@ -96,14 +102,9 @@
             } 
             
         }
-
         $varsParaTwig['errores'] = $errores;
-
-       
-        
     }
 
     echo $twig->render('addEvent.html',$varsParaTwig);
-
 
 ?>

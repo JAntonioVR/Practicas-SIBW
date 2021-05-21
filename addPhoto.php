@@ -12,12 +12,12 @@
 
     $varsParaTwig = [];
     $varsParaTwig['exito'] = 0;
+    $errors= array();
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if(isset($_POST['idEvento'])){
             $varsParaTwig['idEvento'] = $_POST['idEvento'];
         }
-        $errors= array();
         if(isset($_FILES['nuevaFoto'])){
             $file_name = $_FILES['nuevaFoto']['name'];
             $file_size = $_FILES['nuevaFoto']['size'];
@@ -36,14 +36,12 @@
             }
             
             if (empty($errors)==true) {
-
-
                 move_uploaded_file($file_tmp, "./img/" . $file_name);
-              
                 $nuevaFoto = "./img/" . $file_name;
             }
             if (sizeof($errors) > 0) {
                 $varsParaTwig['errores'] = $errors;
+                $varsParaTwig['exito'] = -1;
             }
             else{
                 $idEvento = $_POST['idEvento'];

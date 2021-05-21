@@ -7,14 +7,16 @@
 
 {% block formulario %}
     {% if exito == 1 %}
-        <h4>Bienvenido! Te has registrado con éxito</h4>
-        <p><a href="./index.php"> Volver a home</a></p>
-
+        <div class="info">
+            <h4>Bienvenido! Te has registrado con éxito</h4>
+            <p><a href="./index.php"> Volver a home</a></p>
+        </div>
     {% elseif exito == -1 %}
-        <h4>Ha ocurrido algún error </h4><br><br>
-        <p><a href="./addUser.php"> Volver a intentarlo</a></p>
-        <p><a href="./index.php"> Volver a home</a></p>
-
+        <div class="info">
+            <h4>Ha ocurrido algún error </h4><br><br>
+            <p><a href="./addUser.php"> Volver a intentarlo</a></p>
+            <p><a href="./index.php"> Volver a home</a></p>
+        </div>
     {% else %}
         <form action="addUser.php" method="post">
             Nickname: <input type="text" name="nickname"><br>
