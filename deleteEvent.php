@@ -1,4 +1,11 @@
 <?php
+
+//
+// ────────────────────────────────────────────────────────────────────────────────
+//   :::::: E L I M I N A R   E V E N T O : :  :   :    :     :        :          :
+// ────────────────────────────────────────────────────────────────────────────────
+//
+
     require_once "/usr/local/lib/php/vendor/autoload.php";
     include("modelo.php");
 
@@ -8,6 +15,7 @@
     session_start();
     $varsParaTwig = [];
     $varsParaTwig['whatis'] = "Evento";
+    $errores = array();
 
     if(isset($_GET['ev']) and is_numeric($_GET['ev']) ){
         $idEvento = $_GET['ev'];
@@ -16,12 +24,13 @@
             $varsParaTwig['exito'] = 1;
         else{
             $varsParaTwig['exito'] = -1;
-            $varsParaTwig['error'] = "No se encontró ningún evento para eliminar. ";
+            $errores[] = "No se encontró ningún evento para eliminar. ";
         }
     }
 
-echo $twig->render('./delete.html', $varsParaTwig);
-        
-    exit();
+
+    $varsParaTwig['errores'] = $errores;
+
+    echo $twig->render('./delete.html', $varsParaTwig);
 
 ?>

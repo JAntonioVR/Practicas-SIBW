@@ -6,16 +6,21 @@
 
 {% block formulario %}
 
-    {% for e in errores %}
-        <p style="color: black;">{{e}}</p>
-    {% endfor %}
-
     {% if exito == 1 %}
-        <h4>Se ha modificado un evento con éxito!</h4><br>
-        <a href="./index.php">Volver a home</a>
-
+        <div class="info">
+            <h4>Se ha modificado un evento con éxito!</h4><br>
+            <a href="./index.php">Volver a home</a>
+        </div>
+    {% elseif exito == -1 %}
+        <div class="info">
+            <h4>Ha ocurrido un error en la modificación </h4>
+        {% for e in errores %}
+            <p>{{e}}</p>
+        {% endfor %}
+        <h4><a href="./index.php">Volver a home</a></h4>
+    </div>
     {% else %}
-        <form action={{ link }} method="post" enctype="multipart/form-data"> <br>
+        <form action="modifyEvent.php?ev={{ evento['id'] }}" method="post" enctype="multipart/form-data"> <br>
             Nombre <input type="text" name="nombre" value="{{ evento['nombre'] }}" /> <br>
             Organizador <input type="text" name="organizador" value="{{ evento['organizador'] }}" /><br>
             Fecha de Inicio <input type="text" name="fechaInicio" value={{ evento['fechaInicio'] }} /> <br>
@@ -28,6 +33,7 @@
             Twitter <input type="text" name="twitter" value="{{ evento['twitter'] }}" /><br>
             Instagram <input type="text" name="instagram" value="{{ evento['instagram'] }}" /> <br>
             Facebook <input type="text" name="facebook" value="{{ evento['facebook'] }}" /><br>
+            Etiquetas (separadas por comas) <input type="text" name="etiquetas" value="{{ evento['etiquetas'] }}" /><br>
 
             <input type="submit" value="Editar" />
         </form>

@@ -5,25 +5,33 @@
 {% endblock %}
 
 {% block formulario %}
-    <div class = "comentarios">
-        {% for comentario in comentarios %}
-            <div class="comentario">
-                <h4>ID del comentario: </h4> {{ comentario['id'] }}
-                <h4>Autor: </h4> {{ comentario['autor'] }}
-                <h4>Email del autor: </h4> {{ comentario['email_autor'] }}
-                <h4>Fecha y hora de publicación: </h4> {{ comentario['fecha_hora'] }}
-                <h4>Comentario: </h4> {{ comentario['texto'] }}
-                <h4>Evento referido: </h4> {{ comentario['evento'] }}
-                <h4>¿Ha sido modificado?: </h4> 
-                {% if comentario['modificado']==1 %}
-                    Sí
-                {% else %}
-                    No
-                {% endif %}
-            </div>
-            
-        {% endfor %}
-
-
-    </div>
+    {% if exito == 1 %}
+        <div class = "comentarios">
+            {% for comentario in comentarios %}
+                <div class="comentario">
+                    <h4>ID del comentario: </h4> {{ comentario['id'] }}
+                    <h4>Autor: </h4> {{ comentario['autor'] }}
+                    <h4>Email del autor: </h4> {{ comentario['email_autor'] }}
+                    <h4>Fecha y hora de publicación: </h4> {{ comentario['fecha_hora'] }}
+                    <h4>Comentario: </h4> {{ comentario['texto'] }}
+                    <h4>Evento referido: </h4> {{ comentario['evento'] }}
+                    <h4>¿Ha sido modificado?: </h4> 
+                    {% if comentario['modificado']==1 %}
+                        Sí
+                    {% else %}
+                        No
+                    {% endif %}
+                </div>
+                
+            {% endfor %}
+        </div>
+        <div class="info">
+            <p><a href="./index.php"> Volver a home</a></p>
+        </div>
+    {% else %}
+        <div class="info">
+            <h4>Ha ocurrido algún error en la carga de los comentarios</h4>
+            <p><a href="./index.php"> Volver a home</a></p>
+        </div>
+    {% endif %}
 {% endblock %}

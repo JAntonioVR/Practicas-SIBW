@@ -26,6 +26,14 @@ class Database{
     }
 
     //
+    // ──────────────────────────────────────────────────────────────────────────────────────
+    //   :::::: G E S T I O N   D E   E V E N T O S : :  :   :    :     :        :          :
+    // ──────────────────────────────────────────────────────────────────────────────────────
+    //
+
+    
+
+    //
     // ─── CONSULTA DE EVENTOS ────────────────────────────────────────────────────────
     // Devuelve los atributos de un evento a partir de un identificador.
     // Si el evento indicado no existe devuelve unos valores por defecto
@@ -75,10 +83,6 @@ class Database{
             $dateFinal = date_create($row['fechaFinal']);
             $fechaFinal = date_format($dateFinal, 'd/m/y');
 
-            $linkEdicion = "./modifyEvent.php?ev=" . $idEv;
-            $linkBorrado = './deleteEvent.php?ev=' . $idEv;
-            $linkComentario = './addComment.php?ev=' . $idEv;
-
             $evento = array(
                 'id'          => $idEv,
                 'nombre'      => $row['nombre'], 
@@ -95,9 +99,6 @@ class Database{
                 'instagram'   => $row['instagram'],
                 'facebook'    => $row['facebook'],
                 'etiquetas'   => $row['etiquetas'],
-                'linkEdicion' => $linkEdicion,
-                'linkBorrado' => $linkBorrado,
-                'linkComentario'=> $linkComentario
             );
         }
 
@@ -106,169 +107,57 @@ class Database{
 
     }
 
-    public function getAllEventos(){
-        $consulta = "SELECT id from eventos";
-        $stmt = $this->mysqli->prepare($consulta);
-        $stmt-> execute();
-        $res = $stmt->get_result();
-
-        $eventos = array();
-
-        while($row = $res->fetch_assoc()){
-            $eventos[] = $this->getEvento($row['id']);
-        }
-
-        return $eventos;
-    }
-
-    public function buscaEventos($busqueda){
-        $consulta = "SELECT nombre, id FROM eventos WHERE texto LIKE ? ";
-        $stmt = $this->mysqli->prepare($consulta);
-        $busqueda = "%" . $busqueda . "%";
-        $stmt->bind_param('s', $busqueda);
-        $stmt->execute();
-        $res = $stmt->get_result();
-        $eventos = array();
-        if( $stmt->affected_rows != -1 ){
-            while($row = $res->fetch_assoc()){
-                $evento = array(
-                    'nombre' => $row['nombre'],
-                    'link'   => "./evento.php?ev=" . $row['id'] 
-                );
-                $eventos[] = $evento;
-            }
-        }
-        else $eventos = -1;
-
-        $stmt->close();
-        return $eventos;
-    }
-
-    public function addEvento($nombre, $organizador, $fechaInicio, $fechaFinal, $lugar, $texto, $logo, $imagenPrincipal,
-                              $web, $twitter, $instagram, $facebook){
-
-        $consulta = "INSERT INTO eventos (nombre, organizador, fechaInicio, fechaFinal, lugar, texto, logo, imagenPrincipal, " . 
-        "web, twitter, instagram, facebook) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $this->mysqli->prepare($consulta);
-        $stmt->bind_param("ssssssssssss", $nombre, $organizador, $fechaInicio, 
-                          $fechaFinal, $lugar, $texto, $logo, $imagenPrincipal,
-                          $web, $twitter, $instagram, $facebook );
-        $stmt->execute();
-
-        if($stmt->affected_rows != -1){
-            $res = TRUE;
-        }
-        else $res = FALSE;
-
-        $stmt->close();
-        return $res;
-    }
-
-    public function modificaEvento($idEv, $nombre, $organizador, $fechaInicio, $fechaFinal, $lugar, $texto, $logo, $imagenPrincipal,
-    $web, $twitter, $instagram, $facebook){
-
-        $consulta = "UPDATE eventos SET nombre=?, organizador=?, fechaInicio=?, fechaFinal=?, lugar=?, texto=?, logo=?, imagenPrincipal=?, " . 
-                    "web=?, twitter=?, instagram=?, facebook=? WHERE id=?";
-        $stmt = $this->mysqli->prepare($consulta);
-        $stmt->bind_param(  "ssssssssssssi", $nombre, $organizador, $fechaInicio, 
-                            $fechaFinal, $lugar, $texto, $logo, $imagenPrincipal,
-                            $web, $twitter, $instagram, $facebook, $idEv );
-        $stmt->execute();
-
-                
-        if($stmt->affected_rows == 1)
-            $res = TRUE;
-        else
-            $res = FALSE;
-
-        $stmt->close();
-        return $res;
-
-    }
-
-    public function borraEvento($idEv){
-        $consulta = "DELETE FROM eventos WHERE id=?";
-        $stmt = $this->mysqli->prepare($consulta);
-        $stmt->bind_param("i", $idEv);
-        $stmt->execute();
-
-        if($stmt->affected_rows != -1)
-            $res = TRUE;
-        else
-            $res = FALSE;
-
-        $stmt->close();
-        return $res;
-    }
 
     //
-    // ─── CONSULTA DE COMENTARIOS ────────────────────────────────────────────────────
-    // Busca y devuelve los datos de los comentarios de un evento concreto
+    // ─── CONSULTA DE GALERÍA ────────────────────────────────────────────────────
+    // Busca y devuelve los datos de las imágenes de un evento concreto
 
-    public function getComentarios($idEv){
+    public function getGaleria($idEv){
 
-         // Protección contra inyección SQL y consulta       
-        $stmt = $this->mysqli->prepare("SELECT id, autor, fecha_hora, texto, modificado FROM comentarios WHERE idEvento=?");
+        // Protección contra inyección SQL y consulta    
+        $stmt = $this->mysqli->prepare("SELECT * from imagenes where idEvento=?");
         $stmt-> bind_param("i", $idEv);
         $stmt-> execute();
         $res  = $stmt->get_result();
-        
-        // Array inicialmente vacío de comentarios
-        $comentarios = array();
 
-        // Añadimos cada comentario al array
-        while($row = $res->fetch_assoc()){
+        // Array inicialmente vacío de imágenes
+        $imagenes = array();
 
-            $date        = date_create($row['fecha_hora']);
-            $fecha       = date_format($date, 'd/m/y   H:i:s');
-            $linkEdicion = "./modifyComment.php?cm=" . $row['id'];
-            $linkBorrado = "./deleteComment.php?cm=" . $row['id'];
-            $comentario = array(
-                'autor'       => $row['autor'],
-                'fecha_hora'  => $fecha,
-                'texto'       => $row['texto'],
-                'linkEdicion' => $linkEdicion,
-                'linkBorrado' => $linkBorrado,
-                'modificado'  => $row['modificado']
-            );
-
-            $comentarios[] = $comentario;
+        // Añadimos cada imagen al array
+        while($row = $res->fetch_assoc()){   
+            $imagenes[] = $row['ruta'];
         }
-
         $stmt->close();
-        return $comentarios;
+        return $imagenes;
     }
 
-    public function getAllComments(){
+    //
+    // ─── CONSULTA DE ENLACES DE INTERES ─────────────────────────────────────────────
+    // Busca y devuelve los nombres y links a los enlaces de interés de un evento 
+    // concreto
 
-        $stmt = $this->mysqli->prepare("SELECT comentarios.id, autor, email_autor, fecha_hora, comentarios.texto, modificado, nombre " . 
-        " FROM comentarios INNER JOIN eventos where comentarios.idEvento = eventos.id");
+    public function getEnlacesDeInteres($idEv){
+
+        // Protección contra inyección SQL y consulta    
+        $stmt = $this->mysqli->prepare("select link, nombre from enlaces INNER JOIN eventos_enlaces ON enlaces.id = eventos_enlaces.idEnlace where idEvento=?");
+        $stmt-> bind_param("i", $idEv);
         $stmt-> execute();
         $res  = $stmt->get_result();
 
-        // Array inicialmente vacío de comentarios
-        $comentarios = array();
+        // Array inicialmente vacío de enlaces
+        $enlaces = array();
 
-        // Añadimos cada comentario al array
+        // Añadimos cada enlace al array
         while($row = $res->fetch_assoc()){
-
-            $date        = date_create($row['fecha_hora']);
-            $fecha       = date_format($date, 'd/m/y   H:i:s');
-            $comentario = array(
-                'id'          => $row['id'],
-                'autor'       => $row['autor'],
-                'email_autor' => $row['email_autor'],
-                'fecha_hora'  => $fecha,
-                'texto'       => $row['texto'],
-                'evento'      => $row['nombre'],
-                'modificado'  => $row['modificado']
-            );
-
-            $comentarios[] = $comentario;
+            $enlace = array(
+                'nombre' => $row['nombre'],
+                'link'   => $row['link']
+            ) ;
+            $enlaces[] = $enlace;
         }
 
         $stmt->close();
-        return $comentarios;
+        return $enlaces;
     }
 
 
@@ -303,81 +192,187 @@ class Database{
         return $eventos;
     }
 
+
     //
-    // ─── CONSULTA DE GALERÍA ────────────────────────────────────────────────────
-    // Busca y devuelve los datos de las imágenes de un evento concreto
+    // ─── TODOS LOS EVENTOS ──────────────────────────────────────────────────────
+    // Se obtiene un listado de todos los eventos existentes en la BD
 
-    public function getGaleria($idEv){
-
-        // Protección contra inyección SQL y consulta    
-        $stmt = $this->mysqli->prepare("SELECT * from imagenes where idEvento=?");
-        $stmt-> bind_param("i", $idEv);
+    public function getAllEventos(){
+        $consulta = "SELECT id from eventos";
+        $stmt = $this->mysqli->prepare($consulta);
         $stmt-> execute();
-        $res  = $stmt->get_result();
+        $res = $stmt->get_result();
 
-        // Array inicialmente vacío de imágenes
-        $imagenes = array();
-
-        // Añadimos cada imagen al array
-        while($row = $res->fetch_assoc()){   
-            $imagenes[] = $row['ruta'];
+        if( $stmt->affected_rows == -1 ){
+            $eventos = -1;
         }
-        $stmt->close();
-        return $imagenes;
+        else{
+            $eventos = array();
+
+            while($row = $res->fetch_assoc()){
+                $eventos[] = $this->getEvento($row['id']);
+            }
+        }
+        return $eventos;
     }
 
+    
     //
-    // ─── OBTENCION DE PALABRAS PROHIBIDAS ───────────────────────────────────────────
-    // Consulta de las palabras prohibidas
+    // ─── BUSCAR EVENTOS ─────────────────────────────────────────────────────────────
+    // Busca los eventos que contienen una cierta cadena en su texto
+
+    public function buscaEventos($busqueda){
+        $consulta = "SELECT nombre, id FROM eventos WHERE texto LIKE ? ";
+        $stmt = $this->mysqli->prepare($consulta);
+        $busqueda = "%" . $busqueda . "%";
+        $stmt->bind_param('s', $busqueda);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $eventos = array();
+        if( $stmt->affected_rows != -1 ){
+            while($row = $res->fetch_assoc()){
+                $evento = array(
+                    'nombre' => $row['nombre'],
+                    'link'   => "./evento.php?ev=" . $row['id'] 
+                );
+                $eventos[] = $evento;
+            }
+        }
+        else $eventos = -1;
+
+        $stmt->close();
+        return $eventos;
+    }
+    
+    
+    //
+    // ─── AÑADIR EVENTO ──────────────────────────────────────────────────────────────
+    // Dados unos datos, se crea un nuevo evento con dichos datos. 
         
-    public function getPalabrasProhibidas(){
+    public function addEvento($nombre, $organizador, $fechaInicio, $fechaFinal, $lugar, $texto, $logo, $imagenPrincipal,
+                              $web, $twitter, $instagram, $facebook, $etiquetas){
+                                
+        $regexp = "([^,]*)";
+            if(!preg_match($regexp, $etiquetas))
+                return FALSE;
 
-        // Protección contra inyección SQL y consulta    
-        $stmt = $this->mysqli->prepare("SELECT * from palabras_prohibidas");
-        $stmt-> execute();
-        $res  = $stmt->get_result();
+        $consulta = "INSERT INTO eventos (nombre, organizador, fechaInicio, fechaFinal, lugar, texto, logo, imagenPrincipal, " . 
+        "web, twitter, instagram, facebook, etiquetas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $this->mysqli->prepare($consulta);
+        $stmt->bind_param("sssssssssssss", $nombre, $organizador, $fechaInicio, 
+                          $fechaFinal, $lugar, $texto, $logo, $imagenPrincipal,
+                          $web, $twitter, $instagram, $facebook, $etiquetas );
+        $stmt->execute();
 
-        // Array inicialmente vacío de palabras
-        $palabras = array();
-
-        // Añadimos cada imagen al array
-        while($row = $res->fetch_assoc()){   
-            $palabras[] = $row['palabra'];
+        if($stmt->affected_rows != -1){
+            $res = TRUE;
         }
+        else $res = FALSE;
 
         $stmt->close();
-        return $palabras;
+        return $res;
+    }
+    
+    
+    //
+    // ─── MODIFICAR EVENTO ───────────────────────────────────────────────────────────
+    // Modifica el evento de id especificado con los nuevos datos
+
+    public function modificaEvento($idEv, $nombre, $organizador, $fechaInicio, $fechaFinal, $lugar, $texto, $logo, $imagenPrincipal,
+    $web, $twitter, $instagram, $facebook, $etiquetas){
+
+        $regexp = "([^,]*)";
+            if(!preg_match($regexp, $etiquetas))
+                return FALSE;
+
+        $consulta = "UPDATE eventos SET nombre=?, organizador=?, fechaInicio=?, fechaFinal=?, lugar=?, texto=?, logo=?, imagenPrincipal=?, " . 
+                    "web=?, twitter=?, instagram=?, facebook=?, etiquetas=? WHERE id=?";
+        $stmt = $this->mysqli->prepare($consulta);
+        $stmt->bind_param(  "sssssssssssssi", $nombre, $organizador, $fechaInicio, 
+                            $fechaFinal, $lugar, $texto, $logo, $imagenPrincipal,
+                            $web, $twitter, $instagram, $facebook, $etiquetas, $idEv );
+        $stmt->execute();
+
+                
+        if($stmt->affected_rows == 1)
+            $res = TRUE;
+        else
+            $res = FALSE;
+
+        $stmt->close();
+        return $res;
 
     }
+    
+    
+    //
+    // ─── BORRAR EVENTO ──────────────────────────────────────────────────────────────
+    // Elimina un evento y todas las referencias a él.    
+    
+    public function borraEvento($idEv){
+
+        // Hay que eliminar también las referencias al evento
+        $consultaIm = "DELETE FROM imagenes WHERE idEvento=?";
+        $consultaCm = "DELETE FROM comentarios WHERE idEvento=?";
+        $consultaEE = "DELETE FROM eventos_enlaces WHERE idEvento=?";
+        $consultaEv = "DELETE FROM eventos WHERE id=?";
+
+        $stmt = $this->mysqli->prepare($consultaIm);
+        $stmt->bind_param("i", $idEv);
+        $stmt->execute();
+        if($stmt->affected_rows == -1)
+            $res = FALSE;
+        else{
+            $stmt = $this->mysqli->prepare($consultaCm);
+            $stmt->bind_param("i", $idEv);
+            $stmt->execute();
+            if($stmt->affected_rows == -1)
+            $res = FALSE;
+            else{
+                $stmt = $this->mysqli->prepare($consultaEE);
+                $stmt->bind_param("i", $idEv);
+                $stmt->execute();
+                if($stmt->affected_rows == -1)
+                    $res = FALSE;
+                else{
+                    $stmt = $this->mysqli->prepare($consultaEv);
+                    $stmt->bind_param("i", $idEv);
+                    $stmt->execute();
+                    if($stmt->affected_rows == -1)
+                        $res = FALSE;
+                    else{
+                        $res = TRUE; 
+                    }
+                }
+            }
+        }
+        $stmt->close();
+        return $res;
+    }
+
+    
+    //
+    // ─── AÑADIR FOTO ────────────────────────────────────────────────────────────────
+    // Añade una foto a la galería de un evento
+
+    public function addPhoto($ruta, $idEv){
+        $consulta = "INSERT INTO imagenes (ruta, idEvento) VALUES (?,?)";
+        $stmt = $this->mysqli->prepare($consulta);
+        $stmt->bind_param("si", $ruta, $idEv);
+        $stmt->execute();
+        if($stmt->affected_rows != -1)
+            $res = TRUE;
+        else
+            $res = FALSE;
+
+        $stmt->close();
+        return $res;
+    }
+
 
     //
-    // ─── CONSULTA DE ENLACES DE INTERES ─────────────────────────────────────────────
-    // Busca y devuelve los nombres y links a los enlaces de interés de un evento 
-    // concreto
-
-    public function getEnlacesDeInteres($idEv){
-
-        // Protección contra inyección SQL y consulta    
-        $stmt = $this->mysqli->prepare("select link, nombre from enlaces INNER JOIN eventos_enlaces ON enlaces.id = eventos_enlaces.idEnlace where idEvento=?");
-        $stmt-> bind_param("i", $idEv);
-        $stmt-> execute();
-        $res  = $stmt->get_result();
-
-        // Array inicialmente vacío de enlaces
-        $enlaces = array();
-
-        // Añadimos cada enlace al array
-        while($row = $res->fetch_assoc()){
-            $enlace = array(
-                'nombre' => $row['nombre'],
-                'link'   => $row['link']
-            ) ;
-            $enlaces[] = $enlace;
-        }
-
-        $stmt->close();
-        return $enlaces;
-    }
+    // ─── ANADIR ETIQUETAS ───────────────────────────────────────────────────────────
+    // Añade al evento referenciado por $id nuevas etiquetas
 
     public function addEtiquetas($id, $etiquetas){
         $regexp = "([^,]+)";
@@ -412,100 +407,95 @@ class Database{
         return $res;
     }
 
-    public function insertarUsuario($nickname, $nombre, $email, $clave, $tipo){
-        $consulta_insercion = "INSERT INTO usuario VALUES ('" .
-                            $nickname . "', '" . $nombre . "', '" . $email . 
-                            "', '" . password_hash($clave, PASSWORD_DEFAULT) . 
-                            "', '" . $tipo ."')";
 
-        // FIXME Protección contra inyección SQL??
-        $res = $this->mysqli->query($consulta_insercion);
+    //
+    // ──────────────────────────────────────────────────────────────────────────────────────────────
+    //   :::::: G E S T I O N   D E   C O M E N T A R I O S : :  :   :    :     :        :          :
+    // ──────────────────────────────────────────────────────────────────────────────────────────────
+    //
+    
+    //
+    // ─── CONSULTA DE COMENTARIOS ────────────────────────────────────────────────────
+    // Busca y devuelve los datos de los comentarios de un evento concreto
 
-        /*
-        NOTE Bueno para depurar:
-        if($res === TRUE){
-            echo "Se ha insertado una nueva fila";
+    public function getComentarios($idEv){
+
+         // Protección contra inyección SQL y consulta       
+        $stmt = $this->mysqli->prepare("SELECT id, autor, fecha_hora, texto, modificado FROM comentarios WHERE idEvento=?");
+        $stmt-> bind_param("i", $idEv);
+        $stmt-> execute();
+        $res  = $stmt->get_result();
+        
+        // Array inicialmente vacío de comentarios
+        $comentarios = array();
+
+        // Añadimos cada comentario al array
+        while($row = $res->fetch_assoc()){
+
+            $date        = date_create($row['fecha_hora']);
+            $fecha       = date_format($date, 'd/m/y   H:i:s');
+            $comentario = array(
+                'id'          => $row['id'],
+                'autor'       => $row['autor'],
+                'fecha_hora'  => $fecha,
+                'texto'       => $row['texto'],
+                'linkEdicion' => $linkEdicion,
+                'linkBorrado' => $linkBorrado,
+                'modificado'  => $row['modificado']
+            );
+
+            $comentarios[] = $comentario;
+        }
+
+        $stmt->close();
+        return $comentarios;
+    }
+
+    //
+    // ─── TODOS LOS COMENTARIOS ──────────────────────────────────────────────────────
+    // Se obtiene un listado de todos los comentarios existentes en la BD
+
+    public function getAllComments(){
+
+        $stmt = $this->mysqli->prepare("SELECT comentarios.id, autor, email_autor, fecha_hora, comentarios.texto, modificado, nombre " . 
+        " FROM comentarios INNER JOIN eventos where comentarios.idEvento = eventos.id");
+        $stmt-> execute();
+        $res  = $stmt->get_result();
+
+        if($stmt->affected_rows == -1){
+            $comentarios = -1;
         }
         else{
-            echo "Error al insertar la fila: " . $this.mysqli->error;
-            echo $consulta_insercion;
-        }
-        */
-        return $res;
+            // Array inicialmente vacío de comentarios
+            $comentarios = array();
 
-    }
+            // Añadimos cada comentario al array
+            while($row = $res->fetch_assoc()){
 
-    public function getUsuario($nickname){
-        $consulta = "SELECT * FROM usuario WHERE nickname=?";
-        $stmt = $this->mysqli->prepare($consulta);
-        $stmt->bind_param("s",$nickname);
-        $stmt->execute();
-        $res = $stmt->get_result();
+                $date        = date_create($row['fecha_hora']);
+                $fecha       = date_format($date, 'd/m/y   H:i:s');
+                $comentario = array(
+                    'id'          => $row['id'],
+                    'autor'       => $row['autor'],
+                    'email_autor' => $row['email_autor'],
+                    'fecha_hora'  => $fecha,
+                    'texto'       => $row['texto'],
+                    'evento'      => $row['nombre'],
+                    'modificado'  => $row['modificado']
+                );
 
-        $user = -1;
-
-        if( $res->num_rows === 1 ){
-            $row = $res->fetch_assoc();
-            $user = [
-                'nickname' => $row['nickname'],
-                'nombre'   => $row['nombre'],
-                'email'    => $row['email'],
-                'clave'    => $row['clave'],
-                'tipo'     => $row['tipo']
-            ];
-        }
-        $stmt->close();
-        return $user;
-        
-    }
-
-    public function checkLogin($nickname, $clave){
-        $found = false;
-        $user = $this->getUsuario($nickname);
-        if($user!=-1){
-            if(password_verify($clave, $user['clave'])){
-                $found = TRUE;
+                $comentarios[] = $comentario;
             }
         }
 
-        return $found;
-    }
-
-    public function actualizaInformacion($nickname, $nombre, $email, $clave){
-
-        $consulta = "UPDATE usuario SET nombre=?, email=?, clave=? WHERE nickname=?";
-        $stmt = $this->mysqli->prepare($consulta);
-        $stmt->bind_param("ssss", $nombre, $email, password_hash($clave, PASSWORD_DEFAULT), $nickname);
-        $stmt->execute();
-        
-        if($stmt->affected_rows == 1)
-            $res = TRUE;
-        else
-            $res = FALSE;
-
         $stmt->close();
-
-        return $res;
+        return $comentarios;
     }
 
-    public function modificaTipoUsuario($nickname, $nuevoTipo){
-
-        $consulta = "UPDATE usuario SET tipo=? WHERE nickname=?";
-        $stmt = $this->mysqli->prepare($consulta);
-        $stmt->bind_param("ss", $nuevoTipo, $nickname);
-        $stmt->execute();
-
-        if($stmt->affected_rows == 1)
-            $res = TRUE;
-        else
-            $res = FALSE;
-
-        $stmt->close();
-
-        return $res;
-
-
-    }
+    
+    //
+    // ─── CONSULTA DE COMENTARIOS ────────────────────────────────────────────────────
+    // Busca y devuelve un comentario a partir de su id
 
     public function getComentario($id){
 
@@ -523,6 +513,11 @@ class Database{
         $stmt->close();
         return $comentario;
     }
+
+    
+    //
+    // ─── AÑADIR COMENTARIO ──────────────────────────────────────────────────────────
+    // Añade un nuevo comentario a la base de datos
 
     public function addComentario($autor, $email_autor, $texto, $idEv){
 
@@ -543,6 +538,11 @@ class Database{
 
     }
 
+
+    //
+    // ─── MODIFICAR COMENTARIO ───────────────────────────────────────────────────────
+    // Modifica el texto de un comentario y el atributo 'modificado
+        
     public function modificaComentario($id, $texto){
         $consulta = "UPDATE comentarios SET texto=?, modificado=true WHERE id=?";
         $stmt = $this->mysqli->prepare($consulta);
@@ -558,6 +558,11 @@ class Database{
         return $res;
     }
 
+  
+    //
+    // ─── ELIMINAR COMENTARIO ────────────────────────────────────────────────────────
+    // Elimina un comentario referenciado por su id
+
     public function borraComentario($id){
         $consulta = "DELETE FROM comentarios WHERE id=?";
         $stmt = $this->mysqli->prepare($consulta);
@@ -571,6 +576,11 @@ class Database{
         $stmt->close();
         return $res;
     }
+
+
+    //
+    // ─── BUSCAR COMENTARIOS ─────────────────────────────────────────────────────────
+    // Busca los comentarios que contienen una cierta cadena en su texto
 
     public function buscaComentarios($busqueda){
         $consulta = "SELECT autor, fecha_hora, comentarios.texto, nombre FROM eventos INNER JOIN comentarios WHERE comentarios.texto LIKE ? AND eventos.id=comentarios.idEvento";
@@ -599,19 +609,151 @@ class Database{
         return $comentarios;  
     }
 
-    public function addPhoto($ruta, $idEv){
-        $consulta = "INSERT INTO imagenes (ruta, idEvento) VALUES (?,?)";
+    //
+    // ─── OBTENCION DE PALABRAS PROHIBIDAS ───────────────────────────────────────────
+    // Consulta de las palabras prohibidas
+        
+    public function getPalabrasProhibidas(){
+
+        // Protección contra inyección SQL y consulta    
+        $stmt = $this->mysqli->prepare("SELECT * from palabras_prohibidas");
+        $stmt-> execute();
+        $res  = $stmt->get_result();
+
+        // Array inicialmente vacío de palabras
+        $palabras = array();
+
+        // Añadimos cada imagen al array
+        while($row = $res->fetch_assoc()){   
+            $palabras[] = $row['palabra'];
+        }
+
+        $stmt->close();
+        return $palabras;
+
+    }
+
+
+    //
+    // ────────────────────────────────────────────────────────────────────────────────────────
+    //   :::::: G E S T I O N   D E   U S U A R I O S : :  :   :    :     :        :          :
+    // ────────────────────────────────────────────────────────────────────────────────────────
+    //
+
+
+    //
+    // ─── INSERTAR USUARIO ───────────────────────────────────────────────────────────
+    // Crea un nuevo usuario en la BD con los datos especificados
+        
+    public function insertarUsuario($nickname, $nombre, $email, $clave, $tipo){
+
+        $consulta = "INSERT INTO usuario VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->mysqli->prepare($consulta);
-        $stmt->bind_param("si", $ruta, $idEv);
+        $stmt->bind_param("sssss",$nickname, $nombre, $email, password_hash($clave, PASSWORD_DEFAULT), $tipo);
         $stmt->execute();
-        if($stmt->affected_rows != -1)
+        
+        if( $stmt->affected_rows != -1 )
             $res = TRUE;
         else
             $res = FALSE;
 
         $stmt->close();
         return $res;
+
     }
+
+
+    //
+    // ─── CONSULTA DE USUARIO ────────────────────────────────────────────────────────
+    // Busca y devuelve los datos de un usuario a partir de su nickname
+    
+    public function getUsuario($nickname){
+        $consulta = "SELECT * FROM usuario WHERE nickname=?";
+        $stmt = $this->mysqli->prepare($consulta);
+        $stmt->bind_param("s",$nickname);
+        $stmt->execute();
+        $res = $stmt->get_result();
+
+        $user = -1;
+
+        if( $res->num_rows === 1 ){
+            $row = $res->fetch_assoc();
+            $user = [
+                'nickname' => $row['nickname'],
+                'nombre'   => $row['nombre'],
+                'email'    => $row['email'],
+                'clave'    => $row['clave'],
+                'tipo'     => $row['tipo']
+            ];
+        }
+        $stmt->close();
+        return $user;
+        
+    }
+
+    
+    //
+    // ─── CHECK LOGIN ────────────────────────────────────────────────────────────────
+    // Dado un nickname y una contraseña, comprueba que coincide el usuario con su
+    // contraseña
+
+    public function checkLogin($nickname, $clave){
+        $found = false;
+        $user = $this->getUsuario($nickname);
+        if($user!=-1){
+            if(password_verify($clave, $user['clave'])){
+                $found = TRUE;
+            }
+        }
+
+        return $found;
+    }
+    
+    
+    //
+    // ─── ACTUALIZAR INFORMACION DE USUARIO ──────────────────────────────────────────
+    // Actualiza los datos del usuario referenciado por su nickname
+
+    public function actualizaInformacion($nickname, $nombre, $email, $clave){
+
+        $consulta = "UPDATE usuario SET nombre=?, email=?, clave=? WHERE nickname=?";
+        $stmt = $this->mysqli->prepare($consulta);
+        $stmt->bind_param("ssss", $nombre, $email, password_hash($clave, PASSWORD_DEFAULT), $nickname);
+        $stmt->execute();
+        
+        if($stmt->affected_rows == 1)
+            $res = TRUE;
+        else
+            $res = FALSE;
+
+        $stmt->close();
+
+        return $res;
+    }
+    
+
+    //
+    // ─── MODIFICAR TIPO USUARIO ─────────────────────────────────────────────────────
+    // Función que ejecuta el super para cambiar permisos de usuarios
+
+    public function modificaTipoUsuario($nickname, $nuevoTipo){
+
+        $consulta = "UPDATE usuario SET tipo=? WHERE nickname=?";
+        $stmt = $this->mysqli->prepare($consulta);
+        $stmt->bind_param("ss", $nuevoTipo, $nickname);
+        $stmt->execute();
+
+        if($stmt->affected_rows == 1)
+            $res = TRUE;
+        else
+            $res = FALSE;
+
+        $stmt->close();
+
+        return $res;
+    }
+
+
 
     //
     // ──────────────────────────────────────────────────────────────────────────────

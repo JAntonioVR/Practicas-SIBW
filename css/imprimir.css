@@ -86,6 +86,14 @@ aside{
     display: none;
 }
 
+.edicion{
+    display: none;
+}
+
+.tareas_gestor{
+    display: none;
+}
+
 footer{
     display: flex;
     justify-content: space-between;

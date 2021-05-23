@@ -1,5 +1,12 @@
 <?php
 
+//
+// ──────────────────────────────────────────────────────────────────────────────────────────
+//   :::::: M O D I F I C A R   C O M E N T A R I O : :  :   :    :     :        :          :
+// ──────────────────────────────────────────────────────────────────────────────────────────
+//
+
+
     require_once "/usr/local/lib/php/vendor/autoload.php";
     include("modelo.php");
 
@@ -12,6 +19,7 @@
 
     $varsParaTwig = [];
     $varsParaTwig['exito'] = 0;
+    $errores = array();
 
     if(isset($_GET['cm']) and is_numeric($_GET['cm']) ){
 
@@ -27,7 +35,7 @@
                 $varsParaTwig['exito'] = 1;
             else{
                 $varsParaTwig['exito'] = -1;
-                $varsParaTwig['error']  = "Error al modificar el comentario de id " . $idComentario;
+                $errores[]  = "Error al modificar el comentario de id " . $idComentario;
             }
                 
             
@@ -37,17 +45,16 @@
         if($comentario != -1) $varsParaTwig['comentario'] = $comentario;
         else{
             $varsParaTwig['exito'] = -1;
-            $varsParaTwig['error'] = "No se ha encontrado el comentario de id " . $idComentario;
+            $errores[] = "No se ha encontrado el comentario de id " . $idComentario;
         } 
     }
         
     else{
         $varsParaTwig['exito'] = -1;
-        $varsParaTwig['error'] = "Id de comentario no especificado";
+        $errores[] = "Id de comentario no especificado";
     }
-        
 
-    
+    $varsParaTwig['errores'] = $errores;
 
     echo $twig->render('modifyComment.html',$varsParaTwig);
 

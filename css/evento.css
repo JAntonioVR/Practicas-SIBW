@@ -120,8 +120,26 @@ body{
     padding: 5%;
 }
 
-.edicion a img{
+.edicion{
+    display: flex;
     width: 100%;
+    padding: 5%;
+}
+
+.edicion a{
+    display: flex;
+    width: 25%;
+    text-align: center;
+    padding: 0.5em;
+    text-decoration: none;
+    color: black;
+}
+
+.edicion a:hover{
+    color:blue;
+}
+.edicion a img{
+    width: 10%;
 }
 
 form{

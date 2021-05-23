@@ -1,5 +1,11 @@
 <?php
 
+//
+// ────────────────────────────────────────────────────────────────────────────────────────────────────────
+//   :::::: C A M B I A R   P E R M I S O S   D E   U S U A R I O : :  :   :    :     :        :          :
+// ────────────────────────────────────────────────────────────────────────────────────────────────────────
+//
+
     require_once "/usr/local/lib/php/vendor/autoload.php";
     include("modelo.php");
 
@@ -11,6 +17,7 @@
     session_start();
 
     $varsParaTwig['exito'] = 0;
+    $errores = array();
     
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -21,11 +28,13 @@
         
         if($res)
             $varsParaTwig['exito'] = 1;
-        else
+        else{
             $varsParaTwig['exito'] = -1;
-            
-        
-      }
+            $errores[] = "Ha habido algún error en la modificación";
+        }
+    }
+
+    $varsParaTwig['errores'] = $errores;
 
     echo $twig->render('cambiarPermisos.html', $varsParaTwig );
 

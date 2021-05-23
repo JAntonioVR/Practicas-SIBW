@@ -120,30 +120,39 @@
                 <div class="edicion">
                     <a href="./addEvent.php">
                         <img src="./img/add.png">
+                        Añadir nuevo evento
                     </a>
-                    <a href={{ evento['linkEdicion'] }}>
+                    <a href="./modifyEvent.php?ev={{ evento['id'] }}">
                         <img src="./img/edit.png">
+                        Modificar este evento
                     </a>
-                    <a href={{ evento['linkBorrado'] }}>
+                    <a href="./deleteEvent.php?ev={{ evento['id'] }}">
                         <img src="./img/delete.png">
+                        Borrar este evento
                     </a>
                 </div>
-                <form method="POST" action="./buscarEvento.php">
-                    Busca evento por palabras:
-                    <input type="search" name="busqueda">
-                    <button>Busca</button>
-                </form>
-                <form method="POST" action="./allEvents.php">
-                    <button>Lista de todos los eventos</button>
-                </form>
-                <form method="POST" action="./addPhoto.php">
-                    <input type="text" class="identificador" name="idEvento" value={{ evento['id'] }} >
-                    <button>Añade alguna foto a la galería</button>
-                </form>
-                <form method="POST" action="addEtiqueta.php">
-                    <input type="text" name="idEvento" value={{ evento['id'] }} style="display: none;">
-		            <button>Modificar etiquetas</button>
-                </form>
+                <div class="tareas_gestor">
+                    <!-- Buscador de eventos -->
+                    <form method="POST" action="./buscarEvento.php">
+                        Busca evento por palabras:
+                        <input type="search" name="busqueda">
+                        <button>Busca</button>
+                    </form>
+                    <!-- Listado de eventos -->
+                    <form method="POST" action="./allEvents.php">
+                        <button>Lista de todos los eventos</button>
+                    </form>
+                    <!-- Añadir foto a la galería -->
+                    <form method="POST" action="./addPhoto.php">
+                        <input type="text" class="identificador" name="idEvento" value={{ evento['id'] }} >
+                        <button>Añade alguna foto a la galería</button>
+                    </form>
+                    <!-- Añadir nuevas etiquetas -->
+                    <form method="POST" action="addEtiqueta.php">
+                        <input type="text" class="identificador" name="idEvento" value={{ evento['id'] }} >
+                        <button>Añadir etiquetas</button>
+                    </form>
+                </div>
             {% endif %}
         {% endif %}
 
@@ -169,12 +178,11 @@
                 {% if usuario %}
                     {% if usuario['tipo'] == 'super' or usuario['tipo'] == 'moderador' %}
                         <div class="edicion">
-                            <a href={{ comentario['linkEdicion'] }}>
+
+                            <a href="./modifyComment.php?cm={{ comentario['id'] }}">
                                 <img src="./img/edit.png">
                             </a>
-
-                            <!--<form id={{ comentario['id'] }} > </form> REVIEW  --> 
-                            <a href={{ comentario['linkBorrado'] }}>
+                            <a href="./deleteComment.php?cm={{ comentario['id'] }}">
                                 <img src="./img/delete.png">
                             </a>
                         </div>
@@ -191,7 +199,9 @@
                         <input type="search" name="busqueda">
                         <button>Busca</button>
                     </form>
-                    <a href="allComments.php">Lista de todos los comentarios</a>
+                    <form method="POST" action="./allComments.php">
+                        <button>Lista de todos los comentarios</button>
+                    </form>
                 {% endif %}
             {% endif %}
 
@@ -199,7 +209,7 @@
 
         <!--Formulario-->
         {% if usuario %}
-        <form action={{ evento['linkComentario'] }} method="post">
+        <form action="addComment.php?ev={{ evento['id'] }}" method="post">
             <div>Nombre: <input type="text" name="autor" id="input_nombre"></div>
             <div>E-mail: <input type="text" name="email_autor" id="input_email"></div>
             <div>

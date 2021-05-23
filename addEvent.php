@@ -90,9 +90,10 @@
             $twitter = $_POST['twitter'];
             $instagram = $_POST['instagram'];
             $facebook = $_POST['facebook'];
+            $etiquetas = $_POST['etiquetas'];
             
             $res = $database->addEvento($nombre,$organizador, $fechaInicio, $fechaFin, $lugar, $texto, $logo,
-                                $imagenPrincipal, $web, $twitter, $instagram, $facebook);
+                                $imagenPrincipal, $web, $twitter, $instagram, $facebook, $etiquetas);
                                 
             
             if($res)    $varsParaTwig['exito'] = 1;

@@ -6,16 +6,19 @@
 
 {% block formulario %}
     {% if exito == 1 %}
-        Se ha actualizado la información con éxito.
-
-        <a href="./index.php">Volver a home</a>
+        <div class="info">
+            <h4>Se ha actualizado la información con éxito.</h4>
+            <a href="./index.php">Volver a home</a>
+        </div>
     {% elseif exito == -1 %}
-        Ha ocurrido un error al actualizar la información.
-
-        <a href="./index.php">Volver a home</a>
-
+        <div class="info">
+            <h4>Ha ocurrido un error en la modificación </h4>
+            {% for e in errores %}
+                <p>{{e}}</p>
+            {% endfor %}
+            <h4><a href="./index.php">Volver a home</a></h4>
+        </div>
     {% else %}
-        {% if usuario %}
         <form action="modifyUser.php" method="post">
         Nickname: {{ usuario['nickname'] }}<br><br>
         Nombre: <input type="text" name="nombreNuevo" value={{ usuario['nombre'] }} /><br>
@@ -23,8 +26,5 @@
         Contraseña: <input type="password" name="claveNueva" /><br>
         <input type="submit" value="Editar" />
         </form>
-        {% else %}
-            ERROR! NO SE HA ENCONTRADO USUARIO
-        {% endif %}
     {% endif %}
 {% endblock %}

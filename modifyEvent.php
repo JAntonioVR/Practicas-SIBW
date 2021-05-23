@@ -1,5 +1,11 @@
 <?php
 
+//
+// ──────────────────────────────────────────────────────────────────────────────────
+//   :::::: M O D I F I C A R   E V E N T O : :  :   :    :     :        :          :
+// ──────────────────────────────────────────────────────────────────────────────────
+//
+
     require_once "/usr/local/lib/php/vendor/autoload.php";
     include("modelo.php");
 
@@ -88,9 +94,10 @@
                 $twitter = $_POST['twitter'];
                 $instagram = $_POST['instagram'];
                 $facebook = $_POST['facebook'];
+                $etiquetas = $_POST['etiquetas'];
 
                 $res = $database->modificaEvento($idEvento, $nombre, $organizador, $fechaInicio, $fechaFin, $lugar, $texto, $logo, $imagenPrincipal,
-                $web, $twitter, $instagram, $facebook );
+                $web, $twitter, $instagram, $facebook, $etiquetas );
 
                 
                 if($res)    $varsParaTwig['exito'] = 1;
