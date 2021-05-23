@@ -177,7 +177,7 @@
                 <!-- Tareas del moderador -->
                 {% if usuario %}
                     {% if usuario['tipo'] == 'super' or usuario['tipo'] == 'moderador' %}
-                        <div class="edicion">
+                        <div class="edicion_comentarios">
 
                             <a href="./modifyComment.php?cm={{ comentario['id'] }}">
                                 <img src="./img/edit.png">

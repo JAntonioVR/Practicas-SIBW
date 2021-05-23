@@ -142,6 +142,17 @@ body{
     width: 10%;
 }
 
+.edicion_comentarios{
+    display: flex;
+    width: 25%;
+    padding: 0.5em;
+}
+
+.edicion_comentarios a img{
+    width: 100%;
+}
+
+
 form{
     display: flex;
     flex-direction: column;
