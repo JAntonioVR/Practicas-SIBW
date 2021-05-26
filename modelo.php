@@ -25,13 +25,12 @@ class Database{
         }
     }
 
+
     //
     // ──────────────────────────────────────────────────────────────────────────────────────
     //   :::::: G E S T I O N   D E   E V E N T O S : :  :   :    :     :        :          :
     // ──────────────────────────────────────────────────────────────────────────────────────
     //
-
-    
 
     //
     // ─── CONSULTA DE EVENTOS ────────────────────────────────────────────────────────
@@ -177,12 +176,10 @@ class Database{
 
         // Añadimos cada evento al array
         while($row = $res->fetch_assoc()){
-            $id     = $row['id'];
-            $link   = "../evento.php?ev=" . $id;
             $evento = array(
+                'id'     => $row['id'],
                 'nombre' => $row['nombre'],
                 'imagen' => $row['imagenPrincipal'],
-                'link'   => $link
             );
 
             $eventos[] = $evento;
@@ -294,7 +291,7 @@ class Database{
         $stmt->execute();
 
                 
-        if($stmt->affected_rows == 1)
+        if($stmt->affected_rows != -1)
             $res = TRUE;
         else
             $res = FALSE;
@@ -399,7 +396,7 @@ class Database{
         $stmt->bind_param("si",$etiquetasNuevas, $id);
         $stmt->execute();
 
-        if($stmt->affected_rows == 1)
+        if($stmt->affected_rows != -1)
             $res = TRUE;
         else
             $res = FALSE;
@@ -549,7 +546,7 @@ class Database{
         $stmt->bind_param("si", $texto, $id);
         $stmt->execute();
 
-        if($stmt->affected_rows == 1)
+        if($stmt->affected_rows != -1)
             $res = TRUE;
         else
             $res = FALSE;
@@ -640,7 +637,6 @@ class Database{
     // ────────────────────────────────────────────────────────────────────────────────────────
     //
 
-
     //
     // ─── INSERTAR USUARIO ───────────────────────────────────────────────────────────
     // Crea un nuevo usuario en la BD con los datos especificados
@@ -721,7 +717,7 @@ class Database{
         $stmt->bind_param("ssss", $nombre, $email, password_hash($clave, PASSWORD_DEFAULT), $nickname);
         $stmt->execute();
         
-        if($stmt->affected_rows == 1)
+        if($stmt->affected_rows != -1)
             $res = TRUE;
         else
             $res = FALSE;
@@ -731,6 +727,23 @@ class Database{
         return $res;
     }
     
+    
+    //
+    // ─── HAY VARIOS SUPER ───────────────────────────────────────────────────────────
+    // Comprueba si hay o no más de un usuario de tipo super
+
+    public function hayVariosSuper(){
+        $consulta = "SELECT * FROM usuario WHERE tipo='super'";
+        $stmt = $this->mysqli->prepare($consulta);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        $stmt->close();
+
+        if( $res->num_rows == 1 )
+            return FALSE;
+        else
+            return TRUE;
+    }
 
     //
     // ─── MODIFICAR TIPO USUARIO ─────────────────────────────────────────────────────
@@ -738,12 +751,26 @@ class Database{
 
     public function modificaTipoUsuario($nickname, $nuevoTipo){
 
+        $consulta = "SELECT tipo FROM usuario WHERE nickname=?";
+        $stmt = $this->mysqli->prepare($consulta);
+        $stmt->bind_param("s", $nickname);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        if($res->num_rows == 1){
+            $row = $res->fetch_assoc();
+            $tipoActual = $row['tipo'];
+            if($tipoActual == 'super' and !$this->hayVariosSuper() )
+                return FALSE;
+        }
+        else return FALSE;
+        
+
         $consulta = "UPDATE usuario SET tipo=? WHERE nickname=?";
         $stmt = $this->mysqli->prepare($consulta);
         $stmt->bind_param("ss", $nuevoTipo, $nickname);
         $stmt->execute();
 
-        if($stmt->affected_rows == 1)
+        if($stmt->affected_rows != -1)
             $res = TRUE;
         else
             $res = FALSE;
@@ -752,8 +779,6 @@ class Database{
 
         return $res;
     }
-
-
 
     //
     // ──────────────────────────────────────────────────────────────────────────────

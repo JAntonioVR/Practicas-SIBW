@@ -9,7 +9,7 @@
         <div class = "eventos">
             {% for evento in eventos %}
                 <div class="evento">
-                    <h4>ID del evento: </h4> {{ evento['id'] }}
+                    <h4><a href="./evento.php?ev={{ evento['id'] }}">Link al evento</a></h4>
                     <h4>Nombre: </h4> {{ evento['nombre'] }}
                     <h4>Organizador: </h4> {{ evento['organizador'] }}
                     <h4>Lugar: </h4> {{ evento['lugar'] }}
@@ -21,7 +21,6 @@
                     <h4>Facebook: </h4> {{ evento['facebook'] }}<br>
                     <img src={{ evento['logo'] }}>
                 </div>
-                
             {% endfor %}
             <div class="info">
                 <p><a href="./index.php"> Volver a home</a></p>

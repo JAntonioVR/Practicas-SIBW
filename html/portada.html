@@ -13,12 +13,22 @@
 
         {% for evento in eventosPortada %}
             <div class="foto_y_nombre_de_festival">
-                <a href={{ evento['link'] }}>
+                <a href="./evento.php?ev={{ evento['id'] }}">
                     <img class="foto_festival" src={{ evento['imagen'] }}>
                     {{ evento['nombre'] }}
                 </a>
             </div>
         {% endfor %}
+        {% if usuario %}
+            {% if usuario['tipo'] == 'super' or usuario['tipo'] == 'gestor' %}
+            <div class="foto_y_nombre_de_festival">
+                <a href="./addEvent.php">
+                    <img class="foto_festival" src="./img/add.png">
+                    Añadir un nuevo evento
+                </a>
+            </div>
+            {% endif %}
+        {% endif %}
         
     </article>
 

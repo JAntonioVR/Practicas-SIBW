@@ -1,5 +1,33 @@
 # Practicas-SIBW
 
+# Práctica 4
+
+**Para poder comenzar a utilizar la funcionalidad completa, se adjunta en el fichero `sql/database.sql` la creación de todas las tablas e inserción de algunas tuplas.** 
+
+Con intención de ahorrar trabajo, **si se ejecuta el fichero `preparaBD.php` se crean e insertan en la base de datos usuarios de tipo registrado, moderador, gestor y super**, sus nickname y contraseñas son:
+
+| **Nickname** | **contraseña** |
+|--------------|----------------|
+| Registrado   | sibw           |
+| Moderador    | sibw           |
+| Gestor       | sibw           |
+| Super        | sibw           |
+
+## `html`
+
+Contiene las plantillas HTML de todos los formularios y pantallas auxiliares necesarias para toda la nueva funcionalidad requerida. En concreto, el fichero `formularios.html` es una plantilla que heredan todos los ficheros dedicados a formularios.
+
+## `css` 
+
+Se ha creado el fichero `formularios.css`, que contiene los estilos necesarios para una mejor apariencia en las distintas pantallas de formularios.
+
+## `*.php`
+
+Se han creado ficheros controladores para cada nueva funcionalidad. Estos ficheros envían y obtienen la información de la base de datos gracias al fichero `modelo.php`, que almacena toda la funcionalidad relativa a la BD, manteniendo así una buena separación modelo-controlador. Antes y después del intercambio de información con la BD los controladores renderizan el respectivo archivo HTML dependiendo del estado actual del sistema. En general, gestionan una variable `$exito`, que en caso de valer 0 no indica éxito o fracaso, sino que se muestra el formulario correspondiente. Si vale 1 es porque se ha completado correctamente la tarea en cuestión. Si vale -1 ha ocurrido uno o más errores en la operación, los cuales se muestran en la plantilla.
+
+
+# Hasta la Práctica 3
+
 ## `html`
 
 Una vez se ha introducido el motor de plantillas `Twig` la forma de los ficheros `html` ha cambiado completamente, aunque en esencia siguen siendo los mismos. Ahora tenemos una plantilla `plantilla.html` donde se encuentran los elementos comunes a todas las páginas, como son la cabecera, la barra lateral y el pie de página, junto a un bloque redefinible para el contenido de la página, y otro para la cabecera.
@@ -30,6 +58,6 @@ Contiene ficheros con código de javascript. Hasta la P3, el fichero `javascript
 * Los ficheros `index.php` y `evento.php` representan la interacción entre el modelo y la vista, esto es, la base de datos con la web. Estos ficheros establecen conexión con las plantillas `html` y con la base de datos, obteniendo datos y pasandolos a las plantillas utilizando la bilioteca `Twig`.
 
 ## `sql`
-De momento sólo contiene un fichero, `sentencias.sql` que permite inicializar desde cero la base de datos que utiliza el modelo e introducir un número significativo de tuplas.
-Si desde `mysql` se ejecuta la orden `source /ruta/al/archivo/sentencias.sql` este crea completamente la BD que he utilizado.
+De momento sólo contiene un fichero, `database.sql` que permite inicializar desde cero la base de datos que utiliza el modelo e introducir un número significativo de tuplas.
+Si desde `mysql` se ejecuta la orden `source /ruta/al/archivo/database.sql` este crea completamente la BD que he utilizado.
 

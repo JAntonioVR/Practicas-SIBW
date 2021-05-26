@@ -21,8 +21,8 @@
     {% else %}
         <form action="modifyUser.php" method="post">
         Nickname: {{ usuario['nickname'] }}<br><br>
-        Nombre: <input type="text" name="nombreNuevo" value={{ usuario['nombre'] }} /><br>
-        Email: <input type="text" name="emailNuevo" value={{ usuario['email'] }} /><br>
+        Nombre: <input type="text" name="nombreNuevo" value="{{ usuario['nombre'] }}" /><br>
+        Email: <input type="text" name="emailNuevo" value="{{ usuario['email'] }}" /><br>
         Contraseña: <input type="password" name="claveNueva" /><br>
         <input type="submit" value="Editar" />
         </form>
