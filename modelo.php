@@ -66,7 +66,9 @@ class Database{
             'instagram'   => ' ',
             'facebook'    => ' ',
             'etiquetas'   => ' ',
-            'linkEdicion' => ' '
+            'linkEdicion' => ' ',
+            'etiquetas'   => ' ',
+            'publicado'   => false
         );
 
         $date       = date_create($row['fecha_hora']);
@@ -98,6 +100,7 @@ class Database{
                 'instagram'   => $row['instagram'],
                 'facebook'    => $row['facebook'],
                 'etiquetas'   => $row['etiquetas'],
+                'publicado'   => $row['publicado']
             );
         }
 
@@ -167,7 +170,7 @@ class Database{
     public function getEventosPortada(){
 
         // Protección contra inyección SQL y consulta    
-        $stmt = $this->mysqli->prepare("SELECT id, nombre, imagenPrincipal from eventos");
+        $stmt = $this->mysqli->prepare("SELECT id, nombre, imagenPrincipal from eventos WHERE publicado=true");
         $stmt-> execute();
         $res  = $stmt->get_result();
 
@@ -254,7 +257,7 @@ class Database{
                 return FALSE;
 
         $consulta = "INSERT INTO eventos (nombre, organizador, fechaInicio, fechaFinal, lugar, texto, logo, imagenPrincipal, " . 
-        "web, twitter, instagram, facebook, etiquetas) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        "web, twitter, instagram, facebook, etiquetas,publicado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,false)";
         $stmt = $this->mysqli->prepare($consulta);
         $stmt->bind_param("sssssssssssss", $nombre, $organizador, $fechaInicio, 
                           $fechaFinal, $lugar, $texto, $logo, $imagenPrincipal,
@@ -347,6 +350,45 @@ class Database{
         return $res;
     }
 
+
+    //
+    // ─── PUBLICAR EVENTO ────────────────────────────────────────────────────────────
+    // Pone a true el atributo publicado de un evento determinado
+        
+    public function publicarEvento($id){
+        $consulta = "UPDATE eventos SET publicado=true WHERE id=?";
+        $stmt = $this->mysqli->prepare($consulta);
+        $stmt->bind_param( "i", $id );
+        $stmt->execute();
+
+        if($stmt->affected_rows != -1)
+            $res = TRUE;
+        else
+            $res = FALSE;
+
+        $stmt->close();
+        return $res;
+    }
+
+
+    //
+    // ─── OCULTAR EVENTO ─────────────────────────────────────────────────────────────
+    // Pone a false el atributo publicado de un evento determinado
+      
+    public function ocultarEvento($id){
+        $consulta = "UPDATE eventos SET publicado=false WHERE id=?";
+        $stmt = $this->mysqli->prepare($consulta);
+        $stmt->bind_param( "i", $id );
+        $stmt->execute();
+
+        if($stmt->affected_rows != -1)
+            $res = TRUE;
+        else
+            $res = FALSE;
+
+        $stmt->close();
+        return $res;
+    }
     
     //
     // ─── AÑADIR FOTO ────────────────────────────────────────────────────────────────

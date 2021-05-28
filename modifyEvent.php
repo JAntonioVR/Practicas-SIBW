@@ -109,9 +109,10 @@
             }
             
         }        
-        $varsParaTwig['errores'] = $errores;
+        
     }
-
+    $varsParaTwig['errores'] = $errores;
+    
     echo $twig->render('modifyEvent.html',$varsParaTwig);
 
 ?>

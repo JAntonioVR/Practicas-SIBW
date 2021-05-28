@@ -1,0 +1,23 @@
+{% extends "formularios.html" %}
+
+{% block cabecera %}
+    <title>Publicar Evento</title>
+{% endblock %}
+
+{% block formulario %}
+
+    {% if exito == 1 %}
+        <div class="info">
+            <h4>Se ha cambiado el estado de un evento con éxito!</h4><br>
+            <a href="./index.php">Volver a home</a>
+        </div>
+    {% elseif exito == -1 %}
+        <div class="info">
+            <h4>No se ha podido completar el cambio de estado</h4>
+        {% for e in errores %}
+            <p>{{e}}</p>
+        {% endfor %}
+        <h4><a href="./index.php">Volver a home</a></h4>
+    {% endif %}
+
+{% endblock %}

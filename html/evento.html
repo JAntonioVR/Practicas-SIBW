@@ -153,6 +153,18 @@
                         <button>Añadir etiquetas</button>
                     </form>
                 </div>
+                <!-- Publicar u ocultar Evento  -->
+                {% if evento['publicado'] %} 
+                    <h4>
+                        Este evento está publicado:
+                        <a href="./publicarOcultarEvento.php?ev={{ evento['id'] }}&publicar=0">Ocultar</a><br>
+                    </h4>
+                {% else %}
+                    <h4>
+                        Este evento no está publicado:
+                        <a href="./publicarOcultarEvento.php?ev={{ evento['id'] }}&publicar=1">Publicar</a><br>
+                    </h4>
+                {% endif %}
             {% endif %}
         {% endif %}
 

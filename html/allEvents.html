@@ -19,6 +19,13 @@
                     <h4>Twitter: </h4> {{ evento['twitter'] }}
                     <h4>Instagram: </h4> {{ evento['instagram'] }}
                     <h4>Facebook: </h4> {{ evento['facebook'] }}<br>
+                    <h4>Publicado: </h4>
+                    {% if evento['publicado'] %}
+                        Sí, <a href="./publicarOcultarEvento.php?ev={{ evento['id'] }}&publicar=0">Ocultar</a>
+                    {% else %}
+                        No, <a href="./publicarOcultarEvento.php?ev={{ evento['id'] }}&publicar=1">Publicar</a>
+                    {% endif %}
+                    <br>
                     <img src={{ evento['logo'] }}>
                 </div>
             {% endfor %}
