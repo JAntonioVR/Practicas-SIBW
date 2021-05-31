@@ -252,13 +252,13 @@ class Database{
     function consultarEvento($nombre){
 
         $consulta = "SELECT id, nombre FROM eventos WHERE nombre LIKE ? AND publicado=true";
-        $stmt = $this->mysqli->prepare($consulta);
+        $stmt     = $this->mysqli->prepare($consulta);
         $busqueda = "%" . $nombre . "%";
         $stmt->bind_param('s', $busqueda);
         $stmt->execute();
-        $res = $stmt->get_result();
+        $res     = $stmt->get_result();
         $eventos = array();
-        
+
         if( $res->num_rows > 0  ){
             while($row = $res->fetch_assoc()){
                 $eventos[] = [
@@ -268,10 +268,8 @@ class Database{
             }
         }
 
-        $stmt->close();
-        
+        $stmt->close();        
         return $eventos;
-
     }
 
 
@@ -387,7 +385,7 @@ class Database{
         
     public function publicarEvento($id){
         $consulta = "UPDATE eventos SET publicado=true WHERE id=?";
-        $stmt = $this->mysqli->prepare($consulta);
+        $stmt     = $this->mysqli->prepare($consulta);
         $stmt->bind_param( "i", $id );
         $stmt->execute();
 
@@ -407,7 +405,7 @@ class Database{
       
     public function ocultarEvento($id){
         $consulta = "UPDATE eventos SET publicado=false WHERE id=?";
-        $stmt = $this->mysqli->prepare($consulta);
+        $stmt     = $this->mysqli->prepare($consulta);
         $stmt->bind_param( "i", $id );
         $stmt->execute();
 
@@ -449,7 +447,7 @@ class Database{
             return FALSE;
         
         $consulta1 = "SELECT etiquetas FROM eventos WHERE id=?";
-        $stmt = $this->mysqli->prepare($consulta1);
+        $stmt      = $this->mysqli->prepare($consulta1);
         $stmt->bind_param("i",$id);
         $stmt->execute();
         $res = $stmt->get_result();
@@ -461,10 +459,10 @@ class Database{
         $stmt->close();
 
         $etiquetasActuales = $row['etiquetas'];
-        $etiquetasNuevas = $etiquetasActuales . "," . $etiquetas;
+        $etiquetasNuevas   = $etiquetasActuales . "," . $etiquetas;
 
         $consulta2 = "UPDATE eventos set etiquetas=? where id=?";
-        $stmt = $this->mysqli->prepare($consulta2);
+        $stmt      = $this->mysqli->prepare($consulta2);
         $stmt->bind_param("si",$etiquetasNuevas, $id);
         $stmt->execute();
 

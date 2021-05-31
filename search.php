@@ -8,10 +8,9 @@
 
     $database = new Database();
 
+    // Busca en la BD los eventos que contengan cierta cadena y renderiza la lista
     if(isset($_POST['consulta'])){
         $eventos = $database->consultarEvento($_POST['consulta']);
         echo $twig->render("lista.html", ['eventos' => $eventos]);
     }
-
-
 ?>

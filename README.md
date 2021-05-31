@@ -1,6 +1,21 @@
 # Practicas-SIBW
 
-# Práctica 4
+# Práctica 5
+
+Recordamos que para poder utilizar la funcionalidad completa se requiere crear una base de datos a partir del fichero `sql/database.sql` y ejecutar el fichero `preparaBD.php` que crea cuatro usuarios de roles distintos (explicado en el siguiente apartado). 
+
+Sin embargo, el apartado destacable es la funcionalidad para buscar eventos publicados. En la barra lateral se encuentra un link **'Buscador de eventos'**, accesible por cualquier tipo de usuario, incluso los no registrados, que contiene la funcionalidad pedida. Se ha incluido un atributo booleano , `publicado` en la tabla de eventos, que simplemente indica si este evento ha sido o no publicado. A partir de esto, explicamos los nuevos ficheros y cambios:
+
+* **`html/buscarEventosPublicados`**: Fichero que contiene el código html del buscador, junto con el enlace al fichero que contiene el código de `ajax`.
+* **`buscarEventosPublicados.php`**: Fichero que simplemente renderiza gracias a Twig el fichero anteriormente mencionado.
+* **`java/ajax.js`**: Contiene las llamadas a funciones y a ajax necesarias para que cada vez que se pulsa una tecla se busque en la base de datos (ejecutando un fichero a tal efecto) todos los eventos que contienen en su nombre la cadena introducida.
+* **`search.php`**: Mediante los datos que recibe de ajax, busca en la base de datos los eventos cuyo nombre contiene una cierta cadena y renderiza un fichero en el cual se presentan todos estos nombres.
+* **`html/lista.html`**: Fichero html que, gracias a los identificadores y nombres que recibe de PHP, representa una lista con los nombres y enlaces a los eventos.
+* **`modelo.php`**: En el fichero modelo (que es el que controla todos los accesos, cambios y consultas a la BD), se han añadido funciones para publicar u ocultar eventos a partir de su `id`, se han modificado algunas consultas debido a la inclusión de este nuevo atributo y, más destacable, se ha creado una función que busca eventos a partir de una subcadena que puede contener su nombre, necesaria para la funcionalidad del buscador (función `consultarEvento`).
+
+
+
+# Hasta la Práctica 4
 
 **Para poder comenzar a utilizar la funcionalidad completa, se adjunta en el fichero `sql/database.sql` la creación de todas las tablas e inserción de algunas tuplas.** 
 
