@@ -247,11 +247,13 @@ class Database{
 
     //
     // ─── CONSULTAR EVENTO ───────────────────────────────────────────────────────────
-    // Devuelve aquellos eventos con la cadena '$nombre'
+    // Devuelve aquellos eventos, publicos o no con la cadena '$nombre'
         
-    function consultarEvento($nombre){
+    function consultarEvento($nombre, $pub){
 
-        $consulta = "SELECT id, nombre FROM eventos WHERE nombre LIKE ? AND publicado=true";
+        if($pub)    $consulta = "SELECT id, nombre FROM eventos WHERE nombre LIKE ? AND publicado=true";
+        else        $consulta = "SELECT id, nombre FROM eventos WHERE nombre LIKE ?";
+        
         $stmt     = $this->mysqli->prepare($consulta);
         $busqueda = "%" . $nombre . "%";
         $stmt->bind_param('s', $busqueda);
