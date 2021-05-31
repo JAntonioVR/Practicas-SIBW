@@ -20,13 +20,13 @@ function eventoPulsarTecla(){
     }
     // Al hacer clic se autocompleta el cuadro
     $(document).on('click', 'li', function(){
-        $('#evento').val($(this).text());
+        $('#buscador').val($(this).text());
         $("#lista_eventos").fadeOut();
     })
 }
 
 function cargarDatos(){
-    $('#evento').keyup(eventoPulsarTecla);
+    $('#buscador').keyup(eventoPulsarTecla);
 }
 
 

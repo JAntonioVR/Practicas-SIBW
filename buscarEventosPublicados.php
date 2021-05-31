@@ -12,8 +12,6 @@
     $loader = new \Twig\Loader\FilesystemLoader('html');
     $twig   = new \Twig\Environment($loader);
 
-    $varsParaTwig = array();
-
-    echo $twig->render('buscarEventosPublicados.html', $varsParaTwig );
+    echo $twig->render('buscarEventosPublicados.html');
 
 ?>

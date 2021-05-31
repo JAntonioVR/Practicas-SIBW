@@ -115,6 +115,15 @@ form{
     transition: 0.1s;
 }
 
+#lista_eventos ul li a{
+    text-decoration: none;
+    color: black;
+}
+
+#buscador{
+    width: 70%;
+}
+
 * {
     font-family: Arial, Helvetica, sans-serif;
 }

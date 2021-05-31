@@ -257,25 +257,20 @@ class Database{
         $stmt->bind_param('s', $busqueda);
         $stmt->execute();
         $res = $stmt->get_result();
-        //$eventos = array();
-        $salida = '<ul class="list-unstyled">';
-        // Hay resultado
+        $eventos = array();
+        
         if( $res->num_rows > 0  ){
             while($row = $res->fetch_assoc()){
-                /*$eventos[] = [
-                    'id'     => $row['nombre'],
+                $eventos[] = [
+                    'id'     => $row['id'],
                     'nombre' => $row['nombre']
-                ];*/
-                $salida .= '<li>' . $row['nombre'] . '</li>';
+                ];
             }
         }
-        else
-            $salida .= "<li>Evento no encontrado</li>";
 
-        $salida.= "</ul>";
         $stmt->close();
         
-        echo $salida;
+        return $eventos;
 
     }
 

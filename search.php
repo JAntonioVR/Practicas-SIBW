@@ -1,16 +1,17 @@
 <?php
 
-include("modelo.php");
+    require_once "/usr/local/lib/php/vendor/autoload.php";
+    include("modelo.php");
 
-$database = new Database();
+    $loader = new \Twig\Loader\FilesystemLoader('html');
+    $twig   = new \Twig\Environment($loader);
 
-if(isset($_POST['consulta'])){
-    $database->consultarEvento($_POST['consulta']);
-}
+    $database = new Database();
 
-if(isset($_GET['nombre'])){
-    $database->consultarEvento($_GET['nombre']);
-}
+    if(isset($_POST['consulta'])){
+        $eventos = $database->consultarEvento($_POST['consulta']);
+        echo $twig->render("lista.html", ['eventos' => $eventos]);
+    }
 
 
 ?>
