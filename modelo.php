@@ -247,7 +247,7 @@ class Database{
 
     //
     // ─── CONSULTAR EVENTO ───────────────────────────────────────────────────────────
-    // Devuelve aquellos eventos, publicos o no con la cadena '$nombre'
+    // Devuelve aquellos eventos, publicados o no con la cadena '$nombre'
         
     function consultarEvento($nombre, $pub){
 
