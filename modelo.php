@@ -244,7 +244,42 @@ class Database{
         return $eventos;
     }
     
-    
+
+    //
+    // ─── CONSULTAR EVENTO ───────────────────────────────────────────────────────────
+    // Devuelve aquellos eventos con la cadena '$nombre'
+        
+    function consultarEvento($nombre){
+
+        $consulta = "SELECT id, nombre FROM eventos WHERE nombre LIKE ? AND publicado=true";
+        $stmt = $this->mysqli->prepare($consulta);
+        $busqueda = "%" . $nombre . "%";
+        $stmt->bind_param('s', $busqueda);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        //$eventos = array();
+        $salida = '<ul class="list-unstyled">';
+        // Hay resultado
+        if( $res->num_rows > 0  ){
+            while($row = $res->fetch_assoc()){
+                /*$eventos[] = [
+                    'id'     => $row['nombre'],
+                    'nombre' => $row['nombre']
+                ];*/
+                $salida .= '<li>' . $row['nombre'] . '</li>';
+            }
+        }
+        else
+            $salida .= "<li>Evento no encontrado</li>";
+
+        $salida.= "</ul>";
+        $stmt->close();
+        
+        echo $salida;
+
+    }
+
+
     //
     // ─── AÑADIR EVENTO ──────────────────────────────────────────────────────────────
     // Dados unos datos, se crea un nuevo evento con dichos datos. 

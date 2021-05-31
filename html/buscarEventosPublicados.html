@@ -1,0 +1,23 @@
+{% extends "formularios.html" %}
+
+{% block cabecera %}
+
+    <title>Buscador Eventos Publicados</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+{% endblock %}
+
+{% block formulario %}
+
+    <div class="container" id="buscador_eventos">
+        <label>Introduce el evento:</label><br>
+        <input type="text" name="evento" id="evento" class="form-control" placeholder="Nombre del evento">
+        <div id="lista_eventos"> </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript" src="./java/ajax.js"></script>
+{% endblock %}

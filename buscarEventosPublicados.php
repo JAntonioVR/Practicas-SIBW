@@ -1,20 +1,19 @@
-{% extends formularios.html %}
+<?php
 
-{% block cabecera %}
+//
+// ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+//   :::::: B Ú S Q U E D A   D E   E V E N T O S   P U B L I C A D O S : :  :   :    :     :        :          :
+// ──────────────────────────────────────────────────────────────────────────────────────────────────────────────
+//
 
-<title>Buscador Eventos Publicados</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <!--<script src="./java/ajax.js"></script>-->
+    require_once "/usr/local/lib/php/vendor/autoload.php";
+    include("modelo.php");
 
-{% endblock %}
+    $loader = new \Twig\Loader\FilesystemLoader('html');
+    $twig   = new \Twig\Environment($loader);
 
-{% block formulario %}
+    $varsParaTwig = array();
 
-    <div class="container">
-        <label>Introduce el evento:</label><br>
-        <input type="text" name="evento" id="evento" class="form-control" placeholder="Nombre del evento">
-        <div id="listaEventos"></div>
+    echo $twig->render('buscarEventosPublicados.html', $varsParaTwig );
 
-    </div>
-
-{% endblock %}
+?>

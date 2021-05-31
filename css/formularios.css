@@ -89,6 +89,32 @@ form{
     display: none;
 }
 
+#buscador_eventos{
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    background-color: rgb(212, 212, 211);
+    padding: 0.5em;
+    margin: 0.5em;
+    border-radius: 1%;
+    width: 90%;
+}
+
+#lista_eventos ul{
+    background-color: var(--color1);
+    cursor: pointer;
+}
+
+#lista_eventos ul li{
+    padding: 6px;
+    list-style: none;
+}
+
+#lista_eventos ul li:hover{
+    background-color: var(--color6);
+    transition: 0.1s;
+}
+
 * {
     font-family: Arial, Helvetica, sans-serif;
 }
